@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:viewParam name="no" value="#{page1.no}" />
+    </f:metadata> 
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="resources/css/css2/cssLayout.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <title>Portail Captif</title>
+    </h:head>
+
+    <h:body style="background-color: #66afe9">
+        <!-- <h:link value="Page 2" outcome="/index">
+            <f:param name="no" value="1" />
+        </h:link> -->
+        <h:form id="form_session">
+            <p:panel id="basic" header="Authentification" style="font-size:10pt; margin: auto; margin-top: 13%; width: 29%;">
+
+                <p:growl id="growl" showDetail="true" life="1000" />
+
+                <h:panelGrid columns="2" cellpadding="10" style="margin: auto;">
+                    <h:outputLabel for="username" value="Login:" />
+                    <p:inputText id="username" value="#{sessionController.currentUser.login}" required="true" requiredMessage="Le champ Login est invalide" label="username" />
+
+                    <h:outputLabel for="password" value="Mot de passe:" />
+                    <p:password id="password" value="#{sessionController.currentUser.password}" required="true" requiredMessage="Le champ Mot de passe est invalide" label="password" />
+
+                    <f:facet name="footer">
+                        <p:commandButton id="ok" value="Connexion" update="basic,growl" action="#{sessionController.connectUser()}" />
+                        <sub><p:commandLink style="float: right;" value=" Mot de passe oublié ?" /></sub>
+                        <br /><br /><br />
+                        <p:separator style="width: 70%" />
+                        <br /><br /><br />
+                        <h:panelGrid style="margin: auto;">
+                            <p:outputLabel value="Vous êtes nouveau sur la plateforme ?" />
+                            <h:panelGrid style="margin: auto;">
+                                <p:commandLink partialSubmit="true" update=":form_register:fm_register" actionListener="#{utilisateurController.prepareCreate}" oncomplete="PF('wv_user1').show()" value=" S'inscrire" />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </f:facet> 
+                </h:panelGrid>
+            </p:panel>
+
+            <p:defaultCommand target="ok" />
+        </h:form>
+
+        <!-- Modal du bouton S'inscrire -->
+        <h:form id="form_register" enctype="multipart/form-data">
+            <p:dialog id="fm_register" modal="true" widgetVar="wv_user1">
+                <f:facet name="header">
+                    <h:outputText value="Créez un nouveau compte" /> 
+                </f:facet>
+                <h:panelGrid id="inputs" columns="2" cellpadding="5">
+                    <p:outputLabel value="Nom:" for="nom" />
+                    <p:inputText id="nom" value="#{utilisateurController.utilisateur.nom}" required="true" requiredMessage="Saisie erronée!" title="Nom" />
+
+                    <p:outputLabel value="Prenom:" for="prenom" />
+                    <p:inputText id="prenom" value="#{utilisateurController.utilisateur.prenom}" required="true" requiredMessage="Saisie erronée!" title="Prenom" />
+
+                    <p:outputLabel value="Email:" for="email" />
+                    <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
+
+                    <p:outputLabel value="Photo:" for="photo" />
+                    <p:fileUpload id="photo" value="#{utilisateurController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="3000000" fileLimit="1" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" />
+
+                    <p:outputLabel value="Login:" for="login" />
+                    <p:inputText id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
+
+                    <p:outputLabel value="Password:" for="password" />
+                    <p:password feedback="true" id="password" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Saisie erronée!" title="Password" />
+                </h:panelGrid>
+                <f:facet name="footer">
+                    <center>
+                        <p:commandButton ajax="false" action="#{utilisateurController.createUser()}" update="inputs,:form_session:basic,:form_session:growl" value="Enregistrer" icon="ui-icon-disk" />
+                    </center>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+
+        <h:form>
+            <p:menubar style="margin-top: 90pt;">
+                <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
+                <f:facet name="options">
+                    <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">
+                        <f:param name="no" value="2" />
+                    </p:button>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </h:body>
+</html>
+

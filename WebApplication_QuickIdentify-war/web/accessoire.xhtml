@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./utilisateur.xhtml">
+
+            <ui:define name="content">
+
+                <h:form id="form_table">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h1><h:outputText style="font-family: vivaldi;font-size: 20pt" value="Mes accessoires"/></h1>
+                    <br />
+
+                    <p:dataTable id="table" value="#{produitController.produits}" sortMode="multiple" var="item">
+                        <p:column sortBy="#{item.type}">
+                            <f:facet name="header">
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{item.type}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.code}">
+                            <f:facet name="header">
+                                <h:outputText value="Code"/>
+                            </f:facet>
+                            <h:outputText value="#{item.code}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.etat}">
+                            <f:facet name="header">
+                                <h:outputText value="Etat"/>
+                            </f:facet>
+                            <h:outputText value="#{item.etat}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action(s)"/>
+                            </f:facet>
+                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-pencil" />
+                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-trash" />
+                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-document" />
+                        </p:column>
+                    </p:dataTable>
+                    <br />
+                    <h:panelGrid style="margin: auto;">
+                        <p:commandButton partialSubmit="true" icon="ui-icon-link" update=":form_link:fm_link" oncomplete="PF('wv_link').show()" value=" Établir une liaison" />
+                    </h:panelGrid>
+                </h:form>
+
+                <!-- Modal du bouton Établir une liaison -->
+                <h:form id="form_link">
+                    <p:dialog showEffect="fold" id="fm_link" modal="true" widgetVar="wv_link">
+                        <f:facet name="header">
+                            <h:outputText value="Liez votre compte à un produit" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs" columns="4" cellspacing="10" cellpadding="5">
+                            <p:outputLabel value="Entrez le code figurant sur l'accessoire: " for="cp" />
+                            <p:inputText id="cp" value="#{accessoireController.produit.code}" title="Code du produit" />
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton update="inputs,:form_table:table,:form_table:growl" value="OK" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

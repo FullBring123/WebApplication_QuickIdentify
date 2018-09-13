@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./index.xhtml">
+
+            <ui:define name="content">
+
+                <h:form id="table_user">
+
+                    <p:growl id="growl" showDetail="true" life="3000" />
+
+                    <h1><h:outputText style="font-family: vivaldi;font-size: 20pt" value="Liste des utilisateurs"/></h1>
+                    <br />
+
+                    <p:dataTable id="table" value="#{utilisateurController.utilisateurs}" sortMode="multiple" var="item">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nom(s) et prénom(s)"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom} #{item.prenom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Login"/>
+                            </f:facet>
+                            <h:outputText value="#{item.login}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Photo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.photo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Etat"/>
+                            </f:facet>
+                            <h:outputText value="#{item.etat}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action(s)"/>
+                            </f:facet>
+                            <p:commandButton style="background-color: greenyellow;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
+                            <p:commandButton style="background-color: red;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
+                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.delete}" update=":form_delete:fm_delete" icon="ui-icon-trash" oncomplete="PF('wv_delete').show()" />
+                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.displa}" update=":form_display:fm_display" icon="ui-icon-document" oncomplete="PF('wv_display').show()" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <!-- Activation du compte -->
+                <h:form id="form_enable">
+                    <p:dialog showEffect="fold" id="fm_enable" modal="true" widgetVar="wv_enable">
+                        <f:facet name="header">
+                            <h:outputText value="Activer le compte" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment activer le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton action="#{utilisateurController.activateAccount()}" update=":table_user:table,:table_user:growl" partialSubmit="true" oncomplete="PF('wv_enable').hide()" value="Activer" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Désactivation du compte -->
+                <h:form id="form_disable">
+                    <p:dialog showEffect="fold" id="fm_disable" modal="true" widgetVar="wv_disable">
+                        <f:facet name="header">
+                            <h:outputText value="Désactiver le compte" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton update=":table_user:table,:table_user:growl" actionListener="#{utilisateurController.deactivateAccount()}" partialSubmit="true" oncomplete="PF('wv_disable').hide()" value="Désactiver" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Suppression du compte -->
+                <h:form id="form_delete">
+                    <p:dialog showEffect="fold" id="fm_delete" modal="true" widgetVar="wv_delete">
+                        <f:facet name="header">
+                            <h:outputText value="Supprimer le compte" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment supprimer le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton update=":table_user:table,:table_user:growl" actionListener="#{utilisateurController.removeUser()}" partialSubmit="true" oncomplete="PF('wv_delete').hide()" value="Supprimer" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Détails -->
+                <h:form id="form_display">
+                    <p:dialog showEffect="fold" id="fm_display" modal="true" widgetVar="wv_display">
+                        <f:facet name="header">
+                            <h:outputText value="Détails" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Nom(s) et Prénom(s): #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom}" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton partialSubmit="true" oncomplete="PF('wv_display').hide()" value="OK" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

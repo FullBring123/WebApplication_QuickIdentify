@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:viewParam name="no" value="#{page1.no}" />
+    </f:metadata>
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="resources/css/css2/cssLayout.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <title>Inscription</title>
+    </h:head>
+    <h:body>
+
+
+
+        <h:form id="form_user" enctype="multipart/form-data">
+            <p:growl id="growl" showDetail="true" life="1000" />
+            <h1><h:outputText value="Create/Edit"/></h1>
+            <h:panelGrid id="inputs" columns="2">
+                <p:outputLabel value="Nom:" for="nom" />
+                <p:inputText id="nom" value="#{utilisateurController.utilisateur.nom}" title="Nom" />
+                <p:outputLabel value="Prenom:" for="prenom" />
+                <p:inputText id="prenom" value="#{utilisateurController.utilisateur.prenom}" title="Prenom" />
+                <p:outputLabel value="Login:" for="login" />
+                <p:inputText id="login" value="#{utilisateurController.utilisateur.login}" title="Login" />
+                <p:outputLabel value="Password:" for="password" />
+                <p:password id="password" feedback="true" value="#{utilisateurController.utilisateur.password}" title="Password" />
+                <p:outputLabel value="Email:" for="email" />
+                <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" title="Email" />
+                <p:outputLabel value="Photo:" for="photo" />
+                <p:fileUpload id="photo" value="#{utilisateurController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="3000000" fileLimit="1" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" />
+            </h:panelGrid>
+            <p:commandButton ajax="false" update="inputs,growl" action="#{utilisateurController.createUser()}" value="Enregistrer" icon="ui-icon-disk" />
+        </h:form>
+
+
+        <h:form>
+            <p:menubar style="margin-top: 90pt;">
+                <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
+                <f:facet name="options">
+                    <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">
+                        <f:param name="no" value="2" />
+                    </p:button>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </h:body>
+</html>
+

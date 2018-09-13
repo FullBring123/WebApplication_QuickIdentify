@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./utilisateur.xhtml">
+
+            <ui:define name="content">
+
+                <h:form id="data_list" enctype="multipart/form-data">
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h:panelGrid columns="2" cellspacing="50" style="margin: auto;">
+                        <img id="avatar" style="float: right;" src="#{request.contextPath}/GetImages/#{sessionController.currentUser.photo}" height="200" alt="Votre photo de profil" />
+                        <p:panel id="datas" header="Mes informations personnelles">
+                            <h:panelGrid id="input-details" columns="2" cellspacing='5' cellpadding="10">
+                                <p:outputLabel value="Nom(s) et prénom(s): #{sessionController.currentUser.nom} #{sessionController.currentUser.prenom}" />
+                                <p:outputLabel value="Date de naissance: #{dossierIdentificationController.dossierIdentification.datenais}" />
+                                <p:outputLabel value="Lieu de naissance: #{dossierIdentificationController.dossierIdentification.lieunais}" />
+                                <p:outputLabel value="Genre: #{dossierIdentificationController.dossierIdentification.genre}" />
+                                <p:outputLabel value="Numéro de téléphone: #{dossierIdentificationController.dossierIdentification.telephone}" />
+                                <p:outputLabel value="Nationalité: #{dossierIdentificationController.dossierIdentification.nationalite}" />
+                                <p:outputLabel value="Situation matrimoniale: #{dossierIdentificationController.dossierIdentification.situationmatrimoniale}" />
+                                <p:outputLabel value="Nom du père: #{dossierIdentificationController.dossierIdentification.nompere}" />
+                                <p:outputLabel value="Numéro du père: #{dossierIdentificationController.dossierIdentification.numpere}" />
+                                <p:outputLabel value="Nom de la mère: #{dossierIdentificationController.dossierIdentification.nommere}" />
+                                <p:outputLabel value="Numéro de la mère: #{dossierIdentificationController.dossierIdentification.nummere}" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:panelGrid>
+                    <h:panelGrid style="margin: auto;">
+                        <p:commandButton partialSubmit="true" actionListener="#{dossierIdentificationController.prepareCreate}" update=":form_data:fm_data" oncomplete="PF('wv_data').show()" icon="ui-icon-gear" value=" Modifier" />
+                    </h:panelGrid>
+                </h:form>
+
+
+                <h:form id="form_data" enctype="multipart/form-data">
+                    <p:dialog showEffect="fold" id="fm_data" modal="true" widgetVar="wv_data">
+                        <f:facet name="header">
+                            <h:outputText value="Apportez des modifications à vos informations" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs" columns="4" cellspacing="10" cellpadding="5">
+                            <p:outputLabel value="Numéro de CNI:" for="numcni" />
+                            <p:inputText id="numcni" value="#{dossierIdentificationController.dossierIdentification.numcni}" title="Numéro de CNI" />
+
+                            <p:outputLabel value="Numéro de récepissé:" for="numrecepisse" />
+                            <p:inputText id="numrecepisse" value="#{dossierIdentificationController.dossierIdentification.numrecepisse}" title="Numéro de récepissé" />
+
+                            <p:outputLabel value="Nom(s):" for="nom" />
+                            <p:inputText disabled="true" id="nom" value="#{sessionController.currentUser.nom}" title="Nom" />
+                            
+                            <p:outputLabel value="Prénom(s):" for="prenom" />
+                            <p:inputText disabled="true" id="prenom" value="#{sessionController.currentUser.prenom}" title="Prénom" />
+
+                            <p:outputLabel value="Date de naissance:" for="datenais" />
+                            <p:calendar id="datenais" value="#{dossierIdentificationController.dossierIdentification.datenais}" effect="fold" pages="3" required="true" requiredMessage="Champ obligatoire!" title="Datenais" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>
+
+                            <p:outputLabel value="Lieu de naissance:" for="lieunais" />
+                            <p:inputText id="lieunais" value="#{dossierIdentificationController.dossierIdentification.lieunais}" title="Lieunais" />
+
+                            <p:outputLabel value="Genre:" for="genre" />
+                            <p:selectOneMenu required="true" requiredMessage="Saisie erronée!" id="genre" value="#{dossierIdentificationController.dossierIdentification.genre}">
+                                <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                                <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Téléphone:" for="telephone" />
+                            <p:inputText id="telephone" value="#{dossierIdentificationController.dossierIdentification.telephone}" title="Telephone" />
+
+                            <p:outputLabel value="Nationalité:" for="nationalite" />
+                            <p:inputText id="nationalite" value="#{dossierIdentificationController.dossierIdentification.nationalite}" title="Nationalite" />
+
+                            <p:outputLabel value="Situation matrimoniale:" for="situationmatrimoniale" />
+                            <p:selectOneMenu required="true" requiredMessage="Saisie erronée!" id="situationmatrimoniale" value="#{dossierIdentificationController.dossierIdentification.situationmatrimoniale}">
+                                <f:selectItem itemLabel="Célibataire" itemValue="Célibataire" />
+                                <f:selectItem itemLabel="Marié(e)" itemValue="Marié(e)" />
+                                <f:selectItem itemLabel="En couple" itemValue="En couple" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Nom du père:" for="nompere" />
+                            <p:inputText id="nompere" value="#{dossierIdentificationController.dossierIdentification.nompere}" title="Nompere" />
+
+                            <p:outputLabel value="Numéro du père:" for="numpere" />
+                            <p:inputText id="numpere" value="#{dossierIdentificationController.dossierIdentification.numpere}" title="Numpere" />
+
+                            <p:outputLabel value="Nom de la mère:" for="nommere" />
+                            <p:inputText id="nommere" value="#{dossierIdentificationController.dossierIdentification.nommere}" title="Nommere" />
+
+                            <p:outputLabel value="Numéro de la mère:" for="nummere" />
+                            <p:inputText id="nummere" value="#{dossierIdentificationController.dossierIdentification.nummere}" title="Nummere" />
+
+                            <p:outputLabel value="Photo:" for="photo" />
+                            <p:fileUpload id="photo" value="#{dossierIdentificationController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="100" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" />
+
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton ajax="false" action="#{dossierIdentificationController.editData()}" update="inputs,:data_list:datas,:data_list:growl" icon="ui-icon-disk" value="Confirmer les changements" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

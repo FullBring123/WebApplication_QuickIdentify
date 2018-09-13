@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./index.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form_table">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h1><h:outputText style="font-family: vivaldi;font-size: 20pt" value="Liste des produits"/></h1>
+                    <br />
+                    <p:dataTable id="table" value="#{produitController.produits}" sortMode="multiple" var="item">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{item.type}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Code"/>
+                            </f:facet>
+                            <h:outputText value="#{item.code}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="État du produit"/>
+                            </f:facet>
+                            <h:outputText value="#{item.etat}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action(s)"/>
+                            </f:facet>
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" update=":form_data1:fm_produit1" icon="ui-icon-pencil" oncomplete="PF('wv_produit1').show()" />
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" update=":form_data2:fm_produit2" icon="ui-icon-trash" oncomplete="PF('wv_produit2').show()" />
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" update=":form_data3:fm_produit3" icon="ui-icon-document" oncomplete="PF('wv_produit3').show()" />
+                        </p:column>
+                    </p:dataTable>
+                    <br />
+                    <h:panelGrid style="margin: auto;">
+                        <p:commandButton partialSubmit="true" actionListener="#{produitController.prepareCreate}" update=":form_data:fm_produit" oncomplete="PF('wv_produit').show()" icon="ui-icon-plus" value=" Nouveau produit" />
+                    </h:panelGrid>
+                </h:form>
+
+                <!-- Insertion -->
+                <h:form id="form_data">
+                    <p:dialog showEffect="fold" id="fm_produit" modal="true" widgetVar="wv_produit">
+                        <f:facet name="header">
+                            <h:outputText value="Ajouter un produit" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs" columns="2">
+                            <p:outputLabel value="Type:" for="type" />
+                            <p:selectOneMenu required="true" requiredMessage="Saisie erronée!" id="type" value="#{produitController.produit.type}">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="Bracelet" itemValue="Bracelet" />
+                                <f:selectItem itemLabel="Collier" itemValue="Collier" />
+                                <f:selectItem itemLabel="Montre" itemValue="Montre" />
+                                <f:selectItem itemLabel="Chaîne" itemValue="Chaîne" />
+                                <f:selectItem itemLabel="Porte-clé" itemValue="Porte-clé" />
+                                <f:selectItem itemLabel="Sticker" itemValue="Sticker" />
+                                <f:selectItem itemLabel="Non spécifié" itemValue="Non spécifié" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Code:" for="code" />
+                            <p:inputText id="code" value="#{produitController.produit.code}" required="true" requiredMessage="Saisie erronée!" title="Code" />
+
+                            <p:outputLabel value="Utilisateur:" for="idutilisateur" />
+                            <p:selectOneMenu id="idutilisateur" value="#{produitController.produit.idutilisateur.idutilisateur}" required="true" requiredMessage="The Idutilisateur field is required.">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems itemLabel="#{fk_user.nom} #{fk_user.prenom}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton actionListener="#{produitController.createProd()}" update="inputs,:form_table:table,:form_table:growl" icon="ui-icon-disk" value="Enregistrer" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Modification -->
+                <h:form id="form_data1">
+                    <p:dialog showEffect="fold" id="fm_produit1" modal="true" widgetVar="wv_produit1">
+                        <f:facet name="header">
+                            <h:outputText value="Ajouter un nouveau produit" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs1" columns="4" cellspacing="10" cellpadding="5">
+                            <p:outputLabel value="Type:" for="type" />
+                            <p:inputText id="type" value="#{produitController.produit.type}" required="true" requiredMessage="Saisie erronée!" title="Type" />
+
+                            <p:outputLabel value="Code:" for="code" />
+                            <p:inputText id="code" value="#{produitController.produit.code}" required="true" requiredMessage="Saisie erronée!" title="Code" />
+
+                            <p:outputLabel value="Etat:" for="etat" />
+                            <p:inputText id="etat" value="#{produitController.produit.etat}" required="true" requiredMessage="Saisie erronée!" title="Etat" />
+
+                            <p:outputLabel value="Utilisateur:" for="idutilisateur" />
+                            <p:selectOneMenu id="idutilisateur" value="#{produitController.produit.idutilisateur.idutilisateur}" required="true" requiredMessage="The Idutilisateur field is required.">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems itemLabel="#{fk_user.nom} #{fk_user.prenom}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton actionListener="#{produitController.editProd()}" update="inputs1,:form_table:table,:form_table:growl" value="Modifier" icon="ui-icon-pencil" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Suppression -->
+                <h:form id="form_data2">
+                    <p:dialog showEffect="fold" id="fm_produit2" modal="true" widgetVar="wv_produit2">
+                        <f:facet name="header">
+                            <h:outputText value="Supprimer un produit" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs2" columns="1">
+                            <p:outputLabel value="Voulez-vous vraiment supprimer" />
+                            <p:outputLabel style="font-weight: bold;color: red; font-size: 10pt;" value="#{produitController.produit.type} - #{produitController.produit.code}" />
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton actionListener="#{produitController.removeProd()}" update="inputs2,:form_table:table,:form_table:growl" value="Supprimer" icon="ui-icon-trash" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Consultation -->
+                <h:form id="form_data3">
+                    <p:dialog showEffect="fold" id="fm_produit3" widgetVar="wv_produit3">
+                        <f:facet name="header">
+                            <h:outputText value="Détails sur #{produitController.produit.type} - #{produitController.produit.code}" /> 
+                        </f:facet>
+                        <h:panelGrid id="input-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Type: #{produitController.produit.type}" />
+                            <p:outputLabel value="Code: #{produitController.produit.code}" />
+                            <p:outputLabel value="État:  #{produitController.produit.etat}" />
+                            <p:outputLabel value="État:  #{produitController.produit.idutilisateur.nom} #{produitController.produit.idutilisateur.prenom}" />
+                        </h:panelGrid>
+
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton partialSubmit="true" oncomplete="PF('wv_produit3').hide()" value="OK" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

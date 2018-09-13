@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{sessionController.watchOut()}" />
+    </f:metadata>
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="resources/css/css2/cssLayout.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <title>APP User Test</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top">
+                <center>
+                    <h:outputText value="WebApplication_QuickIdentify" style="font-size: 30pt;font-family: Yu Mincho Light;text-align: center;" />
+                </center>
+            </ui:insert>
+        </div>
+
+        <h:form>  
+            <p:menubar>
+                <p:menuitem value="Accueil" action="utilisateur.xhtml?faces-redirect=true" icon="ui-icon-home" />
+                <p:menuitem value="Rechercher" action="rechercher.xhtml?faces-redirect=true" icon="ui-icon-search" />
+                <p:menuitem value="Mes informations" action="personaldata.xhtml?faces-redirect=true" icon="ui-icon-clipboard" />
+                <p:menuitem value="Accessoires" action="accessoire.xhtml?faces-redirect=true" icon="ui-icon-bookmark" />
+                <p:submenu icon="ui-icon-key" label="Mon compte">
+                    <p:menuitem value="Profil" action="profil.xhtml?faces-redirect=true" icon="ui-icon-person" />
+                    <p:menuitem value="Paramètres" action="settings.xhtml?faces-redirect=true" icon="ui-icon-gear" />
+                    <p:separator />
+                    <p:menuitem value="Déconnexion" actionListener="#{sessionController.disconnectUser()}" icon="ui-icon-extlink" />
+                </p:submenu>
+                <f:facet name="options">
+                    <p:commandButton style="color: green; font-family: arial;" value="Bienvenue, #{sessionController.currentUser.nom} #{sessionController.currentUser.prenom}" />
+                    <p:commandButton icon="ui-icon-mail" value="Message" />
+                    <p:commandButton value="Français" />
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <div>
+            <div id="content" class="center_content">
+                <ui:insert name="content">
+                    
+                </ui:insert>
+            </div>
+        </div>
+
+        <h:form>  
+            <p:menubar>
+                <p:menuitem value="Nous contacter" action="contact.xhtml?faces-redirect=true" icon="ui-icon-phone" />
+                <p:menuitem value="Démonstration" action="demo.xhtml?faces-redirect=true" icon="ui-icon-gear" />
+                <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
+                <f:facet name="options">
+                    <p:commandButton value="Date et heure" />
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <div id="bottom">
+            <ui:insert name="bottom">
+                <h:outputText value="&copy; Copyright 2018. Tous droits réservés. | QuickIdentify" style="font-size: 7pt;font-family: Yu Mincho Light;"/>
+            </ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

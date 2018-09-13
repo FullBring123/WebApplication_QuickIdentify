@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./index.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form_table">
+
+                    <p:growl id="growl" showDetail="true" />
+
+                    <h1><h:outputText style="font-family: vivaldi;font-size: 20pt" value="Liste du personnel Call Center"/></h1>
+                    <br />
+
+
+                    <p:dataTable id="table" value="#{utilisateurCallCenterController.agents}" sortMode="multiple" var="item">
+                        <p:column sortBy="#{item.matricule}">
+                            <f:facet name="header">
+                                <h:outputText value="Matricule"/>
+                            </f:facet>
+                            <h:outputText value="#{item.matricule}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.nom}">
+                            <f:facet name="header">
+                                <h:outputText value="Nom(s) et prénom(s)"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom} #{item.prenom}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.sexe}">
+                            <f:facet name="header">
+                                <h:outputText value="Genre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sexe}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.login}">
+                            <f:facet name="header">
+                                <h:outputText value="Login"/>
+                            </f:facet>
+                            <h:outputText value="#{item.login}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.lieuservice}">
+                            <f:facet name="header">
+                                <h:outputText value="Lieu de service"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lieuservice}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.fonction}">
+                            <f:facet name="header">
+                                <h:outputText value="Fonction"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fonction}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.etat}">
+                            <f:facet name="header">
+                                <h:outputText value="État"/>
+                            </f:facet>
+                            <h:outputText value="#{item.etat}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Action(s)"/>
+                            </f:facet>
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_data1:fm_personnel1" icon="ui-icon-pencil" oncomplete="PF('wv_personnel1').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_data2:fm_personnel2" icon="ui-icon-trash" oncomplete="PF('wv_personnel2').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_data3:fm_personnel3" icon="ui-icon-document" oncomplete="PF('wv_personnel').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
+                        </p:column>
+                    </p:dataTable>
+                    <br />
+                    <h:panelGrid style="margin: auto;">
+                        <p:commandButton partialSubmit="true" actionListener="#{utilisateurCallCenterController.prepareCreate}" update=":form_data:fm_personnel" oncomplete="PF('wv_personnel').show()" icon="ui-icon-plus" value=" Ajouter" />
+                    </h:panelGrid>
+                </h:form>
+
+
+                <!-- Insertion -->
+                <h:form id="form_data">
+                    <p:dialog showEffect="fold" id="fm_personnel" modal="true" widgetVar="wv_personnel">
+                        <f:facet name="header">
+                            <h:outputText value="Ajouter un personnel" /> 
+                        </f:facet>
+
+                        <h:panelGrid id="inputs" columns="4" cellspacing="10">
+                            <p:outputLabel value="Matricule:" for="matricule" />
+                            <p:inputText  id="matricule" value="#{utilisateurCallCenterController.agent.matricule}" title="Matricule" />
+
+                            <p:outputLabel value="Nom(s):" for="nom" />
+                            <p:inputText id="nom" value="#{utilisateurCallCenterController.agent.nom}" required="true" requiredMessage="Erreur!" title="Nom" />
+
+                            <p:outputLabel value="Prénom(s):" for="prenom" />
+                            <p:inputText id="prenom" value="#{utilisateurCallCenterController.agent.prenom}" required="true" requiredMessage="Erreur!" title="Prenom" />
+
+                            <p:outputLabel value="Date de naissance:" for="datenais" />
+                            <p:calendar id="datenais" value="#{utilisateurCallCenterController.agent.datenais}" effect="fold" pages="3" required="true" requiredMessage="Erreur!" title="Datenais" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>
+
+                            <p:outputLabel value="Lieu de naissance:" for="lieunais" />
+                            <p:inputText id="lieunais" value="#{utilisateurCallCenterController.agent.lieunais}" title="Lieu de naissance" />
+
+                            <p:outputLabel value="Genre:" for="genre" />
+                            <p:selectOneMenu required="true" requiredMessage="Erreur!" id="genre" value="#{utilisateurCallCenterController.agent.sexe}">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
+                                <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Login:" for="login" />
+                            <p:inputText id="login" value="#{utilisateurCallCenterController.agent.login}" required="true" requiredMessage="Erreur!" title="Login" />
+
+                            <p:outputLabel value="Password:" for="password" />
+                            <p:password feedback="true" id="password" value="#{utilisateurCallCenterController.agent.password}" required="true" requiredMessage="Erreur!" title="Password" />
+
+                            <p:outputLabel value="Lieu de service" for="lieu" />
+                            <p:inputText id="lieu" value="#{utilisateurCallCenterController.agent.lieuservice}" title="Lieu de service" />
+
+                            <p:outputLabel value="Fonction:" for="fonction" />
+                            <p:selectOneMenu required="true" requiredMessage="Erreur!" id="fonction" value="#{utilisateurCallCenterController.agent.fonction}">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="Personnel Call Center" itemValue="Personnel Call Center" />
+                                <f:selectItem itemLabel="Assistant" itemValue="Assistant" />
+                                <f:selectItem itemLabel="Administrateur" itemValue="Administrateur" />
+                            </p:selectOneMenu>
+
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton actionListener="#{utilisateurCallCenterController.createCC()}" icon="ui-icon-disk" update="inputs,:form_table:table,:form_table:growl" value=" Enregistrer" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Modification -->
+                <h:form id="form_data1">
+                    <p:dialog showEffect="fold" id="fm_personnel1" modal="true" widgetVar="wv_personnel1">
+                        <f:facet name="header">
+                            <h:outputText value="Apporter des modifications sur le personnel" /> 
+                        </f:facet>
+
+                        <h:panelGrid id="inputs1" columns="4" cellspacing="10">
+                            <p:outputLabel value="Matricule:" for="matricule" />
+                            <p:inputText  id="matricule" value="#{utilisateurCallCenterController.agent.matricule}" title="Matricule" />
+
+                            <p:outputLabel value="Nom(s):" for="nom" />
+                            <p:inputText id="nom" value="#{utilisateurCallCenterController.agent.nom}" required="true" requiredMessage="Erreur!" title="Nom" />
+
+                            <p:outputLabel value="Prénom(s):" for="prenom" />
+                            <p:inputText id="prenom" value="#{utilisateurCallCenterController.agent.prenom}" required="true" requiredMessage="Erreur!" title="Prenom" />
+
+                            <p:outputLabel value="Date de naissance:" for="datenais" />
+                            <p:calendar id="datenais" value="#{utilisateurCallCenterController.agent.datenais}" effect="fold" pages="3" required="true" requiredMessage="Erreur!" title="Datenais" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>
+
+                            <p:outputLabel value="Lieu de naissance:" for="lieunais" />
+                            <p:inputText id="lieunais" value="#{utilisateurCallCenterController.agent.lieunais}" required="true" requiredMessage="Erreur!" title="Lieunais" />
+
+                            <p:outputLabel value="Genre:" for="genre" />
+                            <p:selectOneMenu required="true" requiredMessage="Erreur!" id="genre" value="#{utilisateurCallCenterController.agent.sexe}">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="Féminin" itemValue="Féminin" />
+                                <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Login:" for="login" />
+                            <p:inputText id="login" value="#{utilisateurCallCenterController.agent.login}" required="true" requiredMessage="Erreur!" title="Login" />
+
+                            <p:outputLabel value="Password:" for="password" />
+                            <p:password feedback="true" id="password" value="#{utilisateurCallCenterController.agent.password}" required="true" requiredMessage="Erreur!" title="Password" />
+
+                            <p:outputLabel value="Lieu de service" for="lieu" />
+                            <p:inputText id="lieu" value="#{utilisateurCallCenterController.agent.lieuservice}" title="Lieu de service" />
+
+                            <p:outputLabel value="Fonction:" for="fonction" />
+                            <p:selectOneMenu required="true" requiredMessage="Erreur!" id="fonction" value="#{utilisateurCallCenterController.agent.fonction}">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="Personnel Call Center" itemValue="Personnel Call Center" />
+                                <f:selectItem itemLabel="Assistant" itemValue="Assistant" />
+                                <f:selectItem itemLabel="Administrateur" itemValue="Administrateur" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton actionListener="#{utilisateurCallCenterController.editCC()}" update="inputs1,:form_table:table,:form_table:growl" value="Modifier" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Suppression -->
+                <h:form id="form_data2">
+                    <p:dialog showEffect="fold" id="fm_personnel2" modal="true" widgetVar="wv_personnel2">
+                        <f:facet name="header">
+                            <h:outputText value="Supprimer un personnel" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs2" columns="1">
+                            <p:outputLabel value="Voulez-vous vraiment supprimer" />
+                            <p:outputLabel style="font-weight: bold;color: red; font-size: 10pt;" value="#{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom}" />
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton actionListener="#{utilisateurCallCenterController.removeCC()}" update="inputs2,:form_table:table,:form_table:growl" value="Supprimer" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Consultation -->
+                <h:form id="form_data3">
+                    <p:dialog showEffect="fold" id="fm_personnel3" modal="true" widgetVar="wv_personnel">
+                        <f:facet name="header">
+                            <h:outputText value="Détails sur #{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom}" /> 
+                        </f:facet>
+                        <h:panelGrid id="input-details" columns="1">
+                            <p:outputLabel value="Matricule:  #{utilisateurCallCenterController.agent.matricule}" />
+                            <p:outputLabel value="Nom: #{utilisateurCallCenterController.agent.nom}" />
+                            <p:outputLabel value="Prénom: #{utilisateurCallCenterController.agent.prenom}" />
+                            <p:outputLabel value="Date de naissance:  #{utilisateurCallCenterController.agent.datenais}" />
+                            <p:outputLabel value="Lieu de naissance:  #{utilisateurCallCenterController.agent.lieunais}" />
+                            <p:outputLabel value="Genre:  #{utilisateurCallCenterController.agent.sexe}" />
+                            <p:outputLabel value="Lieu de service:  #{utilisateurCallCenterController.agent.lieuservice}" />
+                            <p:outputLabel value="Login: #{utilisateurCallCenterController.agent.login}" />
+                            <p:outputLabel value="Rôle: #{utilisateurCallCenterController.agent.fonction}" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Activation du compte -->
+                <h:form id="form_enable">
+                    <p:dialog showEffect="fold" id="fm_enable" modal="true" widgetVar="wv_enable">
+                        <f:facet name="header">
+                            <h:outputText value="Activer le compte" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment activer le compte de #{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton action="#{utilisateurCallCenterController.activate()}" update=":form_table:table,:form_table:growl" partialSubmit="true" oncomplete="PF('wv_enable').hide()" icon="ui-icon-check" value="Activer" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Désactivation du compte -->
+                <h:form id="form_disable">
+                    <p:dialog showEffect="fold" id="fm_disable" modal="true" widgetVar="wv_disable">
+                        <f:facet name="header">
+                            <h:outputText value="Désactiver le compte" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton  update=":form_table:table,:form_table:growl" actionListener="#{utilisateurCallCenterController.deactivate()}" partialSubmit="true" oncomplete="PF('wv_disable').hide()" icon="ui-icon-closethick" value="Désactiver" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

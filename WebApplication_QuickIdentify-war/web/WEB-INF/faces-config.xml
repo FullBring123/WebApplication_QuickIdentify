@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <managed-bean>
+        <managed-bean-name>produitController</managed-bean-name>
+        <managed-bean-class>controllers.ProduitController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>utilisateurController</managed-bean-name>
+        <managed-bean-class>controllers.UtilisateurController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>utilisateurCallCenterController</managed-bean-name>
+        <managed-bean-class>controllers.UtilisateurCallCenterController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>sessionController</managed-bean-name>
+        <managed-bean-class>controllers.SessionController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>dossierIdentificationController</managed-bean-name>
+        <managed-bean-class>controllers.DossierIdentificationController</managed-bean-class>
+    
+        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>privilegesController</managed-bean-name>
+        <managed-bean-class>controllers.PrivilegesController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>accessoireController</managed-bean-name>
+        <managed-bean-class>controllers.AccessoireController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>page1</managed-bean-name>
+        <managed-bean-class>controllers.Redirection</managed-bean-class>
+    
+        <managed-bean-scope>request</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>sessionController2</managed-bean-name>
+        <managed-bean-class>controllers.SessionController2</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+</faces-config>

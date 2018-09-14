@@ -59,11 +59,9 @@ public class DossierIdentificationController implements Serializable {
     public void editData() {
         try {
             dossierIdentification.setIdutilisateur(dossierIdentification.getIdutilisateur());
-            dossierIdentification.setNom(dossierIdentification.getIdutilisateur().getNom());
-            dossierIdentification.setPrenom(dossierIdentification.getIdutilisateur().getPrenom());
             String nom = file.getFileName();
             InputStream inputStream = file.getInputstream();
-            String uploads = "C:\\Users\\Windows8.1\\Desktop\\Travail\\STAGE\\Stage 2017-2018\\UBstage\\Travaille Futur ingenieur\\Système de collecte d'informations QRCODE\\Photos de profil";
+            String uploads = "C:\\Users\\PC\\Documents\\NetBeansProjects\\Folder Images";
             Files.copy(inputStream, new File(uploads,nom).toPath());
             dossierIdentification.setPhoto(nom);
             dossieridentificationFacade.edit(dossierIdentification);
@@ -74,7 +72,6 @@ public class DossierIdentificationController implements Serializable {
             RequestContext.getCurrentInstance().execute("PF('wv_data').hide()");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Échec de l'opération!"));
         }
-
     }
 
     public DossieridentificationFacadeLocal getDossieridentificationFacade() {

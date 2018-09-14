@@ -16,14 +16,14 @@
         <title>Portail Captif</title>
     </h:head>
 
-    <h:body style="background-color: #66afe9">
+    <h:body style="background-color: #c2dfef">
         <!-- <h:link value="Page 2" outcome="/index">
             <f:param name="no" value="1" />
         </h:link> -->
         <h:form id="form_session">
             <p:panel id="basic" header="Authentification" style="font-size:10pt; margin: auto; margin-top: 13%; width: 29%;">
 
-                <p:growl id="growl" showDetail="true" life="1000" />
+                <p:growl id="growl" showDetail="true" life="3000" />
 
                 <h:panelGrid columns="2" cellpadding="10" style="margin: auto;">
                     <h:outputLabel for="username" value="Login:" />
@@ -34,7 +34,7 @@
 
                     <f:facet name="footer">
                         <p:commandButton id="ok" value="Connexion" update="basic,growl" action="#{sessionController.connectUser()}" />
-                        <sub><p:commandLink style="float: right;" value=" Mot de passe oublié ?" /></sub>
+                        <sup><p:commandLink style="float: right;" value=" Mot de passe oublié ?" /></sup>
                         <br /><br /><br />
                         <p:separator style="width: 70%" />
                         <br /><br /><br />
@@ -42,6 +42,9 @@
                             <p:outputLabel value="Vous êtes nouveau sur la plateforme ?" />
                             <h:panelGrid style="margin: auto;">
                                 <p:commandLink partialSubmit="true" update=":form_register:fm_register" actionListener="#{utilisateurController.prepareCreate}" oncomplete="PF('wv_user1').show()" value=" S'inscrire" />
+                                <!--<p:link value="Inscription" outcome="/inscription">
+                                    <f:param name="no" value="5" />
+                                </p:link>-->
                             </h:panelGrid>
                         </h:panelGrid>
                     </f:facet> 
@@ -53,22 +56,16 @@
 
         <!-- Modal du bouton S'inscrire -->
         <h:form id="form_register" enctype="multipart/form-data">
-            <p:dialog id="fm_register" modal="true" widgetVar="wv_user1">
+            <p:dialog id="fm_register" showEffect="fold" modal="true" widgetVar="wv_user1">
                 <f:facet name="header">
                     <h:outputText value="Créez un nouveau compte" /> 
                 </f:facet>
                 <h:panelGrid id="inputs" columns="2" cellpadding="5">
-                    <p:outputLabel value="Nom:" for="nom" />
-                    <p:inputText id="nom" value="#{utilisateurController.utilisateur.nom}" required="true" requiredMessage="Saisie erronée!" title="Nom" />
-
-                    <p:outputLabel value="Prenom:" for="prenom" />
-                    <p:inputText id="prenom" value="#{utilisateurController.utilisateur.prenom}" required="true" requiredMessage="Saisie erronée!" title="Prenom" />
-
                     <p:outputLabel value="Email:" for="email" />
                     <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
 
                     <p:outputLabel value="Photo:" for="photo" />
-                    <p:fileUpload id="photo" value="#{utilisateurController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="3000000" fileLimit="1" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" />
+                    <p:fileUpload id="photo" value="#{utilisateurController.file}" mode="simple" dragDropSupport="false" fileLimit="3" sizeLimit="2048" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
 
                     <p:outputLabel value="Login:" for="login" />
                     <p:inputText id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />

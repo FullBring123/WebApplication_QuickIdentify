@@ -34,8 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
     , @NamedQuery(name = "Utilisateur.nextId", query = "SELECT MAX(u.idutilisateur) FROM Utilisateur u")
     , @NamedQuery(name = "Utilisateur.findByIdutilisateur", query = "SELECT u FROM Utilisateur u WHERE u.idutilisateur = :idutilisateur")
-    , @NamedQuery(name = "Utilisateur.findByNom", query = "SELECT u FROM Utilisateur u WHERE u.nom = :nom")
-    , @NamedQuery(name = "Utilisateur.findByPrenom", query = "SELECT u FROM Utilisateur u WHERE u.prenom = :prenom")
     , @NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.login = :login")
     , @NamedQuery(name = "Utilisateur.findByPassword", query = "SELECT u FROM Utilisateur u WHERE u.password = :password")
     , @NamedQuery(name = "Utilisateur.findByEmail", query = "SELECT u FROM Utilisateur u WHERE u.email = :email")
@@ -50,12 +48,6 @@ public class Utilisateur implements Serializable {
     @Basic(optional = false)
     @Column(name = "idutilisateur")
     private Integer idutilisateur;
-    @Size(max = 254)
-    @Column(name = "nom")
-    private String nom;
-    @Size(max = 254)
-    @Column(name = "prenom")
-    private String prenom;
     @Size(max = 254)
     @Column(name = "login")
     private String login;
@@ -94,22 +86,6 @@ public class Utilisateur implements Serializable {
 
     public void setIdutilisateur(Integer idutilisateur) {
         this.idutilisateur = idutilisateur;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
     }
 
     public String getLogin() {

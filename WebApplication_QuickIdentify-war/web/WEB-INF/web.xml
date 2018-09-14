@@ -14,20 +14,20 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>GetImages</servlet-name>
-        <servlet-class>controllers.GetImages</servlet-class>
+        <servlet-name>ImagesController</servlet-name>
+        <servlet-class>controllers.ImagesController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GetImages</servlet-name>
-        <url-pattern>/GetImages/*</url-pattern>
+        <servlet-name>ImagesController</servlet-name>
+        <url-pattern>/ImagesController/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            10000
         </session-timeout>
     </session-config>
     <welcome-file-list>

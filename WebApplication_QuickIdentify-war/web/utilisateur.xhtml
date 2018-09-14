@@ -40,7 +40,7 @@
                     <p:menuitem value="Déconnexion" actionListener="#{sessionController.disconnectUser()}" icon="ui-icon-extlink" />
                 </p:submenu>
                 <f:facet name="options">
-                    <p:commandButton style="color: green; font-family: arial;" value="Bienvenue, #{sessionController.currentUser.nom} #{sessionController.currentUser.prenom}" />
+                    <p:commandButton style="color: green; font-family: arial;" value="Bienvenue, #{sessionController.currentUser.login}" />
                     <p:commandButton icon="ui-icon-mail" value="Message" />
                     <p:commandButton value="Français" />
                 </f:facet>

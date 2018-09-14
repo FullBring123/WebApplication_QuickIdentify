@@ -16,20 +16,41 @@
                     <p:growl id="growl" showDetail="true" />
 
                     <h:panelGrid columns="2" cellspacing="50" style="margin: auto;">
-                        <img id="avatar" style="float: right;" src="#{request.contextPath}/GetImages/#{sessionController.currentUser.photo}" height="200" alt="Votre photo de profil" />
+                        <img id="avatar" style="float: right;" src="#{request.contextPath}/ImagesController/#{sessionController.currentUser.photo}" height="200" alt="Votre photo de profil" />
                         <p:panel id="datas" header="Mes informations personnelles">
-                            <h:panelGrid id="input-details" columns="2" cellspacing='5' cellpadding="10">
-                                <p:outputLabel value="Nom(s) et prénom(s): #{sessionController.currentUser.nom} #{sessionController.currentUser.prenom}" />
-                                <p:outputLabel value="Date de naissance: #{dossierIdentificationController.dossierIdentification.datenais}" />
-                                <p:outputLabel value="Lieu de naissance: #{dossierIdentificationController.dossierIdentification.lieunais}" />
-                                <p:outputLabel value="Genre: #{dossierIdentificationController.dossierIdentification.genre}" />
-                                <p:outputLabel value="Numéro de téléphone: #{dossierIdentificationController.dossierIdentification.telephone}" />
-                                <p:outputLabel value="Nationalité: #{dossierIdentificationController.dossierIdentification.nationalite}" />
-                                <p:outputLabel value="Situation matrimoniale: #{dossierIdentificationController.dossierIdentification.situationmatrimoniale}" />
-                                <p:outputLabel value="Nom du père: #{dossierIdentificationController.dossierIdentification.nompere}" />
-                                <p:outputLabel value="Numéro du père: #{dossierIdentificationController.dossierIdentification.numpere}" />
-                                <p:outputLabel value="Nom de la mère: #{dossierIdentificationController.dossierIdentification.nommere}" />
-                                <p:outputLabel value="Numéro de la mère: #{dossierIdentificationController.dossierIdentification.nummere}" />
+                            <h:panelGrid id="input-details" columns="4" cellspacing='5' cellpadding="10">
+                                <p:outputLabel value="Nom(s) et prénom(s):" />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.nom} #{dossierIdentificationController.dossierIdentification.prenom}" />
+                                
+                                <p:outputLabel value="Date de naissance: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.datenais}" />
+                                
+                                <p:outputLabel value="Lieu de naissance: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.lieunais}" />
+                                
+                                <p:outputLabel value="Genre: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.genre}" />
+                                
+                                <p:outputLabel value="Numéro de téléphone: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.telephone}" />
+                                
+                                <p:outputLabel value="Nationalité: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.nationalite}" />
+                                
+                                <p:outputLabel value="Situation matrimoniale: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.situationmatrimoniale}" />
+                                
+                                <p:outputLabel value="Nom du père: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.nompere}" />
+                                
+                                <p:outputLabel value="Numéro du père: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.numpere}" />
+                                
+                                <p:outputLabel value="Nom de la mère: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.nommere}" />
+                                
+                                <p:outputLabel value="Numéro de la mère: " />
+                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.nummere}" />
                             </h:panelGrid>
                         </p:panel>
                     </h:panelGrid>
@@ -52,10 +73,10 @@
                             <p:inputText id="numrecepisse" value="#{dossierIdentificationController.dossierIdentification.numrecepisse}" title="Numéro de récepissé" />
 
                             <p:outputLabel value="Nom(s):" for="nom" />
-                            <p:inputText disabled="true" id="nom" value="#{sessionController.currentUser.nom}" title="Nom" />
+                            <p:inputText id="nom" value="#{dossierIdentificationController.dossierIdentification.nom}" title="Nom" />
                             
                             <p:outputLabel value="Prénom(s):" for="prenom" />
-                            <p:inputText disabled="true" id="prenom" value="#{sessionController.currentUser.prenom}" title="Prénom" />
+                            <p:inputText id="prenom" value="#{dossierIdentificationController.dossierIdentification.prenom}" title="Prénom" />
 
                             <p:outputLabel value="Date de naissance:" for="datenais" />
                             <p:calendar id="datenais" value="#{dossierIdentificationController.dossierIdentification.datenais}" effect="fold" pages="3" required="true" requiredMessage="Champ obligatoire!" title="Datenais" >

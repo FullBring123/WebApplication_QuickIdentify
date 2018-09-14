@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Utilisateur;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -19,7 +20,7 @@ import sessions.UtilisateurFacadeLocal;
  *
  * @author Windows8.1
  */
-public class SessionController {
+public class SessionController implements Serializable {
 
     @EJB
     private UtilisateurFacadeLocal currentUserFacade;
@@ -27,7 +28,6 @@ public class SessionController {
     private List<Utilisateur> users = new ArrayList<>();
     private Utilisateur admin = new Utilisateur();
     private UploadedFile file;
-    private String operation;
 
     /**
      * Creates a new instance of SessionController
@@ -92,14 +92,6 @@ public class SessionController {
 
     public void setCurrentUser(Utilisateur currentUser) {
         this.currentUser = currentUser;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
     }
 
     public UtilisateurFacadeLocal getCurrentUserFacade() {

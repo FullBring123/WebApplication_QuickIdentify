@@ -112,7 +112,7 @@ public class UtilisateurController implements Serializable {
                 utilisateur.setEtat("Actif");
                 String nom = file.getFileName();
                 InputStream inputStream = file.getInputstream();
-                String uploads = "C:\\Users\\PC\\Documents\\NetBeansProjects\\Photos de profil";
+                String uploads = "D:\\Application\\Photos_de_Profil";
                 Files.copy(inputStream, new File(uploads, nom).toPath());
                 utilisateur.setPhoto(nom);
                 utilisateurFacade.create(utilisateur);
@@ -122,7 +122,7 @@ public class UtilisateurController implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec lors de l'ajout!", "Échec de l'opération!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec de l'opération!", ""));
         }
     }
 

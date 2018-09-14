@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Windows8.1
+ * @author PC
  */
-public class GetImages extends HttpServlet {
+public class ImagesController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,20 +29,19 @@ public class GetImages extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     private String imagePath;
-
-    // Init ---------------------------------------------------------------------------------------
+    
+    //Initialisation
     @Override
     public void init() throws ServletException {
-
         // Définit le chemin de base en quelque sorte. Vous pouvez le définir comme init-param du servlet..
-        this.imagePath = "C:\\Users\\PC\\Documents\\NetBeansProjects\\Photos de profil";
+        this.imagePath = "D:\\Application\\Photos_de_Profil";
 
         // Dans un environnement Windows avec le serveur d'applications s'exécutant sur le volume 7
         // c:, le chemin ci-dessus est exactement le même que "c: \ var \ webapp \ images". 
         // Sous Linux / Mac / UNIX, c'est simplement "/ var / webapp / images".
     }
-
     
     // Actions ------------------------------------------------------------------------------------
 
@@ -91,9 +90,7 @@ public class GetImages extends HttpServlet {
         // Écrivez le contenu de l'image dans la réponse.
         Files.copy(image.toPath(), response.getOutputStream());
     }
-
     
-
 //    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
 //        response.setContentType("text/html;charset=UTF-8");
@@ -102,10 +99,10 @@ public class GetImages extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet GetImages</title>");
+//            out.println("<title>Servlet ImagesController</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet GetImages at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet ImagesController at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -120,7 +117,12 @@ public class GetImages extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
+//    @Override
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        processRequest(request, response);
+//    }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -129,12 +131,20 @@ public class GetImages extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
+//    @Override
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        processRequest(request, response);
+//    }
+
     /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
-    // </editor-fold>
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

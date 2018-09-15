@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Dossieridentification.findAll", query = "SELECT d FROM Dossieridentification d")
+    , @NamedQuery(name = "Dossieridentification.nextId", query = "SELECT MAX(d.iddossier) FROM Dossieridentification d")
     , @NamedQuery(name = "Dossieridentification.findByIddossier", query = "SELECT d FROM Dossieridentification d WHERE d.iddossier = :iddossier")
     , @NamedQuery(name = "Dossieridentification.findByNumcni", query = "SELECT d FROM Dossieridentification d WHERE d.numcni = :numcni")
     , @NamedQuery(name = "Dossieridentification.findByNumrecepisse", query = "SELECT d FROM Dossieridentification d WHERE d.numrecepisse = :numrecepisse")

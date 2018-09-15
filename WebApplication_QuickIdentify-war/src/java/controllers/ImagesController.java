@@ -36,7 +36,7 @@ public class ImagesController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         // Définit le chemin de base en quelque sorte. Vous pouvez le définir comme init-param du servlet..
-        this.imagePath = "D:\\Application\\Photos_de_Profil";
+        this.imagePath = "C:\\Users\\PC\\Desktop\\Système de collecte d'informations QRCODE\\Photos";
 
         // Dans un environnement Windows avec le serveur d'applications s'exécutant sur le volume 7
         // c:, le chemin ci-dessus est exactement le même que "c: \ var \ webapp \ images". 

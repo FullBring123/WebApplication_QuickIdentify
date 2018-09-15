@@ -56,24 +56,6 @@ public class DossierIdentificationController implements Serializable {
         action(e);
     }
 
-    public void editData() {
-        try {
-            dossierIdentification.setIdutilisateur(dossierIdentification.getIdutilisateur());
-            String nom = file.getFileName();
-            InputStream inputStream = file.getInputstream();
-            String uploads = "C:\\Users\\PC\\Documents\\NetBeansProjects\\Folder Images";
-            Files.copy(inputStream, new File(uploads,nom).toPath());
-            dossierIdentification.setPhoto(nom);
-            dossieridentificationFacade.edit(dossierIdentification);
-            RequestContext.getCurrentInstance().execute("PF('wv_data').hide()");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Opération efectuée", "Vos données ont été modifiées!"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            RequestContext.getCurrentInstance().execute("PF('wv_data').hide()");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Échec de l'opération!"));
-        }
-    }
-
     public DossieridentificationFacadeLocal getDossieridentificationFacade() {
         return dossieridentificationFacade;
     }

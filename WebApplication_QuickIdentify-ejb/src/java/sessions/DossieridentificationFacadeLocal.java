@@ -30,4 +30,6 @@ public interface DossieridentificationFacadeLocal {
 
     int count();
     
+    Integer nextId();
+    
 }

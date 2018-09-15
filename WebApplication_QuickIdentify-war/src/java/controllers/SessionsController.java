@@ -5,22 +5,33 @@
  */
 package controllers;
 
+import entities.Dossieridentification;
 import entities.Utilisateur;
+import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.model.UploadedFile;
+import sessions.DossieridentificationFacadeLocal;
 import sessions.UtilisateurFacadeLocal;
 
 /**
  *
- * @author Windows8.1
+ * @author PC
  */
-public class SessionController implements Serializable {
+public class SessionsController implements Serializable {
+
+    @EJB
+    private DossieridentificationFacadeLocal dossieridentificationFacade;
+    private Dossieridentification dossieridentification;
 
     @EJB
     private UtilisateurFacadeLocal currentUserFacade;
@@ -28,11 +39,12 @@ public class SessionController implements Serializable {
     private List<Utilisateur> users = new ArrayList<>();
     private Utilisateur admin = new Utilisateur();
     private UploadedFile file;
+    private String operation;
 
     /**
-     * Creates a new instance of SessionController
+     * Creates a new instance of SessionsController
      */
-    public SessionController() {
+    public SessionsController() {
     }
 
     public void watchOut() {
@@ -43,6 +55,16 @@ public class SessionController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void action(ActionEvent e) {
+        CommandButton btn = (CommandButton) e.getSource();
+        operation = btn.getWidgetVar();
+    }
+
+    public void prepareCreate(ActionEvent e) {
+        dossieridentification = new Dossieridentification();
+        action(e);
     }
 
     public String connectUser() {
@@ -72,6 +94,28 @@ public class SessionController implements Serializable {
         }
     }
 
+    /**
+     * Cette fonction permet au consommateur de modifier ses informations personnelles
+     */
+    public void modifyDatas() {
+        try {
+            dossieridentification.setIddossier(dossieridentificationFacade.nextId());
+            dossieridentification.setIdutilisateur(currentUser);
+            dossieridentification.setNumcni(0);
+            dossieridentification.setNumrecepisse(10);
+            String nom = file.getFileName();
+            InputStream inputStream = file.getInputstream();
+            String uploads = "C:\\Users\\PC\\Desktop\\Système de collecte d'informations QRCODE\\Photos";
+            Files.copy(inputStream, new File(uploads, nom).toPath());
+            dossieridentification.setPhoto(nom);
+            dossieridentificationFacade.edit(dossieridentification);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Les modifications sur vos informations ont ete enregistrees!"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec de l'opération", "Vos informations n'ont pas pu être editees!"));
+        }
+    }
+
     public String disconnectUser() {
         try {
 //            logfile("Déconnexion", "Système");
@@ -86,20 +130,20 @@ public class SessionController implements Serializable {
         }
     }
 
-    public Utilisateur getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(Utilisateur currentUser) {
-        this.currentUser = currentUser;
-    }
-
     public UtilisateurFacadeLocal getCurrentUserFacade() {
         return currentUserFacade;
     }
 
     public void setCurrentUserFacade(UtilisateurFacadeLocal currentUserFacade) {
         this.currentUserFacade = currentUserFacade;
+    }
+
+    public Utilisateur getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(Utilisateur currentUser) {
+        this.currentUser = currentUser;
     }
 
     public List<Utilisateur> getUsers() {
@@ -124,6 +168,30 @@ public class SessionController implements Serializable {
 
     public void setFile(UploadedFile file) {
         this.file = file;
+    }
+
+    public DossieridentificationFacadeLocal getDossieridentificationFacade() {
+        return dossieridentificationFacade;
+    }
+
+    public void setDossieridentificationFacade(DossieridentificationFacadeLocal dossieridentificationFacade) {
+        this.dossieridentificationFacade = dossieridentificationFacade;
+    }
+
+    public Dossieridentification getDossieridentification() {
+        return dossieridentification;
+    }
+
+    public void setDossieridentification(Dossieridentification dossieridentification) {
+        this.dossieridentification = dossieridentification;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
 }

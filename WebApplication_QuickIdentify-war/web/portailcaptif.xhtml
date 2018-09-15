@@ -27,13 +27,13 @@
 
                 <h:panelGrid columns="2" cellpadding="10" style="margin: auto;">
                     <h:outputLabel for="username" value="Login:" />
-                    <p:inputText id="username" value="#{sessionController.currentUser.login}" required="true" requiredMessage="Le champ Login est invalide" label="username" />
+                    <p:inputText id="username" value="#{sessionsController.currentUser.login}" required="true" requiredMessage="Le champ Login est invalide" label="username" />
 
                     <h:outputLabel for="password" value="Mot de passe:" />
-                    <p:password id="password" value="#{sessionController.currentUser.password}" required="true" requiredMessage="Le champ Mot de passe est invalide" label="password" />
+                    <p:password id="password" value="#{sessionsController.currentUser.password}" required="true" requiredMessage="Le champ Mot de passe est invalide" label="password" />
 
                     <f:facet name="footer">
-                        <p:commandButton id="ok" value="Connexion" update="basic,growl" action="#{sessionController.connectUser()}" />
+                        <p:commandButton id="ok" value="Connexion" update="basic,growl" action="#{sessionsController.connectUser()}" />
                         <sup><p:commandLink style="float: right;" value=" Mot de passe oublié ?" /></sup>
                         <br /><br /><br />
                         <p:separator style="width: 70%" />
@@ -61,18 +61,20 @@
                     <h:outputText value="Créez un nouveau compte" /> 
                 </f:facet>
                 <h:panelGrid id="inputs" columns="2" cellpadding="5">
-                    <p:outputLabel value="Email:" for="email" />
-                    <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
-
-                    <p:outputLabel value="Photo:" for="photo" />
-                    <p:fileUpload id="photo" value="#{utilisateurController.file}" mode="simple" dragDropSupport="false" fileLimit="3" sizeLimit="2048" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
 
                     <p:outputLabel value="Login:" for="login" />
                     <p:inputText id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
+                    
+                    <p:outputLabel value="Email:" for="email" />
+                    <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
 
-                    <p:outputLabel value="Password:" for="password" />
+                    <p:outputLabel value="Mot de passe:" for="password" />
                     <p:password feedback="true" id="password" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Saisie erronée!" title="Password" />
-                </h:panelGrid>
+                    
+                    <p:outputLabel value="Photo:" for="photo" />
+                    <p:fileUpload id="photo" value="#{utilisateurController.file}" mode="simple" dragDropSupport="false" fileLimit="3" sizeLimit="2048" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
+
+                    </h:panelGrid>
                 <f:facet name="footer">
                     <center>
                         <p:commandButton ajax="false" action="#{utilisateurController.createUser()}" update="inputs,:form_session:basic,:form_session:growl" value="Enregistrer" icon="ui-icon-disk" />

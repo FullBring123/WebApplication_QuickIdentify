@@ -31,10 +31,6 @@ import sessions.UtilisateurFacadeLocal;
 public class UtilisateurController implements Serializable {
 
     @EJB
-    private DossieridentificationFacadeLocal dossieridentificationFacade;
-    private Dossieridentification dossieridentification;
-
-    @EJB
     private UtilisateurFacadeLocal utilisateurFacade;
     private List<Utilisateur> utilisateurs = new ArrayList<>();
     private Utilisateur utilisateur = new Utilisateur();
@@ -112,7 +108,7 @@ public class UtilisateurController implements Serializable {
                 utilisateur.setEtat("Actif");
                 String nom = file.getFileName();
                 InputStream inputStream = file.getInputstream();
-                String uploads = "D:\\Application\\Photos_de_Profil";
+                String uploads = "C:\\Users\\PC\\Desktop\\Système de collecte d'informations QRCODE\\Photos";
                 Files.copy(inputStream, new File(uploads, nom).toPath());
                 utilisateur.setPhoto(nom);
                 utilisateurFacade.create(utilisateur);
@@ -200,22 +196,6 @@ public class UtilisateurController implements Serializable {
 
     public void setOperation(String operation) {
         this.operation = operation;
-    }
-
-    public DossieridentificationFacadeLocal getDossieridentificationFacade() {
-        return dossieridentificationFacade;
-    }
-
-    public void setDossieridentificationFacade(DossieridentificationFacadeLocal dossieridentificationFacade) {
-        this.dossieridentificationFacade = dossieridentificationFacade;
-    }
-
-    public Dossieridentification getDossieridentification() {
-        return dossieridentification;
-    }
-
-    public void setDossieridentification(Dossieridentification dossieridentification) {
-        this.dossieridentification = dossieridentification;
     }
 
     public UploadedFile getFile() {

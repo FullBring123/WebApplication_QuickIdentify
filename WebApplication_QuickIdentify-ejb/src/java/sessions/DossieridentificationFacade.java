@@ -9,6 +9,7 @@ import entities.Dossieridentification;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +28,15 @@ public class DossieridentificationFacade extends AbstractFacade<Dossieridentific
 
     public DossieridentificationFacade() {
         super(Dossieridentification.class);
+    }
+    
+    public Integer nextId() {
+        try {
+            Query q = em.createNamedQuery("Dossieridentification.nextId");
+            return (Integer) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
     
 }

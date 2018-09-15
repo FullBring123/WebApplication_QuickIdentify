@@ -19,11 +19,6 @@
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
     <managed-bean>
-        <managed-bean-name>sessionController</managed-bean-name>
-        <managed-bean-class>controllers.SessionController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
         <managed-bean-name>dossierIdentificationController</managed-bean-name>
         <managed-bean-class>controllers.DossierIdentificationController</managed-bean-class>
     
@@ -46,6 +41,11 @@
     <managed-bean>
         <managed-bean-name>sessionController2</managed-bean-name>
         <managed-bean-class>controllers.SessionController2</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>sessionsController</managed-bean-name>
+        <managed-bean-class>controllers.SessionsController</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 </faces-config>

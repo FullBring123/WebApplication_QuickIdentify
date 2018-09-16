@@ -30,6 +30,7 @@ public class DossieridentificationFacade extends AbstractFacade<Dossieridentific
         super(Dossieridentification.class);
     }
     
+    @Override
     public Integer nextId() {
         try {
             Query q = em.createNamedQuery("Dossieridentification.nextId");

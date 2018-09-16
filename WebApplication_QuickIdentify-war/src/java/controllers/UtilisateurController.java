@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import entities.Dossieridentification;
 import entities.Utilisateur;
 import java.io.File;
 import java.io.InputStream;
@@ -21,7 +20,6 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
-import sessions.DossieridentificationFacadeLocal;
 import sessions.UtilisateurFacadeLocal;
 
 /**
@@ -91,7 +89,7 @@ public class UtilisateurController implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Opération effectuée!", "L'utilisateur a été désactivé!"));
             } else {
                 RequestContext.getCurrentInstance().execute("PF('wv_disable').hide()");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Désactivation impossible!", "Cet utilisateur est déjà désactivé!"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Désactivation impossible!", "Cet utilisateur est déjà désactivé!"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,6 +152,7 @@ public class UtilisateurController implements Serializable {
             RequestContext.getCurrentInstance().execute("PF('wv_delete').hide()");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Lourde Erreur!", "Échec de l'opération!"));
         } finally {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Rien ne s'est passe!", ""));
             init();
         }
     }

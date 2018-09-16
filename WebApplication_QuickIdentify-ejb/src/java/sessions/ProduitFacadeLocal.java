@@ -32,4 +32,6 @@ public interface ProduitFacadeLocal {
     
     public List<Produit> findByCode(String code);
     
+    List<Produit> findByLinkedProduits();
+    
 }

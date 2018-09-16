@@ -33,7 +33,7 @@
                     <p:password id="password" value="#{sessionsController.currentUser.password}" required="true" requiredMessage="Le champ Mot de passe est invalide" label="password" />
 
                     <f:facet name="footer">
-                        <p:commandButton id="ok" value="Connexion" update="basic,growl" action="#{sessionsController.connectUser()}" />
+                        <p:commandButton id="ok" value="Connexion" update=":form_session:basic,:form_session:growl" action="#{sessionsController.connectUser()}" />
                         <sup><p:commandLink style="float: right;" value=" Mot de passe oublié ?" /></sup>
                         <br /><br /><br />
                         <p:separator style="width: 70%" />
@@ -41,7 +41,7 @@
                         <h:panelGrid style="margin: auto;">
                             <p:outputLabel value="Vous êtes nouveau sur la plateforme ?" />
                             <h:panelGrid style="margin: auto;">
-                                <p:commandLink partialSubmit="true" update=":form_register:fm_register" actionListener="#{utilisateurController.prepareCreate}" oncomplete="PF('wv_user1').show()" value=" S'inscrire" />
+                                <p:commandLink partialSubmit="true" update=":form_register:fm_register" actionListener="#{utilisateurController.prepareCreate}" oncomplete="PF('wv_user1').show()" value=" Creer un compte" />
                                 <!--<p:link value="Inscription" outcome="/inscription">
                                     <f:param name="no" value="5" />
                                 </p:link>-->
@@ -63,13 +63,13 @@
                 <h:panelGrid id="inputs" columns="2" cellpadding="5">
 
                     <p:outputLabel value="Login:" for="login" />
-                    <p:inputText id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
+                    <p:inputText placeholder="Pseudo ou Nom de famille" id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
                     
-                    <p:outputLabel value="Email:" for="email" />
+                    <p:outputLabel value="Email: (accessible)" for="email" />
                     <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
 
                     <p:outputLabel value="Mot de passe:" for="password" />
-                    <p:password feedback="true" id="password" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Saisie erronée!" title="Password" />
+                    <p:password placeholder="Mot de passe" feedback="true" id="password" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Saisie erronée!" title="Password" />
                     
                     <p:outputLabel value="Photo:" for="photo" />
                     <p:fileUpload id="photo" value="#{utilisateurController.file}" mode="simple" dragDropSupport="false" fileLimit="3" sizeLimit="2048" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
@@ -84,7 +84,7 @@
         </h:form>
 
         <h:form>
-            <p:menubar style="margin-top: 90pt;">
+            <p:menubar style="margin-top: 65pt;">
                 <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
                 <f:facet name="options">
                     <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">

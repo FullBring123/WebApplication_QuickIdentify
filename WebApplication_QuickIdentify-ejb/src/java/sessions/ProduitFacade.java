@@ -42,4 +42,14 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
         }
     }
     
+    @Override
+    public List<Produit> findByLinkedProduits() {
+        try {
+            Query q = em.createQuery("SELECT P FROM Produit P GROUP BY P.idutilisateur");
+            return (List<Produit>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
 }

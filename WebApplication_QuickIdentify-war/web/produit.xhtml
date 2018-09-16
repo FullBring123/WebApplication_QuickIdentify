@@ -76,7 +76,7 @@
                             <p:outputLabel value="Utilisateur:" for="idutilisateur" />
                             <p:selectOneMenu id="idutilisateur" value="#{produitController.produit.idutilisateur.idutilisateur}" required="true" requiredMessage="The Idutilisateur field is required.">
                                 <!-- TODO: update below reference to list of available items-->
-                                <f:selectItems itemLabel="#{fk_user.nom} #{fk_user.prenom}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
+                                <f:selectItems itemLabel="#{fk_user.login}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
 
@@ -107,7 +107,7 @@
                             <p:outputLabel value="Utilisateur:" for="idutilisateur" />
                             <p:selectOneMenu id="idutilisateur" value="#{produitController.produit.idutilisateur.idutilisateur}" required="true" requiredMessage="The Idutilisateur field is required.">
                                 <!-- TODO: update below reference to list of available items-->
-                                <f:selectItems itemLabel="#{fk_user.nom} #{fk_user.prenom}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
+                                <f:selectItems itemLabel="#{fk_user.login}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
 
@@ -147,7 +147,7 @@
                             <p:outputLabel value="Type: #{produitController.produit.type}" />
                             <p:outputLabel value="Code: #{produitController.produit.code}" />
                             <p:outputLabel value="État:  #{produitController.produit.etat}" />
-                            <p:outputLabel value="État:  #{produitController.produit.idutilisateur.nom} #{produitController.produit.idutilisateur.prenom}" />
+                            <p:outputLabel value="État:  #{produitController.produit.idutilisateur.login}" />
                         </h:panelGrid>
 
                         <h:panelGrid style="margin: auto;">

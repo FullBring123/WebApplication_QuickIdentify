@@ -111,13 +111,12 @@
                             <p:outputLabel value="Numéro de la mère:" for="nummere" />
                             <p:inputText id="nummere" value="#{sessionsController.dossieridentification.nummere}" title="Nummere" />
 
-                            <!-- <p:outputLabel value="Photo:" for="photo" />
-                            <p:fileUpload id="photo" value="{sessionsController.file}" label="{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="100" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" />
-                            -->
+                            <p:outputLabel value="Photo:" for="photo" />
+                            <p:fileUpload id="photo" value="#{sessionsController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="100" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" requiredMessage="Veuillez inserer une photo..." />
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton ajax="false" actionListener="#{sessionsController.modifyDatas()}" update="inputs,:data_list:datas,:data_list:growl" icon="ui-icon-disk" value="Confirmer les changements" />
+                                <p:commandButton ajax="false" action="#{sessionsController.modifyDatas()}" update="inputs,:data_list:datas,:data_list:growl" icon="ui-icon-disk" value="Confirmer les changements" />
                             </center>
                         </f:facet>
                     </p:dialog>

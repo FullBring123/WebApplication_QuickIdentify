@@ -22,12 +22,6 @@
                     <p:dataTable id="table" value="#{utilisateurController.utilisateurs}" sortMode="multiple" var="item">
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Nom(s) et prénom(s)"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nom} #{item.prenom}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="Login"/>
                             </f:facet>
                             <h:outputText value="#{item.login}"/>
@@ -54,8 +48,8 @@
                             <f:facet name="header">
                                 <h:outputText value="Action(s)"/>
                             </f:facet>
-                            <p:commandButton style="background-color: greenyellow;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
-                            <p:commandButton style="background-color: red;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
+                            <p:commandButton style="background-color: green; color: green;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
+                            <p:commandButton style="background-color: red; color: red;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
                             <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.delete}" update=":form_delete:fm_delete" icon="ui-icon-trash" oncomplete="PF('wv_delete').show()" />
                             <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.displa}" update=":form_display:fm_display" icon="ui-icon-document" oncomplete="PF('wv_display').show()" />
                         </p:column>
@@ -69,7 +63,7 @@
                             <h:outputText value="Activer le compte" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Voulez-vous vraiment activer le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
+                            <p:outputLabel value="Voulez-vous vraiment activer le compte de #{utilisateurController.utilisateur.login} ?" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
                             <p:commandButton action="#{utilisateurController.activateAccount()}" update=":table_user:table,:table_user:growl" partialSubmit="true" oncomplete="PF('wv_enable').hide()" value="Activer" />
@@ -84,10 +78,10 @@
                             <h:outputText value="Désactiver le compte" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
+                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurController.utilisateur.login} ?" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
-                            <p:commandButton update=":table_user:table,:table_user:growl" actionListener="#{utilisateurController.deactivateAccount()}" partialSubmit="true" oncomplete="PF('wv_disable').hide()" value="Désactiver" />
+                            <p:commandButton update=":table_user:table,:table_user:growl" action="#{utilisateurController.deactivateAccount()}" partialSubmit="true" oncomplete="PF('wv_disable').hide()" value="Désactiver" />
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>
@@ -99,10 +93,10 @@
                             <h:outputText value="Supprimer le compte" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Voulez-vous vraiment supprimer le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
+                            <p:outputLabel value="Voulez-vous vraiment supprimer le compte de #{utilisateurController.utilisateur.login} ?" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
-                            <p:commandButton update=":table_user:table,:table_user:growl" actionListener="#{utilisateurController.removeUser()}" partialSubmit="true" oncomplete="PF('wv_delete').hide()" value="Supprimer" />
+                            <p:commandButton update=":table_user:table,:table_user:growl" action="#{utilisateurController.removeUser()}" partialSubmit="true" oncomplete="PF('wv_delete').hide()" value="Supprimer" />
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>
@@ -114,7 +108,7 @@
                             <h:outputText value="Détails" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Nom(s) et Prénom(s): #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom}" />
+                            <p:outputLabel value="Login: #{utilisateurController.utilisateur.login}" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
                             <p:commandButton partialSubmit="true" oncomplete="PF('wv_display').hide()" value="OK" />

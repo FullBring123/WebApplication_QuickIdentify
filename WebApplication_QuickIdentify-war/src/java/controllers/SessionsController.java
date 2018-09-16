@@ -32,12 +32,18 @@ public class SessionsController implements Serializable {
     @EJB
     private DossieridentificationFacadeLocal dossieridentificationFacade;
     private Dossieridentification dossieridentification;
+    private Dossieridentification dossier;
+//    
+//    @EJB
+//    private ProduitFacadeLocal produitFacade;
+//    private Produit produit = new Produit();
+//    private List<Produit> mesProduits = new ArrayList<>();
 
     @EJB
     private UtilisateurFacadeLocal currentUserFacade;
     private Utilisateur currentUser = new Utilisateur();
-    private List<Utilisateur> users = new ArrayList<>();
     private Utilisateur admin = new Utilisateur();
+    private List<Utilisateur> users = new ArrayList<>();
     private UploadedFile file;
     private String operation;
 
@@ -47,6 +53,11 @@ public class SessionsController implements Serializable {
     public SessionsController() {
     }
 
+//    @PostConstruct
+//    private void init() {
+//        mesProduits.clear();
+//        mesProduits.addAll(produitFacade.findByLinkedProduits());
+//    }
     public void watchOut() {
         try {
             if (!FacesContext.getCurrentInstance().getExternalContext().getSessionMap().containsKey("currentUser")) {
@@ -75,14 +86,12 @@ public class SessionsController implements Serializable {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", currentUser);
                     return "utilisateur.xhtml?faces-redirect=true";
                 } else {
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    context.addMessage(null, new FacesMessage("Désolé! Vous ne pouvez accéder à votre session pour le moment!"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Échec de connexion!", "Desole, vous ne pouvez acceder a votre session pour le moment!"));
                     return "portailcaptif.xhtml?faces-redirect=true";
                 }
             } else {
                 currentUser = new Utilisateur();
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage("Login ou Mot de passe incorrect!"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erreur!", "Login ou mot de passe incorrect!"));
                 return "portailcaptif.xhtml?faces-redirect=true";
             }
         } catch (Exception e) {
@@ -95,12 +104,13 @@ public class SessionsController implements Serializable {
     }
 
     /**
-     * Cette fonction permet au consommateur de modifier ses informations personnelles
+     * Cette fonction permet au consommateur de modifier ses informations
+     * personnelles
      */
     public void modifyDatas() {
         try {
             dossieridentification.setIddossier(dossieridentificationFacade.nextId());
-            dossieridentification.setIdutilisateur(currentUser);
+            dossieridentification.setIdutilisateur(getCurrentUser());
             dossieridentification.setNumcni(0);
             dossieridentification.setNumrecepisse(10);
             String nom = file.getFileName();
@@ -194,4 +204,35 @@ public class SessionsController implements Serializable {
         this.operation = operation;
     }
 
+    public Dossieridentification getDossier() {
+        return dossier;
+    }
+
+    public void setDossier(Dossieridentification dossier) {
+        this.dossier = dossier;
+    }
+
+//    public ProduitFacadeLocal getProduitFacade() {
+//        return produitFacade;
+//    }
+//
+//    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
+//        this.produitFacade = produitFacade;
+//    }
+//
+//    public Produit getProduit() {
+//        return produit;
+//    }
+//
+//    public void setProduit(Produit produit) {
+//        this.produit = produit;
+//    }
+//
+//    public List<Produit> getMesProduits() {
+//        return mesProduits;
+//    }
+//
+//    public void setMesProduits(List<Produit> mesProduits) {
+//        this.mesProduits = mesProduits;
+//    }
 }

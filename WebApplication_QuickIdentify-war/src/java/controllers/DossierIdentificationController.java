@@ -55,6 +55,10 @@ public class DossierIdentificationController implements Serializable {
         dossierIdentification = new Dossieridentification();
         action(e);
     }
+    
+    public void getId_DataSession(int id) {
+        dossierIdentification = dossieridentificationFacade.find(id);
+    }
 
     public DossieridentificationFacadeLocal getDossieridentificationFacade() {
         return dossieridentificationFacade;

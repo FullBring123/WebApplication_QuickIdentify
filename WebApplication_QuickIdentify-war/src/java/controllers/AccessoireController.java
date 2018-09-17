@@ -35,17 +35,17 @@ public class AccessoireController {
     @PostConstruct
     public void init() {
         mesAccessoires.clear();
-        mesAccessoires.addAll(produitFacade.findAll());
+        mesAccessoires.addAll(produitFacade.findByLinkedProduits());
     }
     
     public void searchAccessoire(int id) {
         produit = produitFacade.find(id);
     }
     
-//    public void action(ActionEvent e) {
-//        CommandButton button = (CommandButton) e.getSource();
-//        operation = button.getWidgetVar();
-//    }
+    public void action(ActionEvent e) {
+        CommandButton button = (CommandButton) e.getSource();
+        operation = button.getWidgetVar();
+    }
 
     public ProduitFacadeLocal getProduitFacade() {
         return produitFacade;

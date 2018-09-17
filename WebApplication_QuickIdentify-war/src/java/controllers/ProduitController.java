@@ -22,11 +22,12 @@ import sessions.ProduitFacadeLocal;
  *
  * @author Windows8.1
  */
-public class ProduitController implements Serializable{
-    
+public class ProduitController implements Serializable {
+
     @EJB
     private ProduitFacadeLocal produitFacade;
     private List<Produit> produits = new ArrayList<>();
+    private List<Produit> mesProduits = new ArrayList<>();
     private Produit produit = new Produit();
     private String msg;
     private String operation;
@@ -36,11 +37,16 @@ public class ProduitController implements Serializable{
      */
     public ProduitController() {
     }
-    
+
     @PostConstruct
     public void init() {
         produits.clear();
         produits.addAll(produitFacade.findAll());
+    }
+
+    public void init2() {
+        mesProduits.clear();
+        mesProduits.addAll(produitFacade.findByLinkedProduits());
     }
 
     public void action(ActionEvent e) {
@@ -64,7 +70,7 @@ public class ProduitController implements Serializable{
             if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
                 produit.setIdproduit(produit.getIdproduit());
                 produit.setIdutilisateur(produit.getIdutilisateur());
-                produit.setEtat("Inactif");
+                produit.setEtat("Actif");
                 produitFacade.create(produit);
                 RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
@@ -116,6 +122,25 @@ public class ProduitController implements Serializable{
         }
     }
 
+    public void linkProducts() {
+        try {
+            if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
+                produit.setIdproduit(produitFacade.nextId());
+                produit.setIdutilisateur(produit.getIdutilisateur());
+                produit.setCode(produit.getCode());
+                produitFacade.edit(produit);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Liaison etablie", "Ce produit est desormais lie a votre compte"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "Ce produit est deja lie a un autre compte!"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erreur lors de la liaison!", "Nous n'avons pu lier votre compte a ce produit"));
+        } finally {
+            init2();
+        }
+    }
+
     public ProduitFacadeLocal getProduitFacade() {
         return produitFacade;
     }
@@ -155,5 +180,13 @@ public class ProduitController implements Serializable{
     public void setOperation(String operation) {
         this.operation = operation;
     }
-    
+
+    public List<Produit> getMesProduits() {
+        return mesProduits;
+    }
+
+    public void setMesProduits(List<Produit> mesProduits) {
+        this.mesProduits = mesProduits;
+    }
+
 }

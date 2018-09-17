@@ -43,9 +43,19 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     }
     
     @Override
+    public Integer nextId() {
+        try {
+            Query q = em.createNamedQuery("Produit.nextId");
+            return (Integer)q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
     public List<Produit> findByLinkedProduits() {
         try {
-            Query q = em.createQuery("SELECT P FROM Produit P GROUP BY P.idutilisateur");
+            Query q = em.createQuery("SELECT p FROM Produit p GROUP BY p.idutilisateur");
             return (List<Produit>) q.getResultList();
         } catch (Exception e) {
             return null;

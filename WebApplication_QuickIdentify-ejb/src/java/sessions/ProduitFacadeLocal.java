@@ -30,6 +30,8 @@ public interface ProduitFacadeLocal {
 
     int count();
     
+    Integer nextId();
+    
     public List<Produit> findByCode(String code);
     
     List<Produit> findByLinkedProduits();

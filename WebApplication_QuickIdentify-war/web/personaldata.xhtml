@@ -55,7 +55,7 @@
                         </p:panel>
                     </h:panelGrid>
                     <h:panelGrid style="margin: auto;">
-                        <p:commandButton partialSubmit="true" actionListener="#{sessionsController.prepareCreate}" update=":form_data:fm_data" oncomplete="PF('wv_data').show()" icon="ui-icon-gear" value=" Modifier" />
+                        <p:commandButton partialSubmit="true" action="#{sessionsController.getId_DataSession(sessionsController.currentUser.idutilisateur)}" update=":form_data:fm_data" oncomplete="PF('wv_data').show()" icon="ui-icon-gear" value=" Modifier" />
                     </h:panelGrid>
                 </h:form>
 

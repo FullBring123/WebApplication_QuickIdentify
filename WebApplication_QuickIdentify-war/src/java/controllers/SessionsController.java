@@ -33,7 +33,7 @@ public class SessionsController implements Serializable {
     private DossieridentificationFacadeLocal dossieridentificationFacade;
     private Dossieridentification dossieridentification;
     private Dossieridentification dossier;
-//    
+
 //    @EJB
 //    private ProduitFacadeLocal produitFacade;
 //    private Produit produit = new Produit();
@@ -58,6 +58,7 @@ public class SessionsController implements Serializable {
 //        mesProduits.clear();
 //        mesProduits.addAll(produitFacade.findByLinkedProduits());
 //    }
+
     public void watchOut() {
         try {
             if (!FacesContext.getCurrentInstance().getExternalContext().getSessionMap().containsKey("currentUser")) {
@@ -76,6 +77,10 @@ public class SessionsController implements Serializable {
     public void prepareCreate(ActionEvent e) {
         dossieridentification = new Dossieridentification();
         action(e);
+    }
+    
+    public void getId_DataSession(int id) {
+        dossieridentification = dossieridentificationFacade.find(id);
     }
 
     public String connectUser() {
@@ -125,6 +130,29 @@ public class SessionsController implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec de l'opération", "Vos informations n'ont pas pu être editees!"));
         }
     }
+
+    /**
+     * Cette methode permet de ne lister que chez les utilisateurs, les produits
+     * qu'ils ont lies a leur propre compte
+     */
+//    public void linkProducts() {
+//        try {
+//            if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
+//                produit.setIdproduit(produitFacade.nextId());
+//                produit.setIdutilisateur(getCurrentUser());
+//                produit.setCode(produit.getCode());
+//                produitFacade.edit(produit);
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Liaison etablie", "Ce produit est desormais lie a votre compte"));
+//            } else {
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "Ce produit est deja lie a un autre compte!"));
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erreur lors de la liaison!", "Nous n'avons pu lier votre compte a ce produit"));
+//        } finally {
+//            init();
+//        }
+//    }
 
     public String disconnectUser() {
         try {
@@ -211,7 +239,7 @@ public class SessionsController implements Serializable {
     public void setDossier(Dossieridentification dossier) {
         this.dossier = dossier;
     }
-
+//
 //    public ProduitFacadeLocal getProduitFacade() {
 //        return produitFacade;
 //    }

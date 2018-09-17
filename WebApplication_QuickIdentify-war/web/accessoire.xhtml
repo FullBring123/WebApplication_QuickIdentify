@@ -19,7 +19,7 @@
                     <h1><h:outputText style="font-family: vivaldi;font-size: 20pt" value="Mes accessoires"/></h1>
                     <br />
 
-                    <p:dataTable id="table" value="#{produitController.produits}" sortMode="multiple" var="item">
+                    <p:dataTable id="table" value="#{accessoireController.mesAccessoires}" sortMode="multiple" var="item">
                         <p:column sortBy="#{item.type}">
                             <f:facet name="header">
                                 <h:outputText value="Type"/>
@@ -59,9 +59,12 @@
                         <f:facet name="header">
                             <h:outputText value="Liez votre compte à un produit" /> 
                         </f:facet>
-                        <h:panelGrid id="inputs" columns="4" cellspacing="10" cellpadding="5">
-                            <p:outputLabel value="Entrez le code figurant sur l'accessoire: " for="cp" />
-                            <p:inputText id="cp" value="#{accessoireController.produit.code}" title="Code du produit" />
+                        <h:panelGrid id="inputs" columns="1" cellspacing="10" cellpadding="5">
+                            <p:outputLabel value="Selectionnez le code figurant sur l'accessoire: " for="cp" />
+                            <p:selectOneMenu id="cp" value="#{accessoireController.produit.idproduit}" required="true" requiredMessage="The Idutilisateur field is required.">
+                                <!-- TODO: update below reference to list of available items -->
+                                <f:selectItems itemLabel="#{filterproducts.type} - #{filterproducts.code}" itemValue="#{filterproducts.idproduit}" value="#{accessoireController.mesAccessoires}" var="filterproducts"/>
+                            </p:selectOneMenu>
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>

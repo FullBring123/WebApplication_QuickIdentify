@@ -38,8 +38,10 @@ public class SessionController2 implements Serializable {
     private Boolean calcen = false;
     private Boolean enable = false;
     private Boolean disabl = false;
+    private Boolean add = false;
     private Boolean delete = false;
     private Boolean displa = false;
+    private Boolean modify = false;
 
     /**
      * Creates a new instance of SessionController2
@@ -78,8 +80,10 @@ public class SessionController2 implements Serializable {
                     calcen = sessionUser.getMenuCollection().contains(new Menu("calcen"));
                     enable = sessionUser.getMenuCollection().contains(new Menu("enable"));
                     disabl = sessionUser.getMenuCollection().contains(new Menu("disabl"));
+                    add = sessionUser.getMenuCollection().contains(new Menu("add"));
                     delete = sessionUser.getMenuCollection().contains(new Menu("delete"));
                     displa = sessionUser.getMenuCollection().contains(new Menu("displa"));
+                    modify = sessionUser.getMenuCollection().contains(new Menu("modify"));
 
                     return "index.xhtml?faces-redirect=true";
                 } else {
@@ -263,6 +267,22 @@ public class SessionController2 implements Serializable {
 
     public void setDelete(Boolean delete) {
         this.delete = delete;
+    }
+
+    public Boolean getModify() {
+        return modify;
+    }
+
+    public void setModify(Boolean modify) {
+        this.modify = modify;
+    }
+
+    public Boolean getAdd() {
+        return add;
+    }
+
+    public void setAdd(Boolean add) {
+        this.add = add;
     }
 
 }

@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Dossieridentification;
+import entities.Produit;
 import entities.Utilisateur;
 import java.io.File;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 import sessions.DossieridentificationFacadeLocal;
+import sessions.ProduitFacadeLocal;
 import sessions.UtilisateurFacadeLocal;
 
 /**
@@ -33,12 +35,12 @@ public class SessionsController implements Serializable {
     @EJB
     private DossieridentificationFacadeLocal dossieridentificationFacade;
     private Dossieridentification dossieridentification;
-    private Dossieridentification dossier;
+    private List<DossierIdentificationController> myInfos = new ArrayList<>();
 
-//    @EJB
-//    private ProduitFacadeLocal produitFacade;
-//    private Produit produit = new Produit();
-//    private List<Produit> mesProduits = new ArrayList<>();
+    @EJB
+    private ProduitFacadeLocal produitFacade;
+    private Produit produit = new Produit();
+    private List<Produit> mesProduits = new ArrayList<>();
 
     @EJB
     private UtilisateurFacadeLocal currentUserFacade;
@@ -76,7 +78,7 @@ public class SessionsController implements Serializable {
         operation = btn.getWidgetVar();
     }
 
-    public void prepareCreate(ActionEvent e) {
+    public void instanciateNewIdentificationDocument(ActionEvent e) {
         dossieridentification = new Dossieridentification();
         action(e);
     }
@@ -84,7 +86,7 @@ public class SessionsController implements Serializable {
     public void getId_DataSession(int id) {
         dossieridentification = dossieridentificationFacade.find(id);
     }
-
+    
     public String connectUser() {
         try {
             currentUser = currentUserFacade.findByLoginPass(currentUser.getLogin(), currentUser.getPassword());
@@ -131,11 +133,11 @@ public class SessionsController implements Serializable {
             dossieridentification.setNumpere(dossieridentification.getNumpere());
             dossieridentification.setSituationmatrimoniale(dossieridentification.getSituationmatrimoniale());
             dossieridentification.setTelephone(dossieridentification.getTelephone());
-            String nom = file.getFileName();
-            InputStream inputStream = file.getInputstream();
-            String uploads = "C:\\Users\\PC\\Desktop\\Système de collecte d'informations QRCODE\\Photos";
-            Files.copy(inputStream, new File(uploads, nom).toPath());
-            dossieridentification.setPhoto(nom);
+//            String nom = file.getFileName();
+//            InputStream inputStream = file.getInputstream();
+//            String uploads = "C:\\Users\\PC\\Desktop\\Système de collecte d'informations QRCODE\\Photos";
+//            Files.copy(inputStream, new File(uploads, nom).toPath());
+//            dossieridentification.setPhoto(nom);
             dossieridentificationFacade.edit(dossieridentification);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Les modifications sur vos informations ont ete enregistrees!"));
         } catch (Exception e) {
@@ -155,7 +157,7 @@ public class SessionsController implements Serializable {
             currentUser.setPhoto(nomphoto);
             currentUserFacade.edit(currentUser);
             RequestContext.getCurrentInstance().execute("PF('wv_editprofile').hide()");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "OK", "Profil Modifie!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Profil Modifie!"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Votre profil n'a pu être modifie!", e.getLocalizedMessage()));
         }
@@ -164,6 +166,7 @@ public class SessionsController implements Serializable {
     /**
      * Cette methode permet de ne lister que chez les utilisateurs, les produits
      * qu'ils ont lies a leur propre compte
+     * @return 
      */
 //    public void linkProducts() {
 //        try {
@@ -171,6 +174,7 @@ public class SessionsController implements Serializable {
 //                produit.setIdproduit(produitFacade.nextId());
 //                produit.setIdutilisateur(getCurrentUser());
 //                produit.setCode(produit.getCode());
+//                produit.setType(produit.getType());
 //                produitFacade.edit(produit);
 //                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Liaison etablie", "Ce produit est desormais lie a votre compte"));
 //            } else {
@@ -254,6 +258,30 @@ public class SessionsController implements Serializable {
         this.dossieridentification = dossieridentification;
     }
 
+    public ProduitFacadeLocal getProduitFacade() {
+        return produitFacade;
+    }
+
+    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
+        this.produitFacade = produitFacade;
+    }
+
+    public Produit getProduit() {
+        return produit;
+    }
+
+    public void setProduit(Produit produit) {
+        this.produit = produit;
+    }
+
+    public List<Produit> getMesProduits() {
+        return mesProduits;
+    }
+
+    public void setMesProduits(List<Produit> mesProduits) {
+        this.mesProduits = mesProduits;
+    }
+
     public String getOperation() {
         return operation;
     }
@@ -262,39 +290,6 @@ public class SessionsController implements Serializable {
         this.operation = operation;
     }
 
-    public Dossieridentification getDossier() {
-        return dossier;
-    }
-
-    public void setDossier(Dossieridentification dossier) {
-        this.dossier = dossier;
-    }
-    
-//
-//    public ProduitFacadeLocal getProduitFacade() {
-//        return produitFacade;
-//    }
-//
-//    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
-//        this.produitFacade = produitFacade;
-//    }
-//
-//    public Produit getProduit() {
-//        return produit;
-//    }
-//
-//    public void setProduit(Produit produit) {
-//        this.produit = produit;
-//    }
-//
-//    public List<Produit> getMesProduits() {
-//        return mesProduits;
-//    }
-//
-//    public void setMesProduits(List<Produit> mesProduits) {
-//        this.mesProduits = mesProduits;
-//    }
-
     public UploadedFile getProfilep() {
         return profilep;
     }
@@ -302,4 +297,13 @@ public class SessionsController implements Serializable {
     public void setProfilep(UploadedFile profilep) {
         this.profilep = profilep;
     }
+
+    public List<DossierIdentificationController> getMyInfos() {
+        return myInfos;
+    }
+
+    public void setMyInfos(List<DossierIdentificationController> myInfos) {
+        this.myInfos = myInfos;
+    }
+    
 }

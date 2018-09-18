@@ -60,8 +60,8 @@
                             <f:facet name="header">
                                 <h:outputText value="Action(s)"/>
                             </f:facet>
-                            <p:commandButton style="background-color: green; color: green;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
-                            <p:commandButton style="background-color: red; color: red;" action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
+                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
+                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
                             <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.delete}" update=":form_delete:fm_delete" icon="ui-icon-trash" oncomplete="PF('wv_delete').show()" />
                             <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.displa}" update=":form_display:fm_display" icon="ui-icon-document" oncomplete="PF('wv_display').show()" />
                         </p:column>

@@ -147,7 +147,9 @@
                             <p:outputLabel value="Type: #{produitController.produit.type}" />
                             <p:outputLabel value="Code: #{produitController.produit.code}" />
                             <p:outputLabel value="État:  #{produitController.produit.etat}" />
-                            <p:outputLabel value="État:  #{produitController.produit.idutilisateur.login}" />
+                            <p:outputLabel value="Proprietaire: #{produitController.produit.idutilisateur.login}" />
+                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
+                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
                         </h:panelGrid>
 
                         <h:panelGrid style="margin: auto;">

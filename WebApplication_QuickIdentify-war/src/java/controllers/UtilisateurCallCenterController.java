@@ -29,6 +29,7 @@ public class UtilisateurCallCenterController implements Serializable {
     private List<Agentcallcenter> agents = new ArrayList<>();
     private Agentcallcenter agent = new Agentcallcenter();
     private String operation;
+    private String text;
 
     /**
      * Creates a new instance of UtilisateurCallCenterController
@@ -191,6 +192,14 @@ public class UtilisateurCallCenterController implements Serializable {
 
     public void setOperation(String operation) {
         this.operation = operation;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
 }

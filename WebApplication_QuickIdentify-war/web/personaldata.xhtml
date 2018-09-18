@@ -21,41 +21,41 @@
                             <h:panelGrid id="input-details" columns="4" cellpadding="10">
                                 <p:outputLabel value="Nom(s) et prénom(s):" />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.currentUser.nom} #{sessionsController.currentUser.prenom}" />
-                                
+
                                 <p:outputLabel value="Date de naissance: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.datenais}" />
-                                
+
                                 <p:outputLabel value="Lieu de naissance: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.lieunais}" />
-                                
+
                                 <p:outputLabel value="Genre: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.genre}" />
-                                
+
                                 <p:outputLabel value="Numéro de téléphone: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.telephone}" />
-                                
+
                                 <p:outputLabel value="Nationalité: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.nationalite}" />
-                                
+
                                 <p:outputLabel value="Situation matrimoniale: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.situationmatrimoniale}" />
-                                
+
                                 <p:outputLabel value="Nom du père: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.nompere}" />
-                                
+
                                 <p:outputLabel value="Numéro du père: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.numpere}" />
-                                
+
                                 <p:outputLabel value="Nom de la mère: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.nommere}" />
-                                
+
                                 <p:outputLabel value="Numéro de la mère: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.nummere}" />
                             </h:panelGrid>
                         </p:panel>
                     </h:panelGrid>
                     <h:panelGrid style="margin: auto;">
-                        <p:commandButton partialSubmit="true" action="#{sessionsController.prepareCreate}" update=":form_data:fm_data" oncomplete="PF('wv_data').show()" icon="ui-icon-gear" value=" Modifier" />
+                        <p:commandButton partialSubmit="true" actionListener="#{sessionsController.instanciateNewIdentificationDocument}" update=":form_data:fm_data" oncomplete="PF('wv_data').show()" icon="ui-icon-gear" value=" Modifier" />
                     </h:panelGrid>
                 </h:form>
 
@@ -68,12 +68,12 @@
                         <h:panelGrid id="inputs" columns="4" cellspacing="10" cellpadding="5">
                             <p:outputLabel value="Nom(s):" for="nom" />
                             <p:inputText disabled="true" id="nom" value="#{sessionsController.currentUser.nom}" title="Nom" />
-                            
+
                             <p:outputLabel value="Prénom(s):" for="prenom" />
                             <p:inputText disabled="true" id="prenom" value="#{sessionsController.currentUser.prenom}" title="Prénom" />
 
                             <p:outputLabel value="Date de naissance:" for="datenais" />
-                            <p:calendar id="datenais" value="#{sessionsController.dossieridentification.datenais}" effect="fold" pages="10" required="true" requiredMessage="Champ obligatoire!" title="Datenais" >
+                            <p:calendar id="datenais" value="#{sessionsController.dossieridentification.datenais}" effect="fold" navigator="true" required="true" requiredMessage="Champ obligatoire!" title="Datenais" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
 
@@ -87,7 +87,7 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Téléphone:" for="telephone" />
-                            <p:inputText id="telephone" value="#{sessionsController.dossieridentification.telephone}" title="Telephone" />
+                            <p:keyboard id="telephone" keypadOnly="true" value="#{sessionsController.dossieridentification.telephone}" title="Telephone" />
 
                             <p:outputLabel value="Nationalité:" for="nationalite" />
                             <p:inputText id="nationalite" value="#{sessionsController.dossieridentification.nationalite}" title="Nationalite" />
@@ -103,17 +103,17 @@
                             <p:inputText id="nompere" value="#{sessionsController.dossieridentification.nompere}" title="Nompere" />
 
                             <p:outputLabel value="Numéro du père:" for="numpere" />
-                            <p:inputText id="numpere" value="#{sessionsController.dossieridentification.numpere}" title="Numpere" />
+                            <p:keyboard id="numpere" keypadOnly="true" value="#{sessionsController.dossieridentification.numpere}" title="Numero du pere" />
 
                             <p:outputLabel value="Nom de la mère:" for="nommere" />
                             <p:inputText id="nommere" value="#{sessionsController.dossieridentification.nommere}" title="Nommere" />
 
                             <p:outputLabel value="Numéro de la mère:" for="nummere" />
-                            <p:inputText id="nummere" value="#{sessionsController.dossieridentification.nummere}" title="Nummere" />
+                            <p:keyboard id="nummere" keypadOnly="true" value="#{sessionsController.dossieridentification.nummere}" title="Numero de la mere" />
 
-                            <p:outputLabel value="Photo:" for="photo" />
-                            <p:fileUpload id="photo" value="#{sessionsController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="100" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" requiredMessage="Veuillez inserer une photo..." />
-                        </h:panelGrid>
+                            <!--<p:outputLabel value="Photo:" for="photo" />
+                            <p:fileUpload id="photo" value="{sessionsController.file}" label="{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="100" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" requiredMessage="Veuillez inserer une photo..." />
+                            --></h:panelGrid>
                         <f:facet name="footer">
                             <center>
                                 <p:commandButton ajax="false" action="#{sessionsController.modifyDatas()}" update="inputs,:data_list:datas,:data_list:growl" icon="ui-icon-disk" value="Confirmer les changements" />

@@ -66,17 +66,17 @@
                             <f:facet name="header">
                                 <h:outputText value="Action(s)"/>
                             </f:facet>
-                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_data1:fm_personnel1" icon="ui-icon-pencil" oncomplete="PF('wv_personnel1').show()" />
-                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_data2:fm_personnel2" icon="ui-icon-trash" oncomplete="PF('wv_personnel2').show()" />
-                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_data3:fm_personnel3" icon="ui-icon-document" oncomplete="PF('wv_personnel').show()" />
-                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
-                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" rendered="#{sessionController2.modify}" update=":form_data1:fm_personnel1" icon="ui-icon-pencil" oncomplete="PF('wv_personnel1').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" rendered="#{sessionController2.delete}" update=":form_data2:fm_personnel2" icon="ui-icon-trash" oncomplete="PF('wv_personnel2').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" rendered="#{sessionController2.displa}" update=":form_data3:fm_personnel3" icon="ui-icon-document" oncomplete="PF('wv_personnel').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
                             <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_sendmail:fm_sendmail" icon="ui-icon-mail-closed" oncomplete="PF('wv_sendmail').show()" />
                         </p:column>
                     </p:dataTable>
                     <br />
                     <h:panelGrid style="margin: auto;">
-                        <p:commandButton partialSubmit="true" actionListener="#{utilisateurCallCenterController.prepareCreate}" update=":form_data:fm_personnel" oncomplete="PF('wv_personnel').show()" icon="ui-icon-plus" value=" Ajouter" />
+                        <p:commandButton partialSubmit="true" actionListener="#{utilisateurCallCenterController.prepareCreate}" rendered="#{sessionController2.add}" update=":form_data:fm_personnel" oncomplete="PF('wv_personnel').show()" icon="ui-icon-plus" value=" Ajouter" />
                     </h:panelGrid>
                 </h:form>
 
@@ -99,7 +99,7 @@
                             <p:inputText id="prenom" value="#{utilisateurCallCenterController.agent.prenom}" required="true" requiredMessage="Erreur!" title="Prenom" />
 
                             <p:outputLabel value="Date de naissance:" for="datenais" />
-                            <p:calendar id="datenais" value="#{utilisateurCallCenterController.agent.datenais}" effect="fold" pages="3" required="true" requiredMessage="Erreur!" title="Datenais" >
+                            <p:calendar id="datenais" value="#{utilisateurCallCenterController.agent.datenais}" effect="fold" navigator="true" required="true" requiredMessage="Erreur!" title="Datenais" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
 
@@ -113,14 +113,17 @@
                                 <f:selectItem itemLabel="Masculin" itemValue="Masculin" />
                             </p:selectOneMenu>
 
+                            <p:outputLabel value="Lieu de service" for="lieu" />
+                            <p:inputText id="lieu" value="#{utilisateurCallCenterController.agent.lieuservice}" title="Lieu de service" />
+
+                            <p:outputLabel value="Numero de telephone" for="tel" />
+                            <p:keyboard id="tel" keypadOnly="true" value="#{utilisateurCallCenterController.agent.telephone}" title="Numero de telephone" />
+
                             <p:outputLabel value="Login:" for="login" />
                             <p:inputText id="login" value="#{utilisateurCallCenterController.agent.login}" required="true" requiredMessage="Erreur!" title="Login" />
 
                             <p:outputLabel value="Password:" for="password" />
                             <p:password feedback="true" id="password" value="#{utilisateurCallCenterController.agent.password}" required="true" requiredMessage="Erreur!" title="Password" />
-
-                            <p:outputLabel value="Lieu de service" for="lieu" />
-                            <p:inputText id="lieu" value="#{utilisateurCallCenterController.agent.lieuservice}" title="Lieu de service" />
 
                             <p:outputLabel value="Fonction:" for="fonction" />
                             <p:selectOneMenu required="true" requiredMessage="Erreur!" id="fonction" value="#{utilisateurCallCenterController.agent.fonction}">
@@ -158,7 +161,7 @@
                             <p:inputText id="prenom" value="#{utilisateurCallCenterController.agent.prenom}" required="true" requiredMessage="Erreur!" title="Prenom" />
 
                             <p:outputLabel value="Date de naissance:" for="datenais" />
-                            <p:calendar id="datenais" value="#{utilisateurCallCenterController.agent.datenais}" effect="fold" pages="3" required="true" requiredMessage="Erreur!" title="Datenais" >
+                            <p:calendar id="datenais" value="#{utilisateurCallCenterController.agent.datenais}" effect="fold" locale="de" required="true" requiredMessage="Erreur!" title="Datenais" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
 
@@ -266,18 +269,23 @@
                     </p:dialog>
                 </h:form>
 
-                <!-- Envoyer un message a un utilisateur compte -->
+                <!-- Envoyer un message a un agent -->
                 <h:form id="form_sendmail">
                     <p:dialog showEffect="fold" id="fm_sendmail" modal="true" widgetVar="wv_sendmail">
                         <f:facet name="header">
                             <h:outputText value="Notifier un utilisateur" /> 
                         </f:facet>
-                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom} ?" />
+                        <h:panelGrid id="inputs-details" columns="2" cellspacing="10">
+                            <p:outputLabel value="Cible du message :" for="cible" />
+                            <h:outputText id="cible" style="font-weight: bold;" value="#{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom}" />
+
+                            <p:outputLabel value="Entrez votre message" for="editor" />
+                            <p:inputTextarea id="editor" rows="6" cols="33" widgetVar="editorWidget" />
                         </h:panelGrid>
-                        <h:panelGrid style="margin: auto;">
-                            <p:commandButton  update=":form_table:table,:form_table:growl" actionListener="#{utilisateurCallCenterController.sendMail()}"
-                                              partialSubmit="true" oncomplete="PF('wv_sendmail').hide()" icon="ui-icon-transfer-e-w" value="Envoyer" />
+                        <h:panelGrid columns="1" style="margin: auto;">
+                            <p:commandButton  update=":form_table:table,:form_table:growl" action="#{utilisateurCallCenterController.sendMail()}"
+                                              partialSubmit="true" oncomplete="PF('wv_sendmail').hide()" 
+                                              icon="ui-icon-transfer-e-w" value="Envoyer" />
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>

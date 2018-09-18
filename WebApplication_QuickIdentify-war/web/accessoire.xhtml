@@ -59,7 +59,7 @@
                         <f:facet name="header">
                             <h:outputText value="Liez votre compte à un produit" /> 
                         </f:facet>
-                        <h:panelGrid id="inputs" columns="1" cellspacing="10" cellpadding="5">
+                        <h:panelGrid id="inputs" columns="2" cellspacing="10" cellpadding="5">
                             <p:outputLabel value="Selectionnez le code figurant sur l'accessoire: " for="cp" />
                             <p:selectOneMenu id="cp" value="#{accessoireController.accessoire.idproduit}" required="true" requiredMessage="The Idutilisateur field is required.">
                                 <!-- TODO: update below reference to list of available items -->
@@ -68,7 +68,7 @@
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton update="inputs,:form_table:table,:form_table:growl" value="OK" />
+                                <p:commandButton partialSubmit="true" update="inputs,:form_table:table,:form_table:growl" value="OK" />
                             </center>
                         </f:facet>
                     </p:dialog>

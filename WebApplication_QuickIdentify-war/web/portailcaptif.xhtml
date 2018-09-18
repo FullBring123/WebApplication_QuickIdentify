@@ -70,17 +70,19 @@
 
                     <p:outputLabel value="Login:" for="login" />
                     <p:inputText placeholder="Login" id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
-                    
+
                     <p:outputLabel value="Email: (accessible)" for="email" />
-                    <p:inputText id="email" placeholder="Adresse-mail" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
+                    <p:inputText id="email" placeholder="Adresse-mail" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email">
+                        <f:validateRegex pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]{2,}.[a-z]{2,4}$" />
+                    </p:inputText>
 
                     <p:outputLabel value="Mot de passe:" for="password" />
                     <p:password placeholder="Mot de passe" feedback="true" id="password" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Saisie erronée!" title="Password" />
-                    
+
                     <p:outputLabel value="Photo:" for="photo" />
                     <p:fileUpload id="photo" value="#{utilisateurController.file}" mode="simple" dragDropSupport="false" fileLimit="3" sizeLimit="2048" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
 
-                    </h:panelGrid>
+                </h:panelGrid>
                 <f:facet name="footer">
                     <center>
                         <p:commandButton ajax="false" action="#{utilisateurController.createUser()}" update="inputs,:form_session:basic,:form_session:growl" value="Enregistrer" icon="ui-icon-disk" />
@@ -93,8 +95,11 @@
             <p:menubar style="margin-top: 65pt;">
                 <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
                 <f:facet name="options">
-                    <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">
+<!--                    <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">
                         <f:param name="no" value="2" />
+                    </p:button>-->
+                    <p:button value="Personnels Call Center" outcome="/portailcaptif2">
+                        <f:param name="no" value="3" />
                     </p:button>
                 </f:facet>
             </p:menubar>

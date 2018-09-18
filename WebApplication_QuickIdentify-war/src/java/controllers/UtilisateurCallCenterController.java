@@ -152,6 +152,14 @@ public class UtilisateurCallCenterController implements Serializable {
             init();
         }
     }
+    
+    public String setColor(String status) {
+        return (status.equals("Actif") ? "green" : "red");
+    }
+    
+    public void sendMail() {
+        
+    }
 
     public AgentcallcenterFacadeLocal getAgentcallcenterFacade() {
         return agentcallcenterFacade;

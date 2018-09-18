@@ -62,11 +62,17 @@
                 </f:facet>
                 <h:panelGrid id="inputs" columns="2" cellpadding="5">
 
+                    <p:outputLabel value="Nom(s):" for="nom" />
+                    <p:inputText id="nom" placeholder="Nom(s)" value="#{utilisateurController.utilisateur.nom}" required="true" requiredMessage="Saisie erronée!" title="Nom(s)" />
+
+                    <p:outputLabel value="Prenom(s):" for="prenom" />
+                    <p:inputText id="prenom" placeholder="Prenom(s)" value="#{utilisateurController.utilisateur.prenom}" required="true" requiredMessage="Saisie erronée!" title="prenom" />
+
                     <p:outputLabel value="Login:" for="login" />
-                    <p:inputText placeholder="Pseudo ou Nom de famille" id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
+                    <p:inputText placeholder="Login" id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
                     
                     <p:outputLabel value="Email: (accessible)" for="email" />
-                    <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
+                    <p:inputText id="email" placeholder="Adresse-mail" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email" />
 
                     <p:outputLabel value="Mot de passe:" for="password" />
                     <p:password placeholder="Mot de passe" feedback="true" id="password" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Saisie erronée!" title="Password" />

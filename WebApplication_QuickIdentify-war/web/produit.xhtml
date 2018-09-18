@@ -107,7 +107,7 @@
                             <p:outputLabel value="Utilisateur:" for="idutilisateur" />
                             <p:selectOneMenu id="idutilisateur" value="#{produitController.produit.idutilisateur.idutilisateur}" required="true" requiredMessage="The Idutilisateur field is required.">
                                 <!-- TODO: update below reference to list of available items-->
-                                <f:selectItems itemLabel="#{fk_user.login}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
+                                <f:selectItems itemLabel="#{fk_user.nom} #{fk_user.prenom}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
 

@@ -97,6 +97,8 @@ public class UtilisateurController implements Serializable {
             init();
         }
     }
+    
+    
 
     public void createUser() {
         try {
@@ -116,8 +118,12 @@ public class UtilisateurController implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec de l'opération!", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec de l'opération!", e.getMessage()));
         }
+    }
+    
+    public String setColor(String state) {
+        return (state.equals("Actif") ? "green" : "red");
     }
 
 //    public void editUser() {
@@ -152,9 +158,12 @@ public class UtilisateurController implements Serializable {
             RequestContext.getCurrentInstance().execute("PF('wv_delete').hide()");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Lourde Erreur!", "Échec de l'opération!"));
         } finally {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Rien ne s'est passe!", ""));
             init();
         }
+    }
+    
+    public void notifyUser() {
+        
     }
 
     public UtilisateurFacadeLocal getUtilisateurFacade() {

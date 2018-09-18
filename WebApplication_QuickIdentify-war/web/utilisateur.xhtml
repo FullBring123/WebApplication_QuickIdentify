@@ -34,13 +34,13 @@
                 <p:menuitem value="Mes informations" action="personaldata.xhtml?faces-redirect=true" icon="ui-icon-clipboard" />
                 <p:menuitem value="Accessoires" action="accessoire.xhtml?faces-redirect=true" icon="ui-icon-bookmark" />
                 <p:submenu icon="ui-icon-key" label="Mon compte">
-                    <p:menuitem value="Profil" action="profil.xhtml?faces-redirect=true" icon="ui-icon-person" />
+                    <p:menuitem value="Profil" action="profil_utilisateur.xhtml?faces-redirect=true" icon="ui-icon-person" />
                     <p:menuitem value="Paramètres" action="settings.xhtml?faces-redirect=true" icon="ui-icon-gear" />
                     <p:separator />
                     <p:menuitem value="Déconnexion" actionListener="#{sessionsController.disconnectUser()}" icon="ui-icon-extlink" />
                 </p:submenu>
                 <f:facet name="options">
-                    <p:commandButton style="color: green; font-family: arial;" value="Bienvenue, #{sessionsController.currentUser.login}" />
+                    <p:commandButton style="color: green; font-family: arial;" value="Bienvenue, #{sessionsController.currentUser.nom} #{sessionsController.currentUser.prenom}" />
                     <p:commandButton icon="ui-icon-mail" value="Message" />
                     <p:commandButton value="Français" />
                 </f:facet>

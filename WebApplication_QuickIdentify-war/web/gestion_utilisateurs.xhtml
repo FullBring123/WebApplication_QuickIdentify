@@ -22,6 +22,18 @@
                     <p:dataTable id="table" value="#{utilisateurController.utilisateurs}" sortMode="multiple" var="item">
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="Nom(s)"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Prenom(s)"/>
+                            </f:facet>
+                            <h:outputText value="#{item.prenom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="Login"/>
                             </f:facet>
                             <h:outputText value="#{item.login}"/>
@@ -42,7 +54,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Etat"/>
                             </f:facet>
-                            <h:outputText value="#{item.etat}"/>
+                            <h:outputText value="#{item.etat}" style="color: #{utilisateurController.setColor(item.etat)}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -63,7 +75,7 @@
                             <h:outputText value="Activer le compte" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Voulez-vous vraiment activer le compte de #{utilisateurController.utilisateur.login} ?" />
+                            <p:outputLabel value="Voulez-vous vraiment activer le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
                             <p:commandButton action="#{utilisateurController.activateAccount()}" update=":table_user:table,:table_user:growl" partialSubmit="true" oncomplete="PF('wv_enable').hide()" value="Activer" />
@@ -78,7 +90,7 @@
                             <h:outputText value="Désactiver le compte" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurController.utilisateur.login} ?" />
+                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
                             <p:commandButton update=":table_user:table,:table_user:growl" action="#{utilisateurController.deactivateAccount()}" partialSubmit="true" oncomplete="PF('wv_disable').hide()" value="Désactiver" />
@@ -93,7 +105,7 @@
                             <h:outputText value="Supprimer le compte" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Voulez-vous vraiment supprimer le compte de #{utilisateurController.utilisateur.login} ?" />
+                            <p:outputLabel value="Voulez-vous vraiment supprimer le compte de #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom} ?" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
                             <p:commandButton update=":table_user:table,:table_user:growl" action="#{utilisateurController.removeUser()}" partialSubmit="true" oncomplete="PF('wv_delete').hide()" value="Supprimer" />
@@ -108,13 +120,28 @@
                             <h:outputText value="Détails" /> 
                         </f:facet>
                         <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
-                            <p:outputLabel value="Login: #{utilisateurController.utilisateur.login}" />
+                            <p:outputLabel value="Nom(s) et prenom(s): #{utilisateurController.utilisateur.nom} #{utilisateurController.utilisateur.prenom}" />
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
                             <p:commandButton partialSubmit="true" oncomplete="PF('wv_display').hide()" value="OK" />
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>
+
+                <!-- Notifier un consommateur 
+                <h:form id="form_notify">
+                    <p:dialog showEffect="fold" id="fm_notify" modal="true" widgetVar="wv_notify">
+                        <f:facet name="header">
+                            <h:outputText value="Notifications" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton action="{utilisateurController.notifyUser()}" partialSubmit="true" update=":table_user:table,:table_user:growl" oncomplete="PF('wv_notify').hide()" icon="ui-icon-transferthick-e-w" value=" Envoyer" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>-->
 
             </ui:define>
 

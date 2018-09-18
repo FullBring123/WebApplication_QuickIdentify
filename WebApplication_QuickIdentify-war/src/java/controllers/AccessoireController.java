@@ -21,8 +21,8 @@ import sessions.ProduitFacadeLocal;
 public class AccessoireController {
     
     @EJB
-    private ProduitFacadeLocal produitFacade;
-    private Produit produit = new Produit();
+    private ProduitFacadeLocal accessoireFacade;
+    private Produit accessoire = new Produit();
     private List<Produit> mesAccessoires = new ArrayList<>();
     private String operation;
 
@@ -35,11 +35,11 @@ public class AccessoireController {
     @PostConstruct
     public void init() {
         mesAccessoires.clear();
-        mesAccessoires.addAll(produitFacade.findByLinkedProduits());
+        mesAccessoires.addAll(accessoireFacade.findAll());
     }
     
     public void searchAccessoire(int id) {
-        produit = produitFacade.find(id);
+        accessoire = accessoireFacade.find(id);
     }
     
     public void action(ActionEvent e) {
@@ -47,20 +47,20 @@ public class AccessoireController {
         operation = button.getWidgetVar();
     }
 
-    public ProduitFacadeLocal getProduitFacade() {
-        return produitFacade;
+    public ProduitFacadeLocal getAccessoireFacade() {
+        return accessoireFacade;
     }
 
-    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
-        this.produitFacade = produitFacade;
+    public void setAccessoireFacade(ProduitFacadeLocal accessoireFacade) {
+        this.accessoireFacade = accessoireFacade;
     }
 
-    public Produit getProduit() {
-        return produit;
+    public Produit getAccessoire() {
+        return accessoire;
     }
 
-    public void setProduit(Produit produit) {
-        this.produit = produit;
+    public void setAccessoire(Produit accessoire) {
+        this.accessoire = accessoire;
     }
 
     public List<Produit> getMesAccessoires() {

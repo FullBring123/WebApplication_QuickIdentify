@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
     , @NamedQuery(name = "Utilisateur.nextId", query = "SELECT MAX(u.idutilisateur) FROM Utilisateur u")
     , @NamedQuery(name = "Utilisateur.findByIdutilisateur", query = "SELECT u FROM Utilisateur u WHERE u.idutilisateur = :idutilisateur")
+    , @NamedQuery(name = "Utilisateur.findByNom", query = "SELECT u FROM Utilisateur u WHERE u.nom = :nom")
+    , @NamedQuery(name = "Utilisateur.findByPrenom", query = "SELECT u FROM Utilisateur u WHERE u.prenom = :prenom")
     , @NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.login = :login")
     , @NamedQuery(name = "Utilisateur.findByPassword", query = "SELECT u FROM Utilisateur u WHERE u.password = :password")
     , @NamedQuery(name = "Utilisateur.findByEmail", query = "SELECT u FROM Utilisateur u WHERE u.email = :email")
@@ -41,6 +43,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Utilisateur.findByEtat", query = "SELECT u FROM Utilisateur u WHERE u.etat = :etat")
     , @NamedQuery(name = "Utilisateur.findByLoginPassword", query = "SELECT u FROM Utilisateur u WHERE u.login = :login AND u.password = :password")})
 public class Utilisateur implements Serializable {
+
+    @Size(max = 254)
+    @Column(name = "nom")
+    private String nom;
+    @Size(max = 245)
+    @Column(name = "prenom")
+    private String prenom;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -187,6 +196,22 @@ public class Utilisateur implements Serializable {
     @Override
     public String toString() {
         return "entities.Utilisateur[ idutilisateur=" + idutilisateur + " ]";
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
     
 }

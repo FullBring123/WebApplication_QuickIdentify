@@ -19,6 +19,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 import sessions.DossieridentificationFacadeLocal;
 import sessions.UtilisateurFacadeLocal;
@@ -45,6 +46,7 @@ public class SessionsController implements Serializable {
     private Utilisateur admin = new Utilisateur();
     private List<Utilisateur> users = new ArrayList<>();
     private UploadedFile file;
+    private UploadedFile profilep;
     private String operation;
 
     /**
@@ -116,8 +118,19 @@ public class SessionsController implements Serializable {
         try {
             dossieridentification.setIddossier(dossieridentificationFacade.nextId());
             dossieridentification.setIdutilisateur(getCurrentUser());
+            dossieridentification.setNom(currentUser.getNom());
+            dossieridentification.setPrenom(currentUser.getPrenom());
             dossieridentification.setNumcni(0);
-            dossieridentification.setNumrecepisse(10);
+            dossieridentification.setNumrecepisse(0);
+            dossieridentification.setLieunais(dossieridentification.getLieunais());
+            dossieridentification.setGenre(dossieridentification.getGenre());
+            dossieridentification.setNationalite(dossieridentification.getNationalite());
+            dossieridentification.setNommere(dossieridentification.getNommere());
+            dossieridentification.setNummere(dossieridentification.getNummere());
+            dossieridentification.setNompere(dossieridentification.getNompere());
+            dossieridentification.setNumpere(dossieridentification.getNumpere());
+            dossieridentification.setSituationmatrimoniale(dossieridentification.getSituationmatrimoniale());
+            dossieridentification.setTelephone(dossieridentification.getTelephone());
             String nom = file.getFileName();
             InputStream inputStream = file.getInputstream();
             String uploads = "C:\\Users\\PC\\Desktop\\Système de collecte d'informations QRCODE\\Photos";
@@ -128,6 +141,23 @@ public class SessionsController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec de l'opération", "Vos informations n'ont pas pu être editees!"));
+        }
+    }
+    
+    public void editProfile() {
+        try {
+            currentUser.setLogin(currentUser.getLogin());
+            currentUser.setPassword(currentUser.getPassword());
+            String nomphoto = profilep.getFileName();
+            InputStream inputStream = profilep.getInputstream();
+            String uploads1 = "C:\\Users\\PC\\Desktop\\Système de collecte d'informations QRCODE\\Photos";
+            Files.copy(inputStream, new File(uploads1, nomphoto).toPath());
+            currentUser.setPhoto(nomphoto);
+            currentUserFacade.edit(currentUser);
+            RequestContext.getCurrentInstance().execute("PF('wv_editprofile').hide()");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "OK", "Profil Modifie!"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Votre profil n'a pu être modifie!", e.getLocalizedMessage()));
         }
     }
 
@@ -239,6 +269,7 @@ public class SessionsController implements Serializable {
     public void setDossier(Dossieridentification dossier) {
         this.dossier = dossier;
     }
+    
 //
 //    public ProduitFacadeLocal getProduitFacade() {
 //        return produitFacade;
@@ -263,4 +294,12 @@ public class SessionsController implements Serializable {
 //    public void setMesProduits(List<Produit> mesProduits) {
 //        this.mesProduits = mesProduits;
 //    }
+
+    public UploadedFile getProfilep() {
+        return profilep;
+    }
+
+    public void setProfilep(UploadedFile profilep) {
+        this.profilep = profilep;
+    }
 }

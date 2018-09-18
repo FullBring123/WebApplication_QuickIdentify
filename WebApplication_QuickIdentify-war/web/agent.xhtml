@@ -60,7 +60,7 @@
                             <f:facet name="header">
                                 <h:outputText value="État"/>
                             </f:facet>
-                            <h:outputText value="#{item.etat}"/>
+                            <h:outputText value="#{item.etat}" style="color: #{utilisateurCallCenterController.setColor(item.etat)}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -71,6 +71,7 @@
                             <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_data3:fm_personnel3" icon="ui-icon-document" oncomplete="PF('wv_personnel').show()" />
                             <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
                             <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
+                            <p:commandButton action="#{utilisateurCallCenterController.searchIdPersonnel(item.id)}" update=":form_sendmail:fm_sendmail" icon="ui-icon-mail-closed" oncomplete="PF('wv_sendmail').show()" />
                         </p:column>
                     </p:dataTable>
                     <br />
@@ -261,6 +262,22 @@
                         </h:panelGrid>
                         <h:panelGrid style="margin: auto;">
                             <p:commandButton  update=":form_table:table,:form_table:growl" actionListener="#{utilisateurCallCenterController.deactivate()}" partialSubmit="true" oncomplete="PF('wv_disable').hide()" icon="ui-icon-closethick" value="Désactiver" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Envoyer un message a un utilisateur compte -->
+                <h:form id="form_sendmail">
+                    <p:dialog showEffect="fold" id="fm_sendmail" modal="true" widgetVar="wv_sendmail">
+                        <f:facet name="header">
+                            <h:outputText value="Notifier un utilisateur" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment désactiver le compte de #{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton  update=":form_table:table,:form_table:growl" actionListener="#{utilisateurCallCenterController.sendMail()}"
+                                              partialSubmit="true" oncomplete="PF('wv_sendmail').hide()" icon="ui-icon-transfer-e-w" value="Envoyer" />
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>

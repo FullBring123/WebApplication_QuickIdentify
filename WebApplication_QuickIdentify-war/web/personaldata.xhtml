@@ -16,11 +16,11 @@
                     <p:growl id="growl" showDetail="true" />
 
                     <h:panelGrid columns="2" cellspacing="50" style="margin: auto;">
-                        <img id="avatar" style="float: right;" src="#{request.contextPath}/ImagesController/#{sessionsController.currentUser.photo}" height="200" alt="Votre photo de profil" />
+                        <img id="avatar" style="float: right;" src="#{request.contextPath}/ImagesController/#{sessionsController.currentUser.photo}" height="200" alt="Photo issue de votre dossier d'identification" />
                         <p:panel id="datas" header="Mes informations personnelles">
-                            <h:panelGrid id="input-details" columns="4" cellspacing='5' cellpadding="10">
+                            <h:panelGrid id="input-details" columns="4" cellpadding="10">
                                 <p:outputLabel value="Nom(s) et prénom(s):" />
-                                <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.nom} #{sessionsController.dossieridentification.prenom}" />
+                                <h:outputText style="font-weight: bold;" value="#{sessionsController.currentUser.nom} #{sessionsController.currentUser.prenom}" />
                                 
                                 <p:outputLabel value="Date de naissance: " />
                                 <h:outputText style="font-weight: bold;" value="#{sessionsController.dossieridentification.datenais}" />
@@ -55,7 +55,7 @@
                         </p:panel>
                     </h:panelGrid>
                     <h:panelGrid style="margin: auto;">
-                        <p:commandButton partialSubmit="true" action="#{sessionsController.getId_DataSession(sessionsController.currentUser.idutilisateur)}" update=":form_data:fm_data" oncomplete="PF('wv_data').show()" icon="ui-icon-gear" value=" Modifier" />
+                        <p:commandButton partialSubmit="true" action="#{sessionsController.prepareCreate}" update=":form_data:fm_data" oncomplete="PF('wv_data').show()" icon="ui-icon-gear" value=" Modifier" />
                     </h:panelGrid>
                 </h:form>
 
@@ -67,13 +67,13 @@
                         </f:facet>
                         <h:panelGrid id="inputs" columns="4" cellspacing="10" cellpadding="5">
                             <p:outputLabel value="Nom(s):" for="nom" />
-                            <p:inputText id="nom" value="#{sessionsController.dossieridentification.nom}" title="Nom" />
+                            <p:inputText disabled="true" id="nom" value="#{sessionsController.currentUser.nom}" title="Nom" />
                             
                             <p:outputLabel value="Prénom(s):" for="prenom" />
-                            <p:inputText id="prenom" value="#{sessionsController.dossieridentification.prenom}" title="Prénom" />
+                            <p:inputText disabled="true" id="prenom" value="#{sessionsController.currentUser.prenom}" title="Prénom" />
 
                             <p:outputLabel value="Date de naissance:" for="datenais" />
-                            <p:calendar id="datenais" value="#{sessionsController.dossieridentification.datenais}" effect="fold" pages="3" required="true" requiredMessage="Champ obligatoire!" title="Datenais" >
+                            <p:calendar id="datenais" value="#{sessionsController.dossieridentification.datenais}" effect="fold" pages="10" required="true" requiredMessage="Champ obligatoire!" title="Datenais" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:calendar>
 

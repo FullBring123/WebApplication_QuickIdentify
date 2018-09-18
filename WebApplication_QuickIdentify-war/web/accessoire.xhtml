@@ -61,7 +61,7 @@
                         </f:facet>
                         <h:panelGrid id="inputs" columns="1" cellspacing="10" cellpadding="5">
                             <p:outputLabel value="Selectionnez le code figurant sur l'accessoire: " for="cp" />
-                            <p:selectOneMenu id="cp" value="#{accessoireController.produit.idproduit}" required="true" requiredMessage="The Idutilisateur field is required.">
+                            <p:selectOneMenu id="cp" value="#{accessoireController.accessoire.idproduit}" required="true" requiredMessage="The Idutilisateur field is required.">
                                 <!-- TODO: update below reference to list of available items -->
                                 <f:selectItems itemLabel="#{filterproducts.type} - #{filterproducts.code}" itemValue="#{filterproducts.idproduit}" value="#{accessoireController.mesAccessoires}" var="filterproducts"/>
                             </p:selectOneMenu>

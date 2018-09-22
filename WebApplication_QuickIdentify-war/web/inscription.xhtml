@@ -5,47 +5,134 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <!-- <f:metadata>
-        <f:viewParam name="no" value="{page1.no}" />
-    </f:metadata> -->
+    <f:metadata>
+        <f:viewParam name="no" value="#{page1.no}" />
+    </f:metadata> 
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="resources/css/css2/cssLayout.css" rel="stylesheet" type="text/css"/>
-        <link href="resources/css/default.css" rel="stylesheet" type="text/css"/>
-        <title>Inscription</title>
+        <title>QuickIdentify - Nouveau consommateur</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--===============================================================================================-->	
+        <link rel="icon" type="image/png" href="resources/images/favicon.ico" />
+        <!--===============================================================================================-->
+        <link href="resources/css/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="cs/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" />
+        <!--===============================================================================================-->
+        <link href="resources/css/css/animate.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->	
+        <link href="resources/css/css/hamburgers.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/animsition.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/select2.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->	
+        <link href="resources/css/css/daterangepicker.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/util.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/css/main.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
     </h:head>
-    <h:body>
+    <h:body style="background-color: #666666;">
 
+        <h:form class="login100-form validate-form" id="form_user" enctype="multipart/form-data">
 
-
-        <h:form id="form_user" enctype="multipart/form-data">
             <p:growl id="growl" showDetail="true" life="3000" />
-            <h1><h:outputText value="Create/Edit"/></h1>
-            <h:panelGrid id="inputs" columns="2">
-                <p:outputLabel value="Login:" for="login" />
-                <p:inputText id="login" value="#{utilisateurController.utilisateur.login}" title="Login" />
-                <p:outputLabel value="Password:" for="password" />
-                <p:password id="password" feedback="true" value="#{utilisateurController.utilisateur.password}" title="Password" />
-                <p:outputLabel value="Email:" for="email" />
-                <p:inputText id="email" value="#{utilisateurController.utilisateur.email}" title="Email" />
-                <p:outputLabel value="Photo:" for="photo" />
-                <p:fileUpload id="photo" value="#{utilisateurController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="3000000" fileLimit="3" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" />
-            </h:panelGrid>
-            <p:commandButton ajax="false" update="inputs,growl" action="#{utilisateurController.createUser()}" value="Enregistrer" icon="ui-icon-disk" />
+
+            <span class="login100-form-title p-b-43">
+                Formulaire d'inscription
+            </span>
+
+            <div class="wrap-input100 validate-input" data-validate = "Le champ Nom(s) est obligatoire!">
+                <h:inputText class="input100" value="#{utilisateurController.utilisateur.nom}" required="true" requiredMessage="Champ vide ou saisie erronee!" />
+                <span class="focus-input100"></span>
+                <span class="label-input100">Nom(s)</span>
+            </div>
+            
+            <div class="wrap-input100 validate-input" data-validate = "Le champ Prénom(s) est obligatoire!">
+                <h:inputText class="input100" value="#{utilisateurController.utilisateur.prenom}" required="true" requiredMessage="Champ vide ou saisie erronee!" />
+                <span class="focus-input100"></span>
+                <span class="label-input100">Prénom(s)</span>
+            </div>
+            
+            <div class="wrap-input100 validate-input" data-validate = "Le champ Email est obligatoire!">
+                <h:inputText class="input100" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Champ vide ou saisie erronee!">
+                    <f:validateRegex pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]{2,}.[a-z]{2,4}$" />
+                </h:inputText>
+                <span class="focus-input100"></span>
+                <span class="label-input100">Email</span>
+            </div>
+            
+            <div class="wrap-input100 validate-input" data-validate = "Le champ Login est obligatoire!">
+                <h:inputText class="input100" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Champ vide ou saisie erronee!" />
+                <span class="focus-input100"></span>
+                <span class="label-input100">Login</span>
+            </div>
+            
+            <div class="wrap-input100 validate-input" data-validate = "Le champ Mot de passe est obligatoire!">
+                <h:inputText class="input100" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Champ vide ou saisie erronee!" />
+                <span class="focus-input100"></span>
+                <span class="label-input100">Mot de passe</span>
+            </div>
+            <!--            <div class="wrap-input100 validate-input" data-validate = "Ce champ est obligatoire!">
+                            <h:inputText class="input100" value="{utilisateurController.utilisateur.password}" required="true" requiredMessage="Champ vide ou saisie erronee!" />
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Confirmer le mot de passe</span>
+                        </div>-->
+
+            <div class="wrap-input100 validate-input" data-validate = "Le champ Mot de passe est obligatoire!">
+                <p:fileUpload class="input100" value="#{utilisateurController.file}" label="#{lp.choisir}" mode="simple" dragDropSupport="false" sizeLimit="3000000" fileLimit="3" allowTypes="/(\.|\/) (gif|png|jpg\bitmap)$/" required="true" requiredMessage="Champ vide ou saisie erronee!" />
+                <span class="focus-input100"></span>
+                <span class="label-input100">Éditez une photo</span>
+            </div>
+
+            <div class="container-login100-form-btn">
+                <p:commandButton id="ok" ajax="false" update=":form_user:growl" class="login100-form-btn" action="#{utilisateurController.createUser()}" value="Enregistrer" />
+            </div>
+            
+            
+            <div style="margin-top: 20pt;" class="login100-form-social flex-c-m">
+                <p:link value="Page d'accueil" class="txt1" outcome="/portailcaptif">
+                    <f:param name="no" value="0" />
+                </p:link>
+            </div>
+
+            <p:defaultCommand target="ok" />
         </h:form>
 
 
-        <h:form>
-            <p:menubar style="margin-top: 90pt;">
-                <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
-                <f:facet name="options">
-                    <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">
-                        <f:param name="no" value="2" />
-                    </p:button>
-                </f:facet>
-            </p:menubar>
-        </h:form>
+
+        <!--        <h:form>
+                    <p:menubar style="margin-top: 90pt;">
+                        <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
+                        <f:facet name="options">
+                            <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">
+                                <f:param name="no" value="2" />
+                            </p:button>
+                        </f:facet>
+                    </p:menubar>
+                </h:form>-->
+
+
+        <!--===============================================================================================-->
+        <script src="resources/css/js/jquery.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/animsition.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/popper.js" type="text/javascript"></script>
+        <script src="resources/css/js/bootstrap.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/select2.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/moment.min.js" type="text/javascript"></script>
+        <script src="resources/css/js/daterangepicker.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/countdowntime.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/main_1.js" type="text/javascript"></script>
     </h:body>
 </html>
 

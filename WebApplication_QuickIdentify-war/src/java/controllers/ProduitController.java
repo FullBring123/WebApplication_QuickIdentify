@@ -6,6 +6,7 @@
 package controllers;
 
 import entities.Produit;
+import entities.Utilisateur;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import sessions.ProduitFacadeLocal;
+import sessions.UtilisateurFacadeLocal;
 
 /**
  *
@@ -25,11 +27,13 @@ import sessions.ProduitFacadeLocal;
 public class ProduitController implements Serializable {
 
     @EJB
+    private UtilisateurFacadeLocal utilisateurFacade;
+    private Utilisateur user = new Utilisateur();
+
+    @EJB
     private ProduitFacadeLocal produitFacade;
     private List<Produit> produits = new ArrayList<>();
-    private List<Produit> mesProduits = new ArrayList<>();
     private Produit produit = new Produit();
-    private String msg;
     private String operation;
 
     /**
@@ -44,20 +48,13 @@ public class ProduitController implements Serializable {
         produits.addAll(produitFacade.findAll());
     }
 
-    public void init2() {
-        mesProduits.clear();
-        mesProduits.addAll(produitFacade.findByLinkedProduits());
-    }
-
     public void action(ActionEvent e) {
         CommandButton btn = (CommandButton) e.getSource();
         operation = btn.getWidgetVar();
-        msg = "";
     }
 
     public void prepareCreate(ActionEvent e) {
         produit = new Produit();
-        msg = "";
         action(e);
     }
 
@@ -67,13 +64,25 @@ public class ProduitController implements Serializable {
 
     public void createProd() {
         try {
+            Utilisateur userSelected = utilisateurFacade.find(user.getIdutilisateur());
             if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
-                produit.setIdproduit(produit.getIdproduit());
-                produit.setIdutilisateur(produit.getIdutilisateur());
-                produit.setEtat("Actif");
-                produitFacade.create(produit);
-                RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
+                if (userSelected != null) {
+                    produit.setIdproduit(produitFacade.nextId());
+                    produit.setIdutilisateur(userSelected);
+                    produit.setEtat("Actif");
+                    produit.setCode(produit.getCode());
+                    produitFacade.create(produit);
+                    RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
+                } else {
+                    user = utilisateurFacade.find(user.getIdutilisateur());
+                    produit.setIdproduit(produitFacade.nextId());
+                    produit.setEtat("Actif");
+                    produitFacade.create(produit);
+                    RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
+                }
+
             } else {
                 RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur!", "Attention!!! Ce code a déja été attribué à un produit!"));
@@ -89,16 +98,11 @@ public class ProduitController implements Serializable {
 
     public void editProd() {
         try {
-            if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
-                produit.setIdproduit(produit.getIdproduit());
-                produit.setIdutilisateur(produit.getIdutilisateur());
-                produitFacade.edit(produit);
-                RequestContext.getCurrentInstance().execute("PF('wv_produit1').hide()");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
-            } else {
-                RequestContext.getCurrentInstance().execute("PF('wv_produit1').hide()");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur!", "Attention!!! Ce code a déja été attribué à un produit!"));
-            }
+            produit.setIdproduit(produit.getIdproduit());
+            produit.setIdutilisateur(produit.getIdutilisateur());
+            produitFacade.edit(produit);
+            RequestContext.getCurrentInstance().execute("PF('wv_produit1').hide()");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
         } catch (Exception e) {
             e.printStackTrace();
             RequestContext.getCurrentInstance().execute("PF('wv_produit1').hide()");
@@ -122,25 +126,71 @@ public class ProduitController implements Serializable {
         }
     }
 
-    public void linkProducts() {
+    public String setColor(String state) {
+        return (state.equals("Actif") ? "green" : "red");
+    }
+
+    public void activate() {
         try {
-            if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
-                produit.setIdproduit(produitFacade.nextId());
-                produit.setIdutilisateur(produit.getIdutilisateur());
-                produit.setCode(produit.getCode());
-                produitFacade.edit(produit);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Liaison etablie", "Ce produit est desormais lie a votre compte"));
+            if (produit.getEtat().equals("Inactif")) {
+                produitFacade.activateProduit(produit.getIdproduit());
+                RequestContext.getCurrentInstance().execute("PF('wv_produit4').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Opération effectuée!", "Le produit a été activé!"));
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "Ce produit est deja lie a un autre compte!"));
+                RequestContext.getCurrentInstance().execute("PF('wv_produit4').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Activation impossible!", "Cet produit a déjà été activé!"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erreur lors de la liaison!", "Nous n'avons pu lier votre compte a ce produit"));
         } finally {
-            init2();
+            init();
         }
     }
 
+    public void deactivate() {
+        try {
+            if (produit.getEtat().equals("Actif")) {
+                produitFacade.deactivateProduit(produit.getIdproduit());
+                RequestContext.getCurrentInstance().execute("PF('wv_produit5').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Opération effectuée!", "Le produit a été désactivé!"));
+            } else {
+                RequestContext.getCurrentInstance().execute("PF('wv_produit5').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Désactivation impossible!", "Cet produit a déjà été désactivé!"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            init();
+        }
+    }
+    
+    public void persist() {
+        switch (operation) {
+            case "edit" :
+                createProd();
+                break;
+        }
+    }
+
+//
+//    public void linkProducts() {
+//        try {
+//            if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
+//                produit.setIdproduit(produitFacade.nextId());
+//                produit.setIdutilisateur(produit.getIdutilisateur());
+//                produit.setCode(produit.getCode());
+//                produitFacade.edit(produit);
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Liaison etablie", "Ce produit est desormais lie a votre compte"));
+//            } else {
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "Ce produit est deja lie a un autre compte!"));
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erreur lors de la liaison!", "Nous n'avons pu lier votre compte a ce produit"));
+//        } finally {
+//            init2();
+//        }
+//    }
     public ProduitFacadeLocal getProduitFacade() {
         return produitFacade;
     }
@@ -165,14 +215,6 @@ public class ProduitController implements Serializable {
         this.produit = produit;
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
     public String getOperation() {
         return operation;
     }
@@ -181,12 +223,20 @@ public class ProduitController implements Serializable {
         this.operation = operation;
     }
 
-    public List<Produit> getMesProduits() {
-        return mesProduits;
+    public UtilisateurFacadeLocal getUtilisateurFacade() {
+        return utilisateurFacade;
     }
 
-    public void setMesProduits(List<Produit> mesProduits) {
-        this.mesProduits = mesProduits;
+    public void setUtilisateurFacade(UtilisateurFacadeLocal utilisateurFacade) {
+        this.utilisateurFacade = utilisateurFacade;
+    }
+
+    public Utilisateur getUser() {
+        return user;
+    }
+
+    public void setUser(Utilisateur user) {
+        this.user = user;
     }
 
 }

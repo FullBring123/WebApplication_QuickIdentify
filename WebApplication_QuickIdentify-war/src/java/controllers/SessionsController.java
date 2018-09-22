@@ -6,7 +6,6 @@
 package controllers;
 
 import entities.Dossieridentification;
-import entities.Produit;
 import entities.Utilisateur;
 import java.io.File;
 import java.io.InputStream;
@@ -23,7 +22,6 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 import sessions.DossieridentificationFacadeLocal;
-import sessions.ProduitFacadeLocal;
 import sessions.UtilisateurFacadeLocal;
 
 /**
@@ -32,15 +30,16 @@ import sessions.UtilisateurFacadeLocal;
  */
 public class SessionsController implements Serializable {
 
+    
     @EJB
     private DossieridentificationFacadeLocal dossieridentificationFacade;
     private Dossieridentification dossieridentification;
     private List<DossierIdentificationController> myInfos = new ArrayList<>();
 
-    @EJB
-    private ProduitFacadeLocal produitFacade;
-    private Produit produit = new Produit();
-    private List<Produit> mesProduits = new ArrayList<>();
+//    @EJB
+//    private ProduitFacadeLocal produitFacade;
+//    private Produit produit = new Produit();
+//    private List<Produit> mesProduits = new ArrayList<>();
 
     @EJB
     private UtilisateurFacadeLocal currentUserFacade;
@@ -78,9 +77,8 @@ public class SessionsController implements Serializable {
         operation = btn.getWidgetVar();
     }
 
-    public void instanciateNewIdentificationDocument(ActionEvent e) {
-        dossieridentification = new Dossieridentification();
-        action(e);
+    public void prepareCreate(ActionEvent e) {
+        this.currentUser = new Utilisateur();
     }
     
     public void getId_DataSession(int id) {
@@ -257,30 +255,30 @@ public class SessionsController implements Serializable {
     public void setDossieridentification(Dossieridentification dossieridentification) {
         this.dossieridentification = dossieridentification;
     }
-
-    public ProduitFacadeLocal getProduitFacade() {
-        return produitFacade;
-    }
-
-    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
-        this.produitFacade = produitFacade;
-    }
-
-    public Produit getProduit() {
-        return produit;
-    }
-
-    public void setProduit(Produit produit) {
-        this.produit = produit;
-    }
-
-    public List<Produit> getMesProduits() {
-        return mesProduits;
-    }
-
-    public void setMesProduits(List<Produit> mesProduits) {
-        this.mesProduits = mesProduits;
-    }
+//
+//    public ProduitFacadeLocal getProduitFacade() {
+//        return produitFacade;
+//    }
+//
+//    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
+//        this.produitFacade = produitFacade;
+//    }
+//
+//    public Produit getProduit() {
+//        return produit;
+//    }
+//
+//    public void setProduit(Produit produit) {
+//        this.produit = produit;
+//    }
+//
+//    public List<Produit> getMesProduits() {
+//        return mesProduits;
+//    }
+//
+//    public void setMesProduits(List<Produit> mesProduits) {
+//        this.mesProduits = mesProduits;
+//    }
 
     public String getOperation() {
         return operation;

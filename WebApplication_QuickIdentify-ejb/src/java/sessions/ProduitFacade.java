@@ -46,7 +46,7 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     public Integer nextId() {
         try {
             Query q = em.createNamedQuery("Produit.nextId");
-            return (Integer)q.getSingleResult();
+            return (Integer) q.getSingleResult() + 1;
         } catch (Exception e) {
             return null;
         }
@@ -59,6 +59,39 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
             return (List<Produit>) q.getResultList();
         } catch (Exception e) {
             return null;
+        }
+    }
+    
+    @Override
+    public List<Produit> findByIdConsommateur(int id) {
+        try {
+            Query q = em.createNamedQuery("Produit.findByIdConsommateur");
+            q.setParameter("idutilisateur", id);
+            return (List<Produit>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public void activateProduit(int id) {
+        try {
+            Query q = em.createQuery("UPDATE Produit p SET p.etat = 'Actif' WHERE p.idproduit = :id");
+            q.setParameter("id", id);
+            q.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void deactivateProduit(int id) {
+        try {
+            Query q = em.createQuery("UPDATE Produit p SET p.etat = 'Inactif' WHERE p.idproduit = :id");
+            q.setParameter("id", id);
+            q.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     

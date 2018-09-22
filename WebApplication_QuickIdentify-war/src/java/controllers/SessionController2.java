@@ -11,7 +11,10 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.context.RequestContext;
 import sessions.AgentcallcenterFacadeLocal;
 
 /**
@@ -23,6 +26,7 @@ public class SessionController2 implements Serializable {
     @EJB
     private AgentcallcenterFacadeLocal agentcallcenterFacade;
     private Agentcallcenter sessionUser = new Agentcallcenter();
+    private String operation;
     private Boolean compte = false;
     private Boolean profil = false;
     private Boolean parame = false;
@@ -42,6 +46,7 @@ public class SessionController2 implements Serializable {
     private Boolean delete = false;
     private Boolean displa = false;
     private Boolean modify = false;
+    private Boolean nouvpt = false;
 
     /**
      * Creates a new instance of SessionController2
@@ -57,6 +62,15 @@ public class SessionController2 implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void action(ActionEvent e) {
+        CommandButton btn = (CommandButton) e.getSource();
+        operation = btn.getWidgetVar();
+    }
+    
+    public void prepareEdit(ActionEvent e) {
+        this.sessionUser = new Agentcallcenter();
     }
 
     public String connect() {
@@ -84,6 +98,7 @@ public class SessionController2 implements Serializable {
                     delete = sessionUser.getMenuCollection().contains(new Menu("delete"));
                     displa = sessionUser.getMenuCollection().contains(new Menu("displa"));
                     modify = sessionUser.getMenuCollection().contains(new Menu("modify"));
+                    nouvpt = sessionUser.getMenuCollection().contains(new Menu("nouvpt"));
 
                     return "index.xhtml?faces-redirect=true";
                 } else {
@@ -100,6 +115,18 @@ public class SessionController2 implements Serializable {
             sessionUser = new Agentcallcenter();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Échec de l'opération!"));
             return "portailcaptif2.xhtml?faces-redirect=true";
+        }
+    }
+    
+    public void editProfile() {
+        try {
+            sessionUser.setLogin(sessionUser.getLogin());
+            sessionUser.setPassword(sessionUser.getPassword());
+            agentcallcenterFacade.edit(sessionUser);
+            RequestContext.getCurrentInstance().execute("PF('wv_editprofile').hide()");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Profil Modifie!"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Votre profil n'a pu être modifie!", e.getLocalizedMessage()));
         }
     }
 
@@ -131,6 +158,14 @@ public class SessionController2 implements Serializable {
 
     public void setSessionUser(Agentcallcenter sessionUser) {
         this.sessionUser = sessionUser;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     public Boolean getCompte() {
@@ -283,6 +318,14 @@ public class SessionController2 implements Serializable {
 
     public void setAdd(Boolean add) {
         this.add = add;
+    }
+
+    public Boolean getNouvpt() {
+        return nouvpt;
+    }
+
+    public void setNouvpt(Boolean nouvpt) {
+        this.nouvpt = nouvpt;
     }
 
 }

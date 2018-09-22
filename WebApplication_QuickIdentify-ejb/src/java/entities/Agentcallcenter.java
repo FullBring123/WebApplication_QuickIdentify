@@ -47,6 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Agentcallcenter.findByFonction", query = "SELECT a FROM Agentcallcenter a WHERE a.fonction = :fonction")
     , @NamedQuery(name = "Agentcallcenter.findByLieuservice", query = "SELECT a FROM Agentcallcenter a WHERE a.lieuservice = :lieuservice")
     , @NamedQuery(name = "Agentcallcenter.findByMatricule", query = "SELECT a FROM Agentcallcenter a WHERE a.matricule = :matricule")
+    , @NamedQuery(name = "Agentcallcenter.findByTelephone", query = "SELECT a FROM Agentcallcenter a WHERE a.telephone = :telephone")
     , @NamedQuery(name = "Agentcallcenter.findByEtat", query = "SELECT a FROM Agentcallcenter a WHERE a.etat = :etat")
     , @NamedQuery(name = "Agentcallcenter.findByLogin", query = "SELECT a FROM Agentcallcenter a WHERE a.login = :login")
     , @NamedQuery(name = "Agentcallcenter.findByPassword", query = "SELECT a FROM Agentcallcenter a WHERE a.password = :password")

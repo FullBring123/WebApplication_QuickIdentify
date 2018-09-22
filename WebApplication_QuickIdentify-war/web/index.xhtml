@@ -32,7 +32,7 @@
             <p:menubar>
                 <p:menuitem value=" Accueil" action="index.xhtml?faces-redirect=true" icon="ui-icon-home" />
                 <p:submenu rendered="#{sessionController2.compte}" icon="ui-icon-key" label="Mon compte">
-                    <p:menuitem rendered="#{sessionController2.profil}" value=" Profil" icon="ui-icon-person" />
+                    <p:menuitem rendered="#{sessionController2.profil}" action="profil_callcenter.xhtml?faces-redirect=true" value=" Profil" icon="ui-icon-person" />
                     <p:menuitem rendered="#{sessionController2.parame}" value=" Paramètres" icon="ui-icon-gear" />
                     <p:separator />
                     <p:menuitem value=" Déconnexion" immediate="true" actionListener="#{sessionController2.disconnect()}" icon="ui-icon-extlink" />

@@ -56,11 +56,11 @@
                             </f:facet>
                             <h:outputText value="#{item.fonction}"/>
                         </p:column>
-                        <p:column sortBy="#{item.etat}">
+                        <p:column sortBy="#{item.etat}" style="background-color: #{utilisateurCallCenterController.setColor(item.etat)}">
                             <f:facet name="header">
                                 <h:outputText value="État"/>
                             </f:facet>
-                            <h:outputText value="#{item.etat}" style="color: #{utilisateurCallCenterController.setColor(item.etat)}"/>
+                            <h:outputText value="#{item.etat}" />
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -184,6 +184,9 @@
                             <p:outputLabel value="Lieu de service" for="lieu" />
                             <p:inputText id="lieu" value="#{utilisateurCallCenterController.agent.lieuservice}" title="Lieu de service" />
 
+                            <p:outputLabel value="Numero de telephone: " for="tel" />
+                            <p:keyboard keypadOnly="true" id="tel" value="#{utilisateurCallCenterController.agent.telephone}" title="Numero de telephone" />
+
                             <p:outputLabel value="Fonction:" for="fonction" />
                             <p:selectOneMenu required="true" requiredMessage="Erreur!" id="fonction" value="#{utilisateurCallCenterController.agent.fonction}">
                                 <f:selectItem itemLabel="" itemValue="" />
@@ -225,16 +228,17 @@
                         <f:facet name="header">
                             <h:outputText value="Détails sur #{utilisateurCallCenterController.agent.nom} #{utilisateurCallCenterController.agent.prenom}" /> 
                         </f:facet>
-                        <h:panelGrid id="input-details" columns="1">
-                            <p:outputLabel value="Matricule:  #{utilisateurCallCenterController.agent.matricule}" />
-                            <p:outputLabel value="Nom: #{utilisateurCallCenterController.agent.nom}" />
-                            <p:outputLabel value="Prénom: #{utilisateurCallCenterController.agent.prenom}" />
-                            <p:outputLabel value="Date de naissance:  #{utilisateurCallCenterController.agent.datenais}" />
-                            <p:outputLabel value="Lieu de naissance:  #{utilisateurCallCenterController.agent.lieunais}" />
-                            <p:outputLabel value="Genre:  #{utilisateurCallCenterController.agent.sexe}" />
-                            <p:outputLabel value="Lieu de service:  #{utilisateurCallCenterController.agent.lieuservice}" />
-                            <p:outputLabel value="Login: #{utilisateurCallCenterController.agent.login}" />
-                            <p:outputLabel value="Rôle: #{utilisateurCallCenterController.agent.fonction}" />
+                        <h:panelGrid id="input-details" columns="1" cellpadding="10">
+                            <p:outputLabel style="font-weight: bold;" value="Matricule:  #{utilisateurCallCenterController.agent.matricule}" />
+                            <p:outputLabel style="font-weight: bold;" value="Nom: #{utilisateurCallCenterController.agent.nom}" />
+                            <p:outputLabel style="font-weight: bold;" value="Prénom: #{utilisateurCallCenterController.agent.prenom}" />
+                            <p:outputLabel style="font-weight: bold;" value="Date de naissance:  #{utilisateurCallCenterController.agent.datenais}" />
+                            <p:outputLabel style="font-weight: bold;" value="Lieu de naissance:  #{utilisateurCallCenterController.agent.lieunais}" />
+                            <p:outputLabel style="font-weight: bold;" value="Genre:  #{utilisateurCallCenterController.agent.sexe}" />
+                            <p:outputLabel style="font-weight: bold;" value="Lieu de service:  #{utilisateurCallCenterController.agent.lieuservice}" />
+                            <p:outputLabel style="font-weight: bold;" value="Numero de telephone:  #{utilisateurCallCenterController.agent.telephone}" />
+                            <p:outputLabel style="font-weight: bold;" value="Login: #{utilisateurCallCenterController.agent.login}" />
+                            <p:outputLabel style="font-weight: bold;" value="Rôle: #{utilisateurCallCenterController.agent.fonction}" />
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>

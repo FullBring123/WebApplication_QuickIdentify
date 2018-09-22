@@ -6,6 +6,7 @@
 package sessions;
 
 import entities.Dossieridentification;
+import entities.Utilisateur;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -32,4 +33,6 @@ public interface DossieridentificationFacadeLocal {
     
     Integer nextId();
     
+    Dossieridentification findByidutilisateur(Utilisateur user);
+        
 }

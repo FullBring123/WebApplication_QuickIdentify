@@ -60,15 +60,15 @@
                             <h:outputText value="Liez votre compte à un produit" /> 
                         </f:facet>
                         <h:panelGrid id="inputs" columns="2" cellspacing="10" cellpadding="5">
-                            <p:outputLabel value="Selectionnez le code figurant sur l'accessoire: " for="cp" />
-                            <p:selectOneMenu id="cp" value="#{accessoireController.accessoire.idproduit}" required="true" requiredMessage="The Idutilisateur field is required.">
+                            <p:outputLabel value="Selectionnez le code figurant sur l'accessoire: " for="product" />
+                            <p:selectOneMenu id="product" value="#{accessoireController.accessoire.idproduit}" required="true" requiredMessage="The Idutilisateur field is required.">
                                 <!-- TODO: update below reference to list of available items -->
-                                <f:selectItems itemLabel="#{filterproducts.type} - #{filterproducts.code}" itemValue="#{filterproducts.idproduit}" value="#{accessoireController.mesAccessoires}" var="filterproducts"/>
+                                <f:selectItems itemLabel="#{filterproducts.type} - #{filterproducts.code}" itemValue="#{filterproducts.idproduit}" value="#{accessoireController.produits}" var="filterproducts"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton partialSubmit="true" update="inputs,:form_table:table,:form_table:growl" value="OK" />
+                                <p:commandButton partialSubmit="true" action="#{accessoireController.linkProducts()}" update="inputs,:form_table:table,:form_table:growl" value="OK" />
                             </center>
                         </f:facet>
                     </p:dialog>

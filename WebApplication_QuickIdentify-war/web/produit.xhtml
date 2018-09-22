@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <h:form id="form_table">
 
-                    <p:growl id="growl" showDetail="true" />
+                    <p:growl id="growl" showDetail="true" life="3000" />
 
                     <h1><h:outputText style="font-family: vivaldi;font-size: 20pt" value="Liste des produits"/></h1>
                     <br />
@@ -30,7 +30,7 @@
                             </f:facet>
                             <h:outputText value="#{item.code}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="background-color: #{produitController.setColor(item.etat)}">
                             <f:facet name="header">
                                 <h:outputText value="État du produit"/>
                             </f:facet>
@@ -40,14 +40,16 @@
                             <f:facet name="header">
                                 <h:outputText value="Action(s)"/>
                             </f:facet>
-                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" update=":form_data1:fm_produit1" icon="ui-icon-pencil" oncomplete="PF('wv_produit1').show()" />
-                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" update=":form_data2:fm_produit2" icon="ui-icon-trash" oncomplete="PF('wv_produit2').show()" />
-                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" update=":form_data3:fm_produit3" icon="ui-icon-document" oncomplete="PF('wv_produit3').show()" />
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" rendered="#{sessionController2.modify}" update=":form_data1:fm_produit1" icon="ui-icon-pencil" oncomplete="PF('wv_produit1').show()" />
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" rendered="#{sessionController2.delete}" update=":form_data2:fm_produit2" icon="ui-icon-trash" oncomplete="PF('wv_produit2').show()" />
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" rendered="#{sessionController2.enable}" update=":form_data4:fm_produit4" icon="ui-icon-unlocked" oncomplete="PF('wv_produit4').show()" />
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" rendered="#{sessionController2.disabl}" update=":form_data5:fm_produit5" icon="ui-icon-locked" oncomplete="PF('wv_produit5').show()" />
+                            <p:commandButton action="#{produitController.searchIdProduit(item.idproduit)}" rendered="#{sessionController2.displa}" update=":form_data3:fm_produit3" icon="ui-icon-document" oncomplete="PF('wv_produit3').show()" />
                         </p:column>
                     </p:dataTable>
                     <br />
                     <h:panelGrid style="margin: auto;">
-                        <p:commandButton partialSubmit="true" actionListener="#{produitController.prepareCreate}" update=":form_data:fm_produit" oncomplete="PF('wv_produit').show()" icon="ui-icon-plus" value=" Nouveau produit" />
+                        <p:commandButton partialSubmit="true" widgetVar="edit" rendered="#{sessionController2.nouvpt}" actionListener="#{produitController.prepareCreate}" update=":form_data:fm_produit" oncomplete="PF('wv_produit').show()" icon="ui-icon-plus" value=" Nouveau produit" />
                     </h:panelGrid>
                 </h:form>
 
@@ -60,7 +62,6 @@
                         <h:panelGrid id="inputs" columns="2">
                             <p:outputLabel value="Type:" for="type" />
                             <p:selectOneMenu required="true" requiredMessage="Saisie erronée!" id="type" value="#{produitController.produit.type}">
-                                <f:selectItem itemLabel="" itemValue="" />
                                 <f:selectItem itemLabel="Bracelet" itemValue="Bracelet" />
                                 <f:selectItem itemLabel="Collier" itemValue="Collier" />
                                 <f:selectItem itemLabel="Montre" itemValue="Montre" />
@@ -74,15 +75,16 @@
                             <p:inputText id="code" value="#{produitController.produit.code}" required="true" requiredMessage="Saisie erronée!" title="Code" />
 
                             <p:outputLabel value="Utilisateur:" for="idutilisateur" />
-                            <p:selectOneMenu id="idutilisateur" value="#{produitController.produit.idutilisateur.idutilisateur}" required="true" requiredMessage="The Idutilisateur field is required.">
+                            <p:selectOneMenu id="idutilisateur" value="#{produitController.user.idutilisateur}">
                                 <!-- TODO: update below reference to list of available items-->
-                                <f:selectItems itemLabel="#{fk_user.login}" itemValue="#{fk_user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="fk_user"/>
+                                <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems itemLabel="#{user.nom}" itemValue="#{user.idutilisateur}" value="#{utilisateurController.utilisateurs}" var="user"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
 
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton actionListener="#{produitController.createProd()}" update="inputs,:form_table:table,:form_table:growl" icon="ui-icon-disk" value="Enregistrer" />
+                                <p:commandButton actionListener="#{produitController.persist()}" update="inputs,:form_table:table,:form_table:growl" icon="ui-icon-disk" value="Enregistrer" />
                             </center>
                         </f:facet>
                     </p:dialog>
@@ -136,6 +138,36 @@
                         </f:facet>
                     </p:dialog>
                 </h:form>
+                
+                <!-- Activation du produit -->
+                <h:form id="form_data4">
+                    <p:dialog showEffect="fold" id="fm_produit4" modal="true" widgetVar="wv_produit4">
+                        <f:facet name="header">
+                            <h:outputText value="Activer le produit" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment activer le produit #{produitController.produit.type} - #{produitController.produit.code} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton action="#{produitController.activate()}" update=":form_table:table,:form_table:growl" partialSubmit="true" oncomplete="PF('wv_produit4').hide()" value="Activer" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                
+                <!-- desactivation du produit -->
+                <h:form id="form_data5">
+                    <p:dialog showEffect="fold" id="fm_produit5" modal="true" widgetVar="wv_produit5">
+                        <f:facet name="header">
+                            <h:outputText value="Desactiver le produit" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment desactiver le produit #{produitController.produit.type} - #{produitController.produit.code} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton action="#{produitController.deactivate()}" update=":form_table:table,:form_table:growl" partialSubmit="true" oncomplete="PF('wv_produit5').hide()" value="Desactiver" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
 
                 <!-- Consultation -->
                 <h:form id="form_data3">
@@ -148,8 +180,6 @@
                             <p:outputLabel value="Code: #{produitController.produit.code}" />
                             <p:outputLabel value="État:  #{produitController.produit.etat}" />
                             <p:outputLabel value="Proprietaire: #{produitController.produit.idutilisateur.login}" />
-                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.enable}" update=":form_enable:fm_enable" icon="ui-icon-unlocked" oncomplete="PF('wv_enable').show()" />
-                            <p:commandButton action="#{utilisateurController.searchIdUser(item.idutilisateur)}" rendered="#{sessionController2.disabl}" update=":form_disable:fm_disable" icon="ui-icon-locked" oncomplete="PF('wv_disable').show()" />
                         </h:panelGrid>
 
                         <h:panelGrid style="margin: auto;">

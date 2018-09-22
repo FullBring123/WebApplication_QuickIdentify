@@ -36,4 +36,10 @@ public interface ProduitFacadeLocal {
     
     List<Produit> findByLinkedProduits();
     
+    List<Produit> findByIdConsommateur(int id);
+    
+    void activateProduit(int id);
+    
+    void deactivateProduit(int id);
+    
 }

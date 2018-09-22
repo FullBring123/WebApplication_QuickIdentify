@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dossieridentification.findAll", query = "SELECT d FROM Dossieridentification d")
     , @NamedQuery(name = "Dossieridentification.nextId", query = "SELECT MAX(d.iddossier) FROM Dossieridentification d")
     , @NamedQuery(name = "Dossieridentification.findByIddossier", query = "SELECT d FROM Dossieridentification d WHERE d.iddossier = :iddossier")
+    , @NamedQuery(name = "Dossieridentification.findByidutilisateur", query = "SELECT d FROM Dossieridentification d WHERE d.idutilisateur = :idutilisateur")
     , @NamedQuery(name = "Dossieridentification.findByNumcni", query = "SELECT d FROM Dossieridentification d WHERE d.numcni = :numcni")
     , @NamedQuery(name = "Dossieridentification.findByNumrecepisse", query = "SELECT d FROM Dossieridentification d WHERE d.numrecepisse = :numrecepisse")
     , @NamedQuery(name = "Dossieridentification.findByNom", query = "SELECT d FROM Dossieridentification d WHERE d.nom = :nom")
@@ -101,7 +102,7 @@ public class Dossieridentification implements Serializable {
     @JoinColumn(name = "idutilisateur", referencedColumnName = "idutilisateur")
     @ManyToOne
     private Utilisateur idutilisateur = new Utilisateur();
-
+    
     public Dossieridentification() {
     }
 
@@ -269,5 +270,5 @@ public class Dossieridentification implements Serializable {
     public String toString() {
         return "entities.Dossieridentification[ iddossier=" + iddossier + " ]";
     }
-    
+
 }

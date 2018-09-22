@@ -50,11 +50,11 @@
                             </f:facet>
                             <h:outputText value="#{item.photo}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="background-color: #{utilisateurController.setColor(item.etat)}">
                             <f:facet name="header">
                                 <h:outputText value="Etat"/>
                             </f:facet>
-                            <h:outputText value="#{item.etat}" style="color: #{utilisateurController.setColor(item.etat)}"/>
+                            <h:outputText value="#{item.etat}" />
                         </p:column>
                         <p:column>
                             <f:facet name="header">

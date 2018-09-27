@@ -10,8 +10,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -35,6 +34,7 @@ public class UtilisateurController implements Serializable {
     private UploadedFile file;
     private String msg;
     private String operation;
+    private Date date = new Date();
 
     /**
      * Creates a new instance of UtilisateurController
@@ -123,7 +123,7 @@ public class UtilisateurController implements Serializable {
     }
     
     public String setColor(String state) {
-        return (state.equals("Actif") ? "green" : "red");
+        return (state.equals("Actif") ? "#00cc66" : "#ff4d4d");
     }
 
 //    public void editUser() {
@@ -212,6 +212,14 @@ public class UtilisateurController implements Serializable {
 
     public void setFile(UploadedFile file) {
         this.file = file;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 }

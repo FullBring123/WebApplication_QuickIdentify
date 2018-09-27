@@ -7,6 +7,8 @@ package controllers;
 
 import entities.Produit;
 import entities.Utilisateur;
+import java.io.Serializable;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -15,21 +17,27 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.context.RequestContext;
 import sessions.ProduitFacadeLocal;
+import sessions.UtilisateurFacadeLocal;
 
 /**
  *
  * @author Windows8.1
  */
-public class AccessoireController {
+public class AccessoireController implements Serializable/*, Converter*/ {
 
     @EJB
-    private ProduitFacadeLocal accessoireFacade;
-    private Produit accessoire = new Produit();
-    private List<Produit> mesAccessoires = new ArrayList<>();
-    private List<Produit> produits = new ArrayList<>();
-    private String operation;
+    private UtilisateurFacadeLocal utilisateurFacade;
     Utilisateur account = (Utilisateur) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentUser");
+
+    @EJB
+    private ProduitFacadeLocal produitFacade;
+    private Produit produit = new Produit();
+    private List<Produit> produits = new ArrayList<>();
+    private List<Produit> lesAccessoires = new ArrayList<>();
+    Timestamp date = new Timestamp(System.currentTimeMillis());
+    private String operation;
 
     /**
      * Creates a new instance of AccessoireController
@@ -39,14 +47,23 @@ public class AccessoireController {
 
     @PostConstruct
     public void init() {
-        mesAccessoires.clear();
+        lesAccessoires.clear();
+        lesAccessoires.addAll(produitFacade.findByIdUser(account.getIdutilisateur()));
         produits.clear();
-        mesAccessoires.addAll(account.getProduitCollection());
-        produits.addAll(accessoireFacade.findAll());
+        produits.addAll(produitFacade.findByStatus());
+    }
+
+    public void initBox() {
+        produits.clear();
+        produits.addAll(produitFacade.findByStatus());
+    }
+
+    public List<Produit> getProducts() {
+        return produits;
     }
 
     public void searchAccessoire(int id) {
-        accessoire = accessoireFacade.find(id);
+        produit = produitFacade.find(id);
     }
 
     public void action(ActionEvent e) {
@@ -54,57 +71,129 @@ public class AccessoireController {
         operation = button.getWidgetVar();
     }
 
-    
+    public void prepareLink(ActionEvent e) {
+        if (produit != null) {
+            action(e);
+            initBox();
+        }
+    }
+
+    /**
+     * Cette methode permet de ne lister que chez les utilisateurs, les produits
+     * qu'ils ont lies a leur propre compte
+     */
     public void linkProducts() {
         try {
-            if (accessoireFacade.findByCode(accessoire.getCode()).isEmpty()) {
-                accessoire.setIdproduit(accessoireFacade.nextId());
-                accessoire.setIdutilisateur(account);
-                accessoire.setCode(accessoire.getCode());
-                accessoire.setType(accessoire.getType());
-                accessoireFacade.edit(accessoire);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Liaison etablie", "Ce produit est desormais lie a votre compte"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Attention!", "Ce produit est deja lie a un autre compte!"));
-            }
+            produit = produitFacade.find(produit.getIdproduit());
+//            if (produitFacade.findByIdProduct(produit.getIdproduit()).isEmpty()) {
+//                RequestContext.getCurrentInstance().execute("PF('wv_link').hide()");
+//                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention!", "Ce produit est deja lie a un autre compte!"));
+//            } else {
+            account = (Utilisateur) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentUser");
+            produit.setIdutilisateur(account);
+            produit.setStatus(2);
+            produitFacade.edit(produit);
+            RequestContext.getCurrentInstance().execute("PF('wv_link').hide()");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Liaison etablie " + produit.getIdproduit(), "Ce produit est desormais lie a votre compte"));
+//            }
         } catch (Exception e) {
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erreur lors de la liaison!", "Nous n'avons pu lier votre compte a ce produit"));
+            RequestContext.getCurrentInstance().execute("PF('wv_link').hide()");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erreur lors de la liaison!", "Nous n'avons pu lier votre compte a ce produit"));
         } finally {
             init();
         }
     }
 
-    public ProduitFacadeLocal getAccessoireFacade() {
-        return accessoireFacade;
+    public String setColor(String state) {
+        return (state.equals("Actif") ? "#00cc66" : "#ff4d4d");
     }
 
-    public void setAccessoireFacade(ProduitFacadeLocal accessoireFacade) {
-        this.accessoireFacade = accessoireFacade;
+    public void activate() {
+        try {
+            if (produit.getEtat().equals("Inactif")) {
+                produitFacade.activateProduit(produit.getIdproduit());
+                produit.setStatus(2);
+                produitFacade.edit(produit);
+                RequestContext.getCurrentInstance().execute("PF('enable').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Activation effectuée!", "Le produit a été activé!"));
+            } else {
+                RequestContext.getCurrentInstance().execute("PF('enable').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Activation impossible!", "Cet produit a déjà été activé!"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            init();
+        }
     }
 
-    public Produit getAccessoire() {
-        return accessoire;
+    public void deactivate() {
+        try {
+            if (produit.getEtat().equals("Actif")) {
+                produitFacade.deactivateProduit(produit.getIdproduit());
+                produit.setStatus(1);
+                produitFacade.edit(produit);
+                RequestContext.getCurrentInstance().execute("PF('disable').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Desactivation effectuée!", "Le produit a été désactivé!"));
+            } else {
+                RequestContext.getCurrentInstance().execute("PF('disable').hide()");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Désactivation impossible!", "Cet produit a déjà été désactivé!"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            init();
+        }
     }
 
-    public void setAccessoire(Produit accessoire) {
-        this.accessoire = accessoire;
+    public void deleteAcc() {
+        RequestContext.getCurrentInstance().execute("PF('delete').hide()");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Indisponible", "Aucune implementation!"));
     }
 
-    public List<Produit> getMesAccessoires() {
-        return mesAccessoires;
+//
+//    @Override
+//    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+//        if (value != null && value.trim().length() > 0) {
+//            ThemeService service = (ThemeService) context.getExternalContext().getApplicationMap().get("themeService");
+//            return service.getThemes().get(Integer.parseInt(value));
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    @Override
+//    public String getAsString(FacesContext context, UIComponent component, Object value) {
+//        if(value != null) {
+//            return String.valueOf(((Theme) value).getId());
+//        }
+//        else {
+//            return null;
+//        }
+//    }
+    public void persist() {
+        switch (operation) {
+            case "doLink":
+                linkProducts();
+                break;
+        }
     }
 
-    public void setMesAccessoires(List<Produit> mesAccessoires) {
-        this.mesAccessoires = mesAccessoires;
+    public ProduitFacadeLocal getProduitFacade() {
+        return produitFacade;
     }
 
-    public String getOperation() {
-        return operation;
+    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
+        this.produitFacade = produitFacade;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
+    public Produit getProduit() {
+        return produit;
+    }
+
+    public void setProduit(Produit produit) {
+        this.produit = produit;
     }
 
     public List<Produit> getProduits() {
@@ -115,12 +204,44 @@ public class AccessoireController {
         this.produits = produits;
     }
 
+    public List<Produit> getLesAccessoires() {
+        return lesAccessoires;
+    }
+
+    public void setLesAccessoires(List<Produit> lesAccessoires) {
+        this.lesAccessoires = lesAccessoires;
+    }
+
+    public UtilisateurFacadeLocal getUtilisateurFacade() {
+        return utilisateurFacade;
+    }
+
+    public void setUtilisateurFacade(UtilisateurFacadeLocal utilisateurFacade) {
+        this.utilisateurFacade = utilisateurFacade;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
     public Utilisateur getAccount() {
         return account;
     }
 
     public void setAccount(Utilisateur account) {
         this.account = account;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 
 }

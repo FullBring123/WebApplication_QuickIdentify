@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -30,7 +31,6 @@ import sessions.UtilisateurFacadeLocal;
  */
 public class SessionsController implements Serializable {
 
-    
     @EJB
     private DossieridentificationFacadeLocal dossieridentificationFacade;
     private Dossieridentification dossieridentification;
@@ -40,7 +40,6 @@ public class SessionsController implements Serializable {
 //    private ProduitFacadeLocal produitFacade;
 //    private Produit produit = new Produit();
 //    private List<Produit> mesProduits = new ArrayList<>();
-
     @EJB
     private UtilisateurFacadeLocal currentUserFacade;
     private Utilisateur currentUser = new Utilisateur();
@@ -48,6 +47,7 @@ public class SessionsController implements Serializable {
     private List<Utilisateur> users = new ArrayList<>();
     private UploadedFile file;
     private UploadedFile profilep;
+    Timestamp date = new Timestamp(System.currentTimeMillis());
     private String operation;
 
     /**
@@ -61,7 +61,6 @@ public class SessionsController implements Serializable {
 //        mesProduits.clear();
 //        mesProduits.addAll(produitFacade.findByLinkedProduits());
 //    }
-
     public void watchOut() {
         try {
             if (!FacesContext.getCurrentInstance().getExternalContext().getSessionMap().containsKey("currentUser")) {
@@ -80,11 +79,11 @@ public class SessionsController implements Serializable {
     public void prepareCreate(ActionEvent e) {
         this.currentUser = new Utilisateur();
     }
-    
+
     public void getId_DataSession(int id) {
         dossieridentification = dossieridentificationFacade.find(id);
     }
-    
+
     public String connectUser() {
         try {
             currentUser = currentUserFacade.findByLoginPass(currentUser.getLogin(), currentUser.getPassword());
@@ -143,7 +142,7 @@ public class SessionsController implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Échec de l'opération", "Vos informations n'ont pas pu être editees!"));
         }
     }
-    
+
     public void editProfile() {
         try {
             currentUser.setLogin(currentUser.getLogin());
@@ -161,10 +160,28 @@ public class SessionsController implements Serializable {
         }
     }
 
+    public String removeAccount() {
+        try {
+            currentUser = currentUserFacade.find(currentUser.getIdutilisateur());
+            if (currentUser.getEtat().equals("Actif")) {
+                currentUser.setEtat("Inactif");
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("currentUser");
+                ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "OK", "Vous avez supprime votre compte!"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return "portailcaptif.xhtml?faces-redirect=true";
+        }
+    }
+
     /**
      * Cette methode permet de ne lister que chez les utilisateurs, les produits
      * qu'ils ont lies a leur propre compte
-     * @return 
+     *
+     * @return
      */
 //    public void linkProducts() {
 //        try {
@@ -185,7 +202,6 @@ public class SessionsController implements Serializable {
 //            init();
 //        }
 //    }
-
     public String disconnectUser() {
         try {
 //            logfile("Déconnexion", "Système");
@@ -255,30 +271,6 @@ public class SessionsController implements Serializable {
     public void setDossieridentification(Dossieridentification dossieridentification) {
         this.dossieridentification = dossieridentification;
     }
-//
-//    public ProduitFacadeLocal getProduitFacade() {
-//        return produitFacade;
-//    }
-//
-//    public void setProduitFacade(ProduitFacadeLocal produitFacade) {
-//        this.produitFacade = produitFacade;
-//    }
-//
-//    public Produit getProduit() {
-//        return produit;
-//    }
-//
-//    public void setProduit(Produit produit) {
-//        this.produit = produit;
-//    }
-//
-//    public List<Produit> getMesProduits() {
-//        return mesProduits;
-//    }
-//
-//    public void setMesProduits(List<Produit> mesProduits) {
-//        this.mesProduits = mesProduits;
-//    }
 
     public String getOperation() {
         return operation;
@@ -303,5 +295,13 @@ public class SessionsController implements Serializable {
     public void setMyInfos(List<DossierIdentificationController> myInfos) {
         this.myInfos = myInfos;
     }
-    
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
 }

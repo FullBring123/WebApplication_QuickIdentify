@@ -22,18 +22,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Windows8.1
+ * @author PC
  */
 @Entity
 @Table(name = "produit")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Produit.findAll", query = "SELECT p FROM Produit p")
-    , @NamedQuery(name = "Produit.nextId", query = "SELECT MAX(p.idproduit) FROM Produit p")
-    , @NamedQuery(name = "Produit.findByIdConsommateur", query = "SELECT p FROM Produit p WHERE p.idutilisateur = :idutilisateur")
     , @NamedQuery(name = "Produit.findByIdproduit", query = "SELECT p FROM Produit p WHERE p.idproduit = :idproduit")
+    , @NamedQuery(name = "Produit.findByIdUser", query = "SELECT p FROM Produit p WHERE p.idutilisateur.idutilisateur = :idutilisateur")
+    , @NamedQuery(name = "Produit.nextId", query = "SELECT MAX(p.idproduit) FROM Produit p")
+    , @NamedQuery(name = "Produit.findByProducts", query = "SELECT p FROM Produit p WHERE p.idproduit = :idproduit")
     , @NamedQuery(name = "Produit.findByType", query = "SELECT p FROM Produit p WHERE p.type = :type")
+    , @NamedQuery(name = "Produit.findByNullUtilisateur", query = "SELECT p FROM Produit p WHERE p.idutilisateur.idutilisateur NOT IN :id")
     , @NamedQuery(name = "Produit.findByCode", query = "SELECT p FROM Produit p WHERE p.code = :code")
+    , @NamedQuery(name = "Produit.findByStatus", query = "SELECT p FROM Produit p WHERE p.status=1")
     , @NamedQuery(name = "Produit.findByEtat", query = "SELECT p FROM Produit p WHERE p.etat = :etat")})
 public class Produit implements Serializable {
 
@@ -52,9 +55,11 @@ public class Produit implements Serializable {
     @Size(max = 254)
     @Column(name = "etat")
     private String etat;
+    @Column(name = "status")
+    private Integer status;
     @JoinColumn(name = "idutilisateur", referencedColumnName = "idutilisateur")
-    @ManyToOne(optional = false)
-    private Utilisateur idutilisateur = new Utilisateur();
+    @ManyToOne
+    private Utilisateur idutilisateur;
 
     public Produit() {
     }
@@ -127,5 +132,13 @@ public class Produit implements Serializable {
     public String toString() {
         return "entities.Produit[ idproduit=" + idproduit + " ]";
     }
-    
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
 }

@@ -30,7 +30,7 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     public ProduitFacade() {
         super(Produit.class);
     }
-    
+
     @Override
     public List<Produit> findByCode(String code) {
         try {
@@ -41,7 +41,7 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
             return null;
         }
     }
-    
+
     @Override
     public Integer nextId() {
         try {
@@ -51,7 +51,7 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
             return null;
         }
     }
-    
+
     @Override
     public List<Produit> findByLinkedProduits() {
         try {
@@ -61,18 +61,18 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
             return null;
         }
     }
-    
+
     @Override
-    public List<Produit> findByIdConsommateur(int id) {
+    public List<Produit> findByIdProduct(int id) {
         try {
-            Query q = em.createNamedQuery("Produit.findByIdConsommateur");
-            q.setParameter("idutilisateur", id);
-            return (List<Produit>) q.getResultList();
+            Query q = em.createNamedQuery("Produit.findByProducts");
+            q.setParameter("idproduit", id);
+            return q.getResultList();
         } catch (Exception e) {
             return null;
         }
     }
-    
+
     @Override
     public void activateProduit(int id) {
         try {
@@ -83,7 +83,7 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void deactivateProduit(int id) {
         try {
@@ -94,5 +94,36 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
             e.printStackTrace();
         }
     }
-    
+
+    @Override
+    public List<Produit> findByNullUtilisateur() {
+        try {
+            Query query = em.createNamedQuery("Produit.findByNullUtilisateur");
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Produit> findByIdUser(int id) {
+        try {
+            Query query = em.createNamedQuery("Produit.findByIdUser");
+            query.setParameter("idutilisateur", id);
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Produit> findByStatus() {
+        try {
+            Query query = em.createNamedQuery("Produit.findByStatus");
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

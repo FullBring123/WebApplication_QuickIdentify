@@ -19,7 +19,7 @@
                     <h1><h:outputText style="font-family: vivaldi;font-size: 20pt" value="Mes accessoires"/></h1>
                     <br />
 
-                    <p:dataTable id="table" value="#{accessoireController.mesAccessoires}" sortMode="multiple" var="item">
+                    <p:dataTable id="table" value="#{accessoireController.lesAccessoires}" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="300" style="margin-bottom:0;" sortMode="multiple" var="item">
                         <p:column sortBy="#{item.type}">
                             <f:facet name="header">
                                 <h:outputText value="Type"/>
@@ -32,7 +32,7 @@
                             </f:facet>
                             <h:outputText value="#{item.code}"/>
                         </p:column>
-                        <p:column sortBy="#{item.etat}">
+                        <p:column style="background-color: #{accessoireController.setColor(item.etat)}" sortBy="#{item.etat}">
                             <f:facet name="header">
                                 <h:outputText value="Etat"/>
                             </f:facet>
@@ -42,14 +42,15 @@
                             <f:facet name="header">
                                 <h:outputText value="Action(s)"/>
                             </f:facet>
-                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-pencil" />
-                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-trash" />
-                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-document" />
+                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-trash" update=":form_deleteAcc:fm_deleteAcc" oncomplete="PF('delete').show()" />
+                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-unlocked" update=":form_enableAcc:fm_enableAcc" oncomplete="PF('enable').show()" />
+                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-locked" update=":form_disableAcc:fm_disableAcc" oncomplete="PF('disable').show()" />
+                            <p:commandButton action="#{accessoireController.searchAccessoire(item.idproduit)}" icon="ui-icon-document" update=":form_displayAcc:fm_displayAcc" oncomplete="PF('display').show()" />
                         </p:column>
                     </p:dataTable>
                     <br />
                     <h:panelGrid style="margin: auto;">
-                        <p:commandButton partialSubmit="true" icon="ui-icon-link" update=":form_link:fm_link" oncomplete="PF('wv_link').show()" value=" Établir une liaison" />
+                        <p:commandButton widgetVar="doLink" partialSubmit="true" icon="ui-icon-link" actionListener="#{accessoireController.prepareLink}" update=":form_link:fm_link" oncomplete="PF('wv_link').show()" value=" Nouvelle liaison" />
                     </h:panelGrid>
                 </h:form>
 
@@ -57,23 +58,75 @@
                 <h:form id="form_link">
                     <p:dialog showEffect="fold" id="fm_link" modal="true" widgetVar="wv_link">
                         <f:facet name="header">
-                            <h:outputText value="Liez votre compte à un produit" /> 
+                            <h:outputText value="Liez votre compte à un produit" />
                         </f:facet>
                         <h:panelGrid id="inputs" columns="2" cellspacing="10" cellpadding="5">
                             <p:outputLabel value="Selectionnez le code figurant sur l'accessoire: " for="product" />
-                            <p:selectOneMenu id="product" value="#{accessoireController.accessoire.idproduit}" required="true" requiredMessage="The Idutilisateur field is required.">
+                            <p:selectOneMenu id="product" panelStyle="width:180px" effect="fade" value="#{accessoireController.produit.idproduit}"
+                                             style="width:160px" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="The Idutilisateur field is required.">
                                 <!-- TODO: update below reference to list of available items -->
-                                <f:selectItems itemLabel="#{filterproducts.type} - #{filterproducts.code}" itemValue="#{filterproducts.idproduit}" value="#{accessoireController.produits}" var="filterproducts"/>
+                                <f:selectItems itemLabel="#{filterproducts.code}" itemValue="#{filterproducts.idproduit}" value="#{accessoireController.produits}" var="filterproducts"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton partialSubmit="true" action="#{accessoireController.linkProducts()}" update="inputs,:form_table:table,:form_table:growl" value="OK" />
+                                <p:commandButton partialSubmit="true" actionListener="#{accessoireController.persist()}" update="inputs,:form_table:table,:form_table:growl" value="OK" />
                             </center>
                         </f:facet>
                     </p:dialog>
                 </h:form>
 
+                <!-- Modal du bouton Supprimer -->
+                <h:form id="form_deleteAcc">
+                    <p:dialog showEffect="fold" id="fm_deleteAcc" modal="true" widgetVar="delete">
+                        <f:facet name="header">
+                            <h:outputText value="Suppression de votre produit" />
+                        </f:facet>
+                        <h:panelGrid id="inputs_del" columns="1">
+                            <p:outputLabel value="Voulez-vous vraiment supprimer" />
+                            <p:outputLabel style="font-weight: bold;color: red; font-size: 10pt;" value="#{accessoireController.produit.type} - #{accessoireController.produit.code}" />
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton action="#{accessoireController.deleteAcc()}" update="inputs_del,:form_table:table,:form_table:growl" value="Supprimer le produit" icon="ui-icon-trash" />
+                            </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Modal du bouton Activer -->
+                <h:form id="form_enableAcc">
+                    <p:dialog showEffect="fold" id="fm_enableAcc" modal="true" widgetVar="enable">
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment activer le produit #{accessoireController.produit.type} - #{accessoireController.produit.code} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton action="#{accessoireController.activate()}" update=":form_table:table,:form_table:growl" partialSubmit="true" oncomplete="PF('enable').hide()" value="Activer" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Modal du bouton Desactiver -->
+                <h:form id="form_disableAcc">
+                    <p:dialog showEffect="fold" id="fm_disableAcc" modal="true" widgetVar="disable">
+                        <h:panelGrid id="inputs-details" columns="1" cellspacing="10">
+                            <p:outputLabel value="Voulez-vous vraiment activer le produit #{accessoireController.produit.type} - #{accessoireController.produit.code} ?" />
+                        </h:panelGrid>
+                        <h:panelGrid style="margin: auto;">
+                            <p:commandButton action="#{accessoireController.deactivate()}" update=":form_table:table,:form_table:growl" partialSubmit="true" oncomplete="PF('disable').hide()" value="Desactiver" />
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                
+                <!-- Modal du bouton Consulter -->
+                <h:form id="form_displayAcc">
+                    <p:dialog showEffect="fold" id="fm_displayAcc" modal="true" widgetVar="display">
+                        <h:panelGrid id="input-details" columns="2" cellspacing="10">
+                            
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                
             </ui:define>
 
         </ui:composition>

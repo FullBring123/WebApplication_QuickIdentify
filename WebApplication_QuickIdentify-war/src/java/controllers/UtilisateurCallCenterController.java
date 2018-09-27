@@ -155,7 +155,7 @@ public class UtilisateurCallCenterController implements Serializable {
     }
     
     public String setColor(String status) {
-        return (status.equals("Actif") ? "green" : "red");
+        return (status.equals("Actif") ? "#00cc66" : "#ff4d4d");
     }
     
     public void sendMail() {

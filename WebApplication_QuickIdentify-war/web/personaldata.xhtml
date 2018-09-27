@@ -20,7 +20,7 @@
                         <p:panel id="datas" header="Mes informations personnelles">
                             <h:panelGrid id="input-details" columns="4" cellpadding="10">
                                 <p:outputLabel value="Nom(s) et prénom(s):" />
-                                <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.nom} #{dossierIdentificationController.dossierIdentification.prenom}" />
+                                <h:outputText style="font-weight: bold;" value="#{sessionsController.currentUser.nom} #{sessionsController.currentUser.prenom}" />
 
                                 <p:outputLabel value="Date de naissance: " />
                                 <h:outputText style="font-weight: bold;" value="#{dossierIdentificationController.dossierIdentification.datenais}" />
@@ -87,7 +87,7 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Téléphone:" for="telephone" />
-                            <p:keyboard id="telephone" keypadOnly="true" value="#{dossierIdentificationController.dossierIdentification.telephone}" title="Telephone" />
+                            <p:inputText maxlength="9" id="telephone" value="#{dossierIdentificationController.dossierIdentification.telephone}" title="Telephone" />
 
                             <p:outputLabel value="Nationalité:" for="nationalite" />
                             <p:inputText id="nationalite" value="#{dossierIdentificationController.dossierIdentification.nationalite}" title="Nationalite" />
@@ -103,13 +103,13 @@
                             <p:inputText id="nompere" value="#{dossierIdentificationController.dossierIdentification.nompere}" title="Nompere" />
 
                             <p:outputLabel value="Numéro du père:" for="numpere" />
-                            <p:keyboard id="numpere" keypadOnly="true" value="#{dossierIdentificationController.dossierIdentification.numpere}" title="Numero du pere" />
+                            <p:inputText maxlength="9" id="numpere" value="#{dossierIdentificationController.dossierIdentification.numpere}" title="Numero du pere" />
 
                             <p:outputLabel value="Nom de la mère:" for="nommere" />
                             <p:inputText id="nommere" value="#{dossierIdentificationController.dossierIdentification.nommere}" title="Nommere" />
 
                             <p:outputLabel value="Numéro de la mère:" for="nummere" />
-                            <p:keyboard id="nummere" keypadOnly="true" value="#{dossierIdentificationController.dossierIdentification.nummere}" title="Numero de la mere" />
+                            <p:inputText maxlength="9" id="nummere" value="#{dossierIdentificationController.dossierIdentification.nummere}" title="Numero de la mere" />
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>

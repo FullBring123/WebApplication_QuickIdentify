@@ -29,8 +29,9 @@
                             </h:panelGrid>
                         </p:panel>
                     </h:panelGrid>
-                    <h:panelGrid style="margin: auto;">
+                    <h:panelGrid columns="2" cellpadding="20" style="margin: auto;">
                         <p:commandButton partialSubmit="true" action="#{sessionsController.prepareCreate}" update=":form_profile:fm_profile" oncomplete="PF('wv_editprofile').show()" icon="ui-icon-pencil" value=" Éditez votre profil" />
+                        <p:commandButton partialSubmit="true" update=":form_delAcc:fm_delAcc" oncomplete="PF('wv_deleteAccount').show()" icon="ui-icon-trash" />
                     </h:panelGrid>
                 </h:form>
 
@@ -57,6 +58,25 @@
                             <center>
                                 <p:commandButton ajax="false" action="#{sessionsController.editProfile()}" update="inputs_profile,:profile:data_profile,:profile:growl" icon="ui-icon-disk" value=" Modifier" />
                             </center>
+                        </f:facet>
+                    </p:dialog>
+                </h:form>
+
+                <!-- Suppression du compte -->
+                <h:form id="form_delAcc">
+                    <p:dialog showEffect="fold" id="fm_delAcc" modal="true" widgetVar="wv_deleteAccount">
+                        <f:facet name="header">
+                            <h:outputText value="Suppression de compte" /> 
+                        </f:facet>
+                        <h:panelGrid id="inputs2" columns="1">
+                            <p:outputLabel style="font-weight: bold;" value="#{sessionsController.currentUser.nom} #{sessionsController.currentUser.prenom}," />
+                            <p:outputLabel value="Êtes vous sûr(e) de vouloir supprimer votre compte ?" />
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <h:panelGrid columns="2" cellpadding="10" style="margin: auto;">
+                                <p:commandButton actionListener="#{sessionsController.removeAccount()}" update="inputs2" value="Oui" icon="ui-icon-check" />
+                                <p:commandButton oncomplete="PF('wv_deleteAccount').hide()" value="Non" icon="ui-icon-close" />
+                            </h:panelGrid>
                         </f:facet>
                     </p:dialog>
                 </h:form>

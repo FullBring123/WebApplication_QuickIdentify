@@ -67,8 +67,7 @@ public class DossierIdentificationController implements Serializable {
     }
 
     /**
-     * Cette fonction permet au consommateur de modifier ses informations
-     * personnelles
+     * Cette fonction permet au consommateur de modifier ses informations personnelles
      */
     public void modifyDatas() {
         try {

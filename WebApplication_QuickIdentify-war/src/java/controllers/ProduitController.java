@@ -64,33 +64,17 @@ public class ProduitController implements Serializable {
 
     public void createProd() {
         try {
-            Utilisateur userSelected = utilisateurFacade.find(user.getIdutilisateur());
-            if (produitFacade.findByCode(produit.getCode()).isEmpty()) {
-                if (userSelected != null) {
-                    produit.setIdproduit(produitFacade.nextId());
-                    produit.setIdutilisateur(userSelected);
-                    produit.setEtat("Actif");
-                    produit.setCode(produit.getCode());
-                    produitFacade.create(produit);
-                    RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
-                } else {
-                    user = utilisateurFacade.find(user.getIdutilisateur());
-                    produit.setIdproduit(produitFacade.nextId());
-                    produit.setEtat("Actif");
-                    produitFacade.create(produit);
-                    RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
-                }
-
-            } else {
-                RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur!", "Attention!!! Ce code a déja été attribué à un produit!"));
-            }
+            produit.setIdproduit(produitFacade.nextId());
+            produit.setEtat("Actif");
+            produit.setCode(produit.getCode());
+            produit.setStatus(1);
+            produitFacade.create(produit);
+            RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Opération effectuée!"));
         } catch (Exception e) {
             e.printStackTrace();
             RequestContext.getCurrentInstance().execute("PF('wv_produit').hide()");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Lourde Erreur!", "Échec de l'opération!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erreur fatale!", "Échec de l'opération!"));
         } finally {
             init();
         }
@@ -127,7 +111,7 @@ public class ProduitController implements Serializable {
     }
 
     public String setColor(String state) {
-        return (state.equals("Actif") ? "green" : "red");
+        return (state.equals("Actif") ? "#00cc66" : "#ff4d4d");
     }
 
     public void activate() {
@@ -163,10 +147,10 @@ public class ProduitController implements Serializable {
             init();
         }
     }
-    
+
     public void persist() {
         switch (operation) {
-            case "edit" :
+            case "ajouter":
                 createProd();
                 break;
         }

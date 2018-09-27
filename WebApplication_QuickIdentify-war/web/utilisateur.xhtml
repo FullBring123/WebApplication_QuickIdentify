@@ -61,7 +61,7 @@
                 <p:menuitem value="Démonstration" action="demo.xhtml?faces-redirect=true" icon="ui-icon-gear" />
                 <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
                 <f:facet name="options">
-                    <p:commandButton value="Date et heure" />
+                    <p:commandButton value="#{sessionsController.date}" />
                 </f:facet>
             </p:menubar>
         </h:form>

@@ -67,17 +67,12 @@
                 <nav id="nav">
                     <ul class="main-menu nav navbar-nav navbar-right">
                         <li><a href="accueil.xhtml">Accueil</a></li>
-                        <li><a href="#">A propos</a></li>
-                        <li><a href="#">Avis</a></li>
+                        <li><a href="#">Presentation</a></li>
+                        <li><a href="#">Explorez</a></li>
                         <li><a href="contact.html">Contact</a></li>
                         <li>
                             <p:link value="Connexion" outcome="/portailcaptif">
                                 <f:param name="no" value="1" />
-                            </p:link>
-                        </li>
-                        <li>
-                            <p:link value="Comptes" outcome="/portailcaptif2">
-                                <f:param name="no" value="3" />
                             </p:link>
                         </li>
                     </ul>
@@ -101,7 +96,9 @@
                         <div class="col-md-8">
                             <h1 class="white-text">QuickIdentify <br />Vos données personnelles toujours accessibles quelque soit la situation dans laquelle vous êtes.</h1>
                             <p class="lead white-text">Plateforme de collecte des données d'identification et accès via code QR.</p>
-                            <a class="main-button icon-button" href="portailcaptif.xhtml">Créer un compte >></a>
+                            <p:link class="main-button icon-button" value="Créer un compte >>" outcome="/inscription">
+                                <f:param name="no" value="8" />
+                            </p:link>
                         </div>
                     </div>
                 </div>
@@ -178,7 +175,7 @@
 
                     <div class="col-md-6">
                         <div class="about-img">
-                            <img src="resources/images/picture.jpg" alt="Montre QRcode, bracelet QRcode enfant"></img>
+                            <img src="resources/images/picture2.jpg" alt="Montre QRcode, bracelet QRcode enfant"></img>
                         </div>
                     </div>
 
@@ -212,10 +209,10 @@
                     <div class="row">
 
                         <!-- single course -->
-                        <div class="col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="course">
                                 <a href="#" data-toggle="modal" data-target="#myModal" class="course-img">
-                                    <img src="resources/images/qr-code-dog-tag-stainless-steel-personalised.jpg" alt=""></img>
+                                    <img src="resources/images/FAMILIA-FELIZ.jpg" alt=""></img>
                                     <i class="course-link-icon fa fa-eye"></i>
                                 </a>
                                 <a class="course-title" data-toggle="modal" data-target="#myModal" href="#">Présentation de l'application</a>
@@ -248,10 +245,10 @@
                         <!-- /single course -->
 
                         <!-- single course -->
-                        <div class="col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="course">
                                 <a href="#" class="course-img" data-toggle="modal" data-target="#myModal3">
-                                    <img src="resources/images/qr-code-dog-tag-stainless-steel-personalised.jpg" alt=""></img>
+                                    <img src="resources/images/FAMILIA-FELIZ.jpg" alt=""></img>
                                     <i class="course-link-icon fa fa-eye"></i>
                                 </a>
                                 <a class="course-title" data-toggle="modal" data-target="#myModal3" href="#">Pourquoi QuickIdentify ?</a>
@@ -288,10 +285,10 @@
                         <!-- /single course -->
 
                         <!-- single course -->
-                        <div class="col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="course">
                                 <a href="#" class="course-img" data-toggle="modal" data-target="#myModal2">
-                                    <img src="resources/images/famille.jpg" alt=""></img>
+                                    <img src="resources/images/FAMILIA-FELIZ.jpg" alt=""></img>
                                     <i class="course-link-icon fa fa-eye"></i>
                                 </a>
                                 <a class="course-title" data-toggle="modal" data-target="#myModal2" href="#">Cibles de l'application</a>
@@ -310,6 +307,41 @@
                                             est cible de notre application. Toutefois, elle s'oriente plus vers <span style="font-weight: bold">les personnes dont les facultes mentales 
                                                 sont diminuees telles que Alzheimer, autisme,...; les enfants des ecoles primaires</span>. En outre, elle peut aussi être utile dans les grandes structures.
                                         </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                        <!-- /single course -->
+
+                        <!-- single course -->
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="course">
+                                <a href="#" class="course-img" data-toggle="modal" data-target="#myModal4">
+                                    <img src="resources/images/FAMILIA-FELIZ.jpg" alt=""></img>
+                                    <i class="course-link-icon fa fa-eye"></i>
+                                </a>
+                                <a class="course-title" data-toggle="modal" data-target="#myModal4" href="#">Étapes</a>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">Étapes</h4>
+                                    </div>
+                                    <div class="modal-body">
+<!--                                        <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp; Toute personne, tout genre confondu, tout âge confondu
+                                            est cible de notre application. Toutefois, elle s'oriente plus vers <span style="font-weight: bold">les personnes dont les facultes mentales 
+                                                sont diminuees telles que Alzheimer, autisme,...; les enfants des ecoles primaires</span>. En outre, elle peut aussi être utile dans les grandes structures.
+                                        </p>-->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>

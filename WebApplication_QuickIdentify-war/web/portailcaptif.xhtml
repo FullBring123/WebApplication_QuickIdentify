@@ -10,100 +10,129 @@
     </f:metadata> 
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="resources/css/css2/cssLayout.css" rel="stylesheet" type="text/css"/>
-        <link href="resources/css/default.css" rel="stylesheet" type="text/css"/>
-        <title>Portail Captif</title>
+        <title>QuickIdentify - Connexion</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--===============================================================================================-->	
+        <link rel="icon" type="image/png" href="resources/images/favicon.ico" />
+        <!--===============================================================================================-->
+        <link href="resources/css/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="cs/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" />
+        <!--===============================================================================================-->
+        <link href="resources/css/css/animate.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->	
+        <link href="resources/css/css/hamburgers.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/animsition.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/select2.min.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->	
+        <link href="resources/css/css/daterangepicker.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
+        <link href="resources/css/css/util.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/css/main.css" rel="stylesheet" type="text/css"/>
+        <!--===============================================================================================-->
     </h:head>
+    <h:body style="background-color: #666666;">
 
-    <h:body style="background-color: #c2dfef">
-        <!-- <h:link value="Page 2" outcome="/index">
-            <f:param name="no" value="1" />
-        </h:link> -->
-        <h:form id="form_session">
-            <p:panel id="basic" header="Authentification" style="font-size:10pt; margin: auto; margin-top: 13%; width: 29%;">
+        <p:growl id="growl" showDetail="true" life="3000" />
 
-                <p:growl id="growl" showDetail="true" life="3000" />
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <h:form id="form_session" class="login100-form validate-form">
+                        <span class="login100-form-title p-b-43">
+                            Formulaire d'authentification
+                        </span>
 
-                <h:panelGrid columns="2" cellpadding="10" style="margin: auto;">
-                    <h:outputLabel for="username" value="Login:" />
-                    <p:inputText id="username" value="#{sessionsController.currentUser.login}" required="true" requiredMessage="Le champ Login est invalide" label="username" />
 
-                    <h:outputLabel for="password" value="Mot de passe:" />
-                    <p:password id="password" value="#{sessionsController.currentUser.password}" required="true" requiredMessage="Le champ Mot de passe est invalide" label="password" />
+                        <div class="wrap-input100 validate-input" data-validate = "Le champ Login est obligatoire!">
+                            <h:inputText class="input100" value="#{sessionsController.currentUser.login}" required="true" requiredMessage="Veuillez renseigner votre login!" />
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Login</span>
+                        </div>
 
-                    <f:facet name="footer">
-                        <p:commandButton id="ok" value="Connexion" update=":form_session:basic,:form_session:growl" action="#{sessionsController.connectUser()}" />
-                        <sup><p:commandLink style="float: right;" value=" Mot de passe oublié ?" /></sup>
-                        <br /><br /><br />
-                        <p:separator style="width: 70%" />
-                        <br /><br /><br />
-                        <h:panelGrid style="margin: auto;">
-                            <p:outputLabel value="Vous êtes nouveau sur la plateforme ?" />
-                            <h:panelGrid style="margin: auto;">
-                                <p:commandLink partialSubmit="true" update=":form_register:fm_register" actionListener="#{utilisateurController.prepareCreate}" oncomplete="PF('wv_user1').show()" value=" Creer un compte" />
-                                <!--<p:link value="Inscription" outcome="/inscription">
-                                    <f:param name="no" value="5" />
-                                </p:link>-->
-                            </h:panelGrid>
-                        </h:panelGrid>
-                    </f:facet> 
-                </h:panelGrid>
-            </p:panel>
 
-            <p:defaultCommand target="ok" />
-        </h:form>
+                        <div class="wrap-input100 validate-input" data-validate="Le champ Mot de passe est obligatoire!">
+                            <h:inputSecret value="#{sessionsController.currentUser.password}" class="input100" required="true" requiredMessage="Veuillez renseigner votre mot de passe!" />
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Mot de passe</span>
+                        </div>
 
-        <!-- Modal du bouton S'inscrire -->
-        <h:form id="form_register" enctype="multipart/form-data">
-            <p:dialog id="fm_register" showEffect="fold" modal="true" widgetVar="wv_user1">
-                <f:facet name="header">
-                    <h:outputText value="Créez un nouveau compte" /> 
-                </f:facet>
-                <h:panelGrid id="inputs" columns="2" cellpadding="5">
+                        <div class="flex-sb-m w-full p-t-3 p-b-32">
+                            <div class="contact100-form-checkbox">
+                                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me" />
+                                <label class="label-checkbox100" for="ckb1">
+                                    Se souvenir de moi
+                                </label>
+                            </div>
 
-                    <p:outputLabel value="Nom(s):" for="nom" />
-                    <p:inputText id="nom" placeholder="Nom(s)" value="#{utilisateurController.utilisateur.nom}" required="true" requiredMessage="Saisie erronée!" title="Nom(s)" />
+                            <div>
+                                <a href="#" class="txt1">
+                                    Mot de passe oublié?
+                                </a>
+                            </div>
+                        </div>
 
-                    <p:outputLabel value="Prenom(s):" for="prenom" />
-                    <p:inputText id="prenom" placeholder="Prenom(s)" value="#{utilisateurController.utilisateur.prenom}" required="true" requiredMessage="Saisie erronée!" title="prenom" />
 
-                    <p:outputLabel value="Login:" for="login" />
-                    <p:inputText placeholder="Login" id="login" value="#{utilisateurController.utilisateur.login}" required="true" requiredMessage="Saisie erronée!" title="Login" />
+                        <div class="container-login100-form-btn">
+                            <p:commandButton id="ok" value="Connexion" update=":form_session,:growl" action="#{sessionsController.connectUser()}" class="login100-form-btn" />
+                        </div>
 
-                    <p:outputLabel value="Email: (accessible)" for="email" />
-                    <p:inputText id="email" placeholder="Adresse-mail" value="#{utilisateurController.utilisateur.email}" required="true" requiredMessage="Saisie erronée!" title="Email">
-                        <f:validateRegex pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]{2,}.[a-z]{2,4}$" />
-                    </p:inputText>
+                        <div class="text-center p-t-50">
+                            <span class="txt2">
+                                Êtes-vous nouveau sur le site ?
+                            </span>
+                        </div>
 
-                    <p:outputLabel value="Mot de passe:" for="password" />
-                    <p:password placeholder="Mot de passe" feedback="true" id="password" value="#{utilisateurController.utilisateur.password}" required="true" requiredMessage="Saisie erronée!" title="Password" />
+                        <div class="login100-form-social flex-c-m">
+                            <p:link value="Créez un compte" class="txt1" outcome="/inscription">
+                                <f:param name="no" value="5" />
+                            </p:link>
+                        </div>
+                        
+                        
+                        
+                        
+                        <div style="margin-top: 30pt;" class="login100-form-social flex-c-m">
+                            <p:link value="Retour a la Page d'accueil" class="txt1" outcome="/accueil">
+                                <f:param name="no" value="7" />
+                            </p:link>
+                        </div>
+                        
+                        <p:defaultCommand target="ok" />
+                    </h:form>
 
-                    <p:outputLabel value="Photo:" for="photo" />
-                    <p:fileUpload id="photo" value="#{utilisateurController.file}" mode="simple" dragDropSupport="false" fileLimit="3" sizeLimit="2048" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true" />
+                    <div class="login100-more" style="background-image: url('resources/images/2017_02_Save-Me-Blog-DSC_2931-1200x801.jpg');">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                </h:panelGrid>
-                <f:facet name="footer">
-                    <center>
-                        <p:commandButton ajax="false" action="#{utilisateurController.createUser()}" update="inputs,:form_session:basic,:form_session:growl" value="Enregistrer" icon="ui-icon-disk" />
-                    </center>
-                </f:facet>
-            </p:dialog>
-        </h:form>
 
-        <h:form>
-            <p:menubar style="margin-top: 65pt;">
-                <p:menuitem value="Aide" action="help.xhtml?faces-redirect=true" icon="ui-icon-gear" />
-                <f:facet name="options">
-<!--                    <p:button value="Page d'accueil" icon="ui-icon-home" outcome="/accueil">
-                        <f:param name="no" value="2" />
-                    </p:button>-->
-                    <p:button value="Personnels Call Center" outcome="/portailcaptif2">
-                        <f:param name="no" value="3" />
-                    </p:button>
-                </f:facet>
-            </p:menubar>
-        </h:form>
+
+
+
+        <!--===============================================================================================-->
+        <script src="resources/css/js/jquery.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/animsition.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/popper.js" type="text/javascript"></script>
+        <script src="resources/css/js/bootstrap.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/select2.min.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/moment.min.js" type="text/javascript"></script>
+        <script src="resources/css/js/daterangepicker.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/countdowntime.js" type="text/javascript"></script>
+        <!--===============================================================================================-->
+        <script src="resources/css/js/main_1.js" type="text/javascript"></script>
+
     </h:body>
 </html>
 
